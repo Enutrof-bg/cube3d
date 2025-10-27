@@ -284,6 +284,7 @@ int	on_keypress(int keysym, t_all *data)
 }
 
 
+
 int main(int argc, char **argv)
 {
 	(void)argc;
@@ -334,7 +335,7 @@ int main(int argc, char **argv)
 		// 	}
 		// }
 		ft_printf_map(&data);
-
+		// mlx_loop_hook(game_engine);
 		mlx_loop(data.mlx);
 	}
 }
