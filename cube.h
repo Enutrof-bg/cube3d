@@ -35,6 +35,9 @@
 
 # define TILE_SIZE 32
 
+# define H 1280
+# define W 720
+
 # define KEY_W 119
 # define KEY_S 115
 # define KEY_A 97
@@ -47,7 +50,20 @@
 
 # define KEY_ESC 65307
 
+# define MS 1
+# define ROTATE 0.05
+
 # define DEG_TO_RAD(deg) ((deg) * M_PI / 180.0)
+
+typedef struct s_sreen
+{
+	void *img;
+	char *addr;
+	int bits_per_pixel;
+	int line_length;
+	int endian;
+
+}t_screen;
 
 typedef struct s_list
 {
@@ -55,14 +71,18 @@ typedef struct s_list
 	double pos_player_y;
 	char **map;
 
-	int dir_player_x;
-	int dir_player_y;
+	double dir_player_x;
+	double dir_player_y;
+
+	double plane_dir_x;
+	double plane_dir_y;
 
 	int angle_player;
 	int rotate_speed;
 
 	void *mlx;
 	void *mlx_win;
+	void *mlx_win_2;
 
 	int map_length;
 	int map_heigth;
@@ -82,6 +102,32 @@ typedef struct s_list
 	long start_time;
 	long frame_time;
 
+	t_screen img;
+
+	double camera_x;
+
+	double ray_dir_x;
+	double ray_dir_y;
+	
+	double line_length_x;
+	double line_length_y;
+
+	int steps_x;
+	int steps_y;
+
+	double distance_x;
+	double distance_y;
+
+	int player_pos_int_x;
+	int player_pos_int_y;
+
+	int wall;
+	int contact;
+
+	double wall_distance;
+	double texture_start;
+	double texture_end;
+	double line_height;
 
 }t_all;
 
