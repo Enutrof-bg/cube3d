@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 
 MLX = -Lminilibx-linux -lmlx -lX11 -lXext -lm
 DIRGNL = gnl
@@ -49,10 +49,12 @@ clean:
 	rm -f main_test.o \
 	test_check_map.o \
 	ft_itoa.o \
-	ft_split.o\
-	ft_strjoin.o\
-	ft_strdup.c\
-	${DIRGNL}/get_next_line.o ${DIRGNL}/get_next_line_utils.o
+	ft_split.o \
+	ft_strjoin.o \
+	ft_strdup.o \
+	ft_strdup.o \
+	${DIRGNL}/get_next_line.o\
+	${DIRGNL}/get_next_line_utils.o
 # 	make fclean -C ft_printf
 # 	make fclean -C minilibx-linux
 

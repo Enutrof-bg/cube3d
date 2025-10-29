@@ -33,7 +33,7 @@
 #  define M_PI 3.14159265358979323846
 # endif
 
-# define TILE_SIZE 32
+# define TILE_SIZE 4
 
 # define W 1280
 # define H 720
@@ -50,8 +50,10 @@
 
 # define KEY_ESC 65307
 
-# define MS 1
+# define MS 0.1
 # define ROTATE 0.05
+
+# define TEXTURE_SIZE 256
 
 # define DEG_TO_RAD(deg) ((deg) * M_PI / 180.0)
 
@@ -90,6 +92,9 @@ typedef struct s_list
 	int img_width;
 	int img_heigth;
 
+	int texture_width;
+	int texture_heigth;
+
 	void *img_sol;
 	char *dest_sol;
 
@@ -99,10 +104,28 @@ typedef struct s_list
 	void *img_player;
 	char *dest_player;
 
+
+	void *img_n;
+	char *dest_n;
+	t_screen n;
+
+	void *img_s;
+	char *dest_s;
+	t_screen s;
+
+	void *img_e;
+	char *dest_e;
+	t_screen e;
+
+	void *img_w;
+	char *dest_w;
+	t_screen w;
+
 	long start_time;
 	long frame_time;
 
 	t_screen img;
+	t_screen minimap;
 
 	double camera_x;
 
@@ -128,6 +151,9 @@ typedef struct s_list
 	double texture_start;
 	double texture_end;
 	double line_height;
+
+	double ratio;
+	double ratio_pixel;
 
 }t_all;
 
