@@ -217,89 +217,89 @@ int	on_keypress(int keysym, t_all *data)
 	print_data(data);
 	if (keysym == KEY_ESC)
 		on_destroy(data);
-	if (keysym == KEY_W || keysym == KEY_UP)
+	if (keysym == KEY_W)
 	{
-		if ((data->pos_player_x + (cos(DEG_TO_RAD(data->angle_player))) * 1 >= 0)
-				&& (data->pos_player_x + (cos(DEG_TO_RAD(data->angle_player))) * 1 < data->map_length)
-				&& (data->pos_player_y + (sin(DEG_TO_RAD(data->angle_player))) * 1 >= 0)
-				&& (data->pos_player_y + (sin(DEG_TO_RAD(data->angle_player))) * 1 < data->map_heigth)
-				&& data->map[(int)(data->pos_player_y + (sin(DEG_TO_RAD(data->angle_player))))][(int)(data->pos_player_x + (cos(DEG_TO_RAD(data->angle_player))))] != '1')
-		// if (data->pos_player_x + data->dir_player_x * MS >= 0
-		// 	&& data->pos_player_x + data->dir_player_x * MS < data->map_length
-		// 	&& data->pos_player_y + data->dir_player_y * MS >= 0
-		// 	&& data->pos_player_y + data->dir_player_y * MS < data->map_heigth
-		// 	&& data->map[(int)(data->pos_player_y + data->dir_player_y * MS)][(int)(data->pos_player_x + data->dir_player_x * MS)] != '1')
+		// if ((data->pos_player_x + (cos(DEG_TO_RAD(data->angle_player))) * 1 >= 0)
+		// 		&& (data->pos_player_x + (cos(DEG_TO_RAD(data->angle_player))) * 1 < data->map_length)
+		// 		&& (data->pos_player_y + (sin(DEG_TO_RAD(data->angle_player))) * 1 >= 0)
+		// 		&& (data->pos_player_y + (sin(DEG_TO_RAD(data->angle_player))) * 1 < data->map_heigth)
+		// 		&& data->map[(int)(data->pos_player_y + (sin(DEG_TO_RAD(data->angle_player))))][(int)(data->pos_player_x + (cos(DEG_TO_RAD(data->angle_player))))] != '1')
+		if (data->pos_player_x + data->dir_player_x * MS >= 0
+			&& data->pos_player_x + data->dir_player_x * MS < data->map_length
+			&& data->pos_player_y + data->dir_player_y * MS >= 0
+			&& data->pos_player_y + data->dir_player_y * MS < data->map_heigth
+			&& data->map[(int)(data->pos_player_y + data->dir_player_y * MS)][(int)(data->pos_player_x + data->dir_player_x * MS)] != '1')
 		{
 
 			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
-			data->pos_player_x = data->pos_player_x + (cos(DEG_TO_RAD(data->angle_player)) * 1);
-			data->pos_player_y = data->pos_player_y + (sin(DEG_TO_RAD(data->angle_player)) * 1);
-			// data->pos_player_x = data->pos_player_x + data->dir_player_x * MS;
-			// data->pos_player_y = data->pos_player_y + data->dir_player_y * MS;
+			// data->pos_player_x = data->pos_player_x + (cos(DEG_TO_RAD(data->angle_player)) * 1);
+			// data->pos_player_y = data->pos_player_y + (sin(DEG_TO_RAD(data->angle_player)) * 1);
+			data->pos_player_x = data->pos_player_x + data->dir_player_x * MS;
+			data->pos_player_y = data->pos_player_y + data->dir_player_y * MS;
 			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
 		}
 	}
-	else if (keysym == KEY_S || keysym == KEY_DOWN)
+	else if (keysym == KEY_S)
 	{
-		if ((data->pos_player_x - (cos(DEG_TO_RAD(data->angle_player))) * 1 >= 0)
-				&& (data->pos_player_x - (cos(DEG_TO_RAD(data->angle_player))) * 1 < data->map_length)
-				&& (data->pos_player_y - (sin(DEG_TO_RAD(data->angle_player))) * 1 >= 0)
-				&& (data->pos_player_y - (sin(DEG_TO_RAD(data->angle_player))) * 1 < data->map_heigth)
-				&& data->map[(int)(data->pos_player_y - (sin(DEG_TO_RAD(data->angle_player))))][(int)(data->pos_player_x - (cos(DEG_TO_RAD(data->angle_player))))] != '1')
-		// if (data->pos_player_x - data->dir_player_x * MS >= 0
-		// 	&& data->pos_player_x - data->dir_player_x * MS < data->map_length
-		// 	&& data->pos_player_y - data->dir_player_y * MS >= 0
-		// 	&& data->pos_player_y - data->dir_player_y * MS < data->map_heigth
-		// 	&& data->map[(int)(data->pos_player_y - data->dir_player_y * MS)][(int)(data->pos_player_x - data->dir_player_x * MS)] != '1')
+		// if ((data->pos_player_x - (cos(DEG_TO_RAD(data->angle_player))) * 1 >= 0)
+		// 		&& (data->pos_player_x - (cos(DEG_TO_RAD(data->angle_player))) * 1 < data->map_length)
+		// 		&& (data->pos_player_y - (sin(DEG_TO_RAD(data->angle_player))) * 1 >= 0)
+		// 		&& (data->pos_player_y - (sin(DEG_TO_RAD(data->angle_player))) * 1 < data->map_heigth)
+		// 		&& data->map[(int)(data->pos_player_y - (sin(DEG_TO_RAD(data->angle_player))))][(int)(data->pos_player_x - (cos(DEG_TO_RAD(data->angle_player))))] != '1')
+		if (data->pos_player_x - data->dir_player_x * MS >= 0
+			&& data->pos_player_x - data->dir_player_x * MS < data->map_length
+			&& data->pos_player_y - data->dir_player_y * MS >= 0
+			&& data->pos_player_y - data->dir_player_y * MS < data->map_heigth
+			&& data->map[(int)(data->pos_player_y - data->dir_player_y * MS)][(int)(data->pos_player_x - data->dir_player_x * MS)] != '1')
 		{
 		data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
-		data->pos_player_x = data->pos_player_x - (cos(DEG_TO_RAD(data->angle_player)) * 1);
-		data->pos_player_y = data->pos_player_y - (sin(DEG_TO_RAD(data->angle_player)) * 1);
-		// data->pos_player_x = data->pos_player_x - data->dir_player_x * MS;
-		// data->pos_player_y = data->pos_player_y - data->dir_player_y * MS;
+		// data->pos_player_x = data->pos_player_x - (cos(DEG_TO_RAD(data->angle_player)) * 1);
+		// data->pos_player_y = data->pos_player_y - (sin(DEG_TO_RAD(data->angle_player)) * 1);
+		data->pos_player_x = data->pos_player_x - data->dir_player_x * MS;
+		data->pos_player_y = data->pos_player_y - data->dir_player_y * MS;
 		data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
 		}
 	}
 	else if (keysym == KEY_A)
 	{
-		if ((data->pos_player_x - (cos(DEG_TO_RAD(data->angle_player) + M_PI /2) >= 0)
-				&& (data->pos_player_x - (cos(DEG_TO_RAD(data->angle_player) + M_PI /2))) < data->map_length
-				&& (data->pos_player_y - (sin(DEG_TO_RAD(data->angle_player) + M_PI /2))) >= 0)
-				&& (data->pos_player_y - (sin(DEG_TO_RAD(data->angle_player) + M_PI /2))) < data->map_heigth
-				&& data->map[(int)(data->pos_player_y - (sin(DEG_TO_RAD(data->angle_player) + M_PI /2)))][(int)(data->pos_player_x - (cos(DEG_TO_RAD(data->angle_player) + M_PI /2)))] != '1')
-		{
-		// if (data->pos_player_x - data->plane_dir_x * MS >= 0
-		// 	&& data->pos_player_x - data->plane_dir_x * MS < data->map_length
-		// 	&& data->pos_player_y - data->plane_dir_y * MS >= 0
-		// 	&& data->pos_player_y - data->plane_dir_y * MS < data->map_heigth
-		// 	&& data->map[(int)(data->pos_player_y - data->plane_dir_y * MS)][(int)(data->pos_player_x - data->plane_dir_x * MS)] != '1')
+		// if ((data->pos_player_x - (cos(DEG_TO_RAD(data->angle_player) + M_PI /2) >= 0)
+		// 		&& (data->pos_player_x - (cos(DEG_TO_RAD(data->angle_player) + M_PI /2))) < data->map_length
+		// 		&& (data->pos_player_y - (sin(DEG_TO_RAD(data->angle_player) + M_PI /2))) >= 0)
+		// 		&& (data->pos_player_y - (sin(DEG_TO_RAD(data->angle_player) + M_PI /2))) < data->map_heigth
+		// 		&& data->map[(int)(data->pos_player_y - (sin(DEG_TO_RAD(data->angle_player) + M_PI /2)))][(int)(data->pos_player_x - (cos(DEG_TO_RAD(data->angle_player) + M_PI /2)))] != '1')
 		// {
+		if (data->pos_player_x - data->plane_dir_x * MS >= 0
+			&& data->pos_player_x - data->plane_dir_x * MS < data->map_length
+			&& data->pos_player_y - data->plane_dir_y * MS >= 0
+			&& data->pos_player_y - data->plane_dir_y * MS < data->map_heigth
+			&& data->map[(int)(data->pos_player_y - data->plane_dir_y * MS)][(int)(data->pos_player_x - data->plane_dir_x * MS)] != '1')
+		{
 		data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
-		data->pos_player_x = data->pos_player_x - (cos(DEG_TO_RAD(data->angle_player) + M_PI /2) * 1);
-		data->pos_player_y = data->pos_player_y - (sin(DEG_TO_RAD(data->angle_player) + M_PI /2) * 1);
-		// data->pos_player_x = data->pos_player_x - data->plane_dir_x * MS;
-		// data->pos_player_y = data->pos_player_y - data->plane_dir_y * MS;
+		// data->pos_player_x = data->pos_player_x - (cos(DEG_TO_RAD(data->angle_player) + M_PI /2) * 1);
+		// data->pos_player_y = data->pos_player_y - (sin(DEG_TO_RAD(data->angle_player) + M_PI /2) * 1);
+		data->pos_player_x = data->pos_player_x - data->plane_dir_x * MS;
+		data->pos_player_y = data->pos_player_y - data->plane_dir_y * MS;
 		data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
 		}
 	}
 	else if (keysym == KEY_D)
 	{
-		if ((data->pos_player_x + (cos(DEG_TO_RAD(data->angle_player) + M_PI /2) >= 0)
-				&& (data->pos_player_x + (cos(DEG_TO_RAD(data->angle_player) + M_PI /2))) < data->map_length
-				&& (data->pos_player_y + (sin(DEG_TO_RAD(data->angle_player) + M_PI /2))) >= 0)
-				&& (data->pos_player_y + (sin(DEG_TO_RAD(data->angle_player) + M_PI /2))) < data->map_heigth
-				&& data->map[(int)(data->pos_player_y + (sin(DEG_TO_RAD(data->angle_player) + M_PI /2)))][(int)(data->pos_player_x + (cos(DEG_TO_RAD(data->angle_player) + M_PI /2)))] != '1')
-		// if (data->pos_player_x + data->plane_dir_x * MS >= 0
-		// 	&& data->pos_player_x + data->plane_dir_x * MS < data->map_length
-		// 	&& data->pos_player_y + data->plane_dir_y * MS >= 0
-		// 	&& data->pos_player_y + data->plane_dir_y * MS < data->map_heigth
-		// 	&& data->map[(int)(data->pos_player_y + data->plane_dir_y * MS)][(int)(data->pos_player_x + data->plane_dir_x * MS)] != '1')
+		// if ((data->pos_player_x + (cos(DEG_TO_RAD(data->angle_player) + M_PI /2) >= 0)
+		// 		&& (data->pos_player_x + (cos(DEG_TO_RAD(data->angle_player) + M_PI /2))) < data->map_length
+		// 		&& (data->pos_player_y + (sin(DEG_TO_RAD(data->angle_player) + M_PI /2))) >= 0)
+		// 		&& (data->pos_player_y + (sin(DEG_TO_RAD(data->angle_player) + M_PI /2))) < data->map_heigth
+		// 		&& data->map[(int)(data->pos_player_y + (sin(DEG_TO_RAD(data->angle_player) + M_PI /2)))][(int)(data->pos_player_x + (cos(DEG_TO_RAD(data->angle_player) + M_PI /2)))] != '1')
+		if (data->pos_player_x + data->plane_dir_x * MS >= 0
+			&& data->pos_player_x + data->plane_dir_x * MS < data->map_length
+			&& data->pos_player_y + data->plane_dir_y * MS >= 0
+			&& data->pos_player_y + data->plane_dir_y * MS < data->map_heigth
+			&& data->map[(int)(data->pos_player_y + data->plane_dir_y * MS)][(int)(data->pos_player_x + data->plane_dir_x * MS)] != '1')
 		{
 		data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
-		data->pos_player_x = data->pos_player_x + (cos(DEG_TO_RAD(data->angle_player) + M_PI /2) * 1);
-		data->pos_player_y = data->pos_player_y + (sin(DEG_TO_RAD(data->angle_player) + M_PI /2) * 1);
-		// data->pos_player_x = data->pos_player_x + data->plane_dir_x * MS;
-		// data->pos_player_y = data->pos_player_y + data->plane_dir_y * MS;
+		// data->pos_player_x = data->pos_player_x + (cos(DEG_TO_RAD(data->angle_player) + M_PI /2) * 1);
+		// data->pos_player_y = data->pos_player_y + (sin(DEG_TO_RAD(data->angle_player) + M_PI /2) * 1);
+		data->pos_player_x = data->pos_player_x + data->plane_dir_x * MS;
+		data->pos_player_y = data->pos_player_y + data->plane_dir_y * MS;
 		data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
 		}
 	}
@@ -375,114 +375,123 @@ void	my_mlx_pixel_put(t_all *data, int x, int y, int color)
 
 void raycasting(t_all *data)
 {
-	// int pos = 0;
-	// static int i = 0;
+	int pos = 0;
 
-	// pos = 0;
-	// while (pos < H)
-	// {
-	// 	// my_mlx_pixel_put(data, pos, i, 0x00FF0000);
+	pos = 0;
+	while (pos < W)
+	{
+		// my_mlx_pixel_put(data, pos, i, 0x00FF0000);
 
-	// 	data->camera_x = 2 * pos / (double)H - 1;
-	// 	data->ray_dir_x = data->dir_player_x + data->plane_dir_x * data->camera_x;
-	// 	data->ray_dir_y = data->dir_player_y + data->plane_dir_y * data->camera_x;
+		data->camera_x = 2 * pos / (double)W - 1;
+		data->ray_dir_x = data->dir_player_x + data->plane_dir_x * data->camera_x;
+		data->ray_dir_y = data->dir_player_y + data->plane_dir_y * data->camera_x;
 
-	// 	data->player_pos_int_x = (int)data->pos_player_x;
-	// 	data->player_pos_int_y = (int)data->pos_player_y;
+		data->player_pos_int_x = (int)data->pos_player_x;
+		data->player_pos_int_y = (int)data->pos_player_y;
 
-	// 	data->line_length_x = fabs(1 / cos(data->angle_player));
-	// 	data->line_length_y = fabs(1 / sin(data->angle_player));
+		data->line_length_x = fabs(1 / data->ray_dir_x);
+		data->line_length_y = fabs(1 / data->ray_dir_y);
 
-	// 	if (cos(data->angle_player) < 0)
-	// 	{
-	// 		data->steps_x = -1;
-	// 		data->distance_x = (data->pos_player_x - data->player_pos_int_x) * data->line_length_x;
-	// 	}
-	// 	else
-	// 	{
-	// 		data->steps_x = 1;
-	// 		data->distance_x = (data->player_pos_int_x +1.0 - data->pos_player_x) * data->line_length_x;
-	// 	}
-	// 	if (sin(data->angle_player) < 0)
-	// 	{
-	// 		data->steps_y = -1;
-	// 		data->distance_y = (data->pos_player_y - data->player_pos_int_y) * data->line_length_y;
-	// 	}
-	// 	else
-	// 	{
-	// 		data->steps_y = 1;
-	// 		data->distance_y = (data->player_pos_int_y +1.0 - data->pos_player_y) * data->line_length_y;
-	// 	}
+		if (data->ray_dir_x < 0)
+		{
+			data->steps_x = -1;
+			data->distance_x = (data->pos_player_x - data->player_pos_int_x) * data->line_length_x;
+		}
+		else
+		{
+			data->steps_x = 1;
+			data->distance_x = (data->player_pos_int_x +1.0 - data->pos_player_x) * data->line_length_x;
+		}
+		if (data->ray_dir_y < 0)
+		{
+			data->steps_y = -1;
+			data->distance_y = (data->pos_player_y - data->player_pos_int_y) * data->line_length_y;
+		}
+		else
+		{
+			data->steps_y = 1;
+			data->distance_y = (data->player_pos_int_y +1.0 - data->pos_player_y) * data->line_length_y;
+		}
 
-	// 	data->wall = 0;
-	// 	data->contact = 0;
-	// 	while (data->contact == 0)
-	// 	{
-	// 		if (data->distance_x > data->distance_y)
-	// 		{
-	// 			data->distance_x = data->distance_x + data->line_length_x;
-	// 			data->player_pos_int_x += data->steps_x;
-	// 			data->wall = 0;
-	// 		}
-	// 		else
-	// 		{
-	// 			data->distance_y = data->distance_y + data->line_length_y;
-	// 			data->player_pos_int_y += data->steps_y;
-	// 			data->wall = 1;
-	// 		}
-	// 		if (data->player_pos_int_x < 0 || data->player_pos_int_x >= data->map_length
-	// 			|| data->player_pos_int_y < 0 || data->player_pos_int_y >= data->map_heigth)
-	// 		{
-	// 			break;
-	// 		}
-	// 		if (data->map[data->player_pos_int_y][data->player_pos_int_x] == '1')
-	// 			data->contact = 1;
-	// 	}
+		data->wall = 0;
+		data->contact = 0;
+		while (data->contact == 0)
+		{
+			if (data->distance_x < data->distance_y)
+			{
+				data->distance_x = data->distance_x + data->line_length_x;
+				data->player_pos_int_x += data->steps_x;
+				data->wall = 0;
+			}
+			else
+			{
+				data->distance_y = data->distance_y + data->line_length_y;
+				data->player_pos_int_y += data->steps_y;
+				data->wall = 1;
+			}
+			if (data->player_pos_int_x < 0 || data->player_pos_int_x >= data->map_length
+				|| data->player_pos_int_y < 0 || data->player_pos_int_y >= data->map_heigth)
+			{
+				break;
+			}
+			if (data->map[data->player_pos_int_y][data->player_pos_int_x] == '1')
+				data->contact = 1;
+		}
+		// int test;
+		if (data->wall == 0)
+		{
+			data->wall_distance = (data->player_pos_int_x - data->pos_player_x + (1 - data->steps_x)/2) / data->ray_dir_x;
+			// data->wall_distance = (data->player_pos_int_x - data->pos_player_x) * data->line_length_x;
+			// test = data->player_pos_int_x - data->pos_player_x;
+		}
+		else
+		{
+			data->wall_distance = (data->player_pos_int_y - data->pos_player_y + (1 - data->steps_y)/2) / data->ray_dir_y;
+			// data->wall_distance = (data->player_pos_int_y - data->pos_player_y) * data->line_length_y;
+			// test = data->wall_distance = data->player_pos_int_y - data->pos_player_y;
+		}
 
-	// 	if (data->wall == 0)
-	// 	{
-	// 		data->wall_distance = (data->player_pos_int_x - data->pos_player_x + (1 - data->steps_x)/2)/ data->ray_dir_x;
-	// 	}
-	// 	else
-	// 	{
-	// 		data->wall_distance = (data->player_pos_int_y - data->pos_player_y + (1 - data->steps_y)/2)/ data->ray_dir_y;
-	// 	}
-	// 	if (data->wall_distance < 0.01)
-	// 		data->wall_distance = 0.01;
-	// 	data->line_height = (int)H / data->wall_distance;
-	// 	data->texture_start = -data->line_height / 2 + H /2;
-	// 	if (data->texture_start < 0)
-	// 		data->texture_start = 0;		
-	// 	data->texture_end = -data->line_height / 2 + H /2;
-	// 	if (data->texture_end >= H)
-	// 		data->texture_end = H - 1;
+		data->line_height = (int)H / data->wall_distance;
+		data->texture_start = (H /2) - (data->line_height / 2);
+		if (data->texture_start < 0)
+			data->texture_start = 0;		
+		data->texture_end =  (H /2) + (data->line_height / 2);
+		if (data->texture_end >= H)
+			data->texture_end = H - 1;
 
-	// 	int y = 0;
-	// 	int color;
-	// 	while (y < data->texture_start)
-	// 	{
-	// 		my_mlx_pixel_put(data, pos,y, 0X87CEEB);
-	// 		y++;
-	// 	}
-	// 	if (data->wall == 0)
-	// 		color = 0xFFFFFF;
-	// 	else
-	// 		color = 0x8B0000;
-	// 	y = data->texture_start;
-	// 	while (y < data->texture_end)
-	// 	{
-	// 		my_mlx_pixel_put(data, pos, y, color);
-	// 		y++;
-	// 	}
-	// 	y = data->texture_end + 1;
-	// 	while (y < H)
-	// 	{
-	// 		// my_mlx_pixel_put(data, pos, y, 0x2F4F2F);
-	// 		y++;
-	// 	}
-	// 	pos++;
-	// }
-	// i++;
+		int y = 0;
+		int color;
+		while (y < data->texture_start)
+		{
+			// my_mlx_pixel_put(data, pos, y, 0X87CEEB);
+			my_mlx_pixel_put(data, pos, y, 8900331);
+			y++;
+		}
+
+		if (data->wall == 0)
+		{
+			color = 16777215;
+			// color = 0xFFFFFF
+		}
+		else
+		{
+			color = 0;
+			// color = 0x000000;
+		}
+
+		while (y < data->texture_end)
+		{
+			my_mlx_pixel_put(data, pos, y, color);
+			y++;
+		}
+		while (y < H)
+		{
+			// my_mlx_pixel_put(data, pos, y, 0x2F4F2F);
+			my_mlx_pixel_put(data, pos, y, 3100463);
+			y++;
+		}
+		pos++;
+	}
 	mlx_put_image_to_window(data->mlx, data->mlx_win_2, data->img.img, 0, 0);
 }
 
@@ -522,13 +531,13 @@ int main(int argc, char **argv)
 		data.mlx = mlx_init();
 
 		data.mlx_win_2 = mlx_new_window(data.mlx,
-				H, W, "test");
+				W, H, "3D");
 
 		data.mlx_win = mlx_new_window(data.mlx,
 				TILE_SIZE * data.map_length,
 				TILE_SIZE * data.map_heigth, "minimap");
 		
-		data.img.img = mlx_new_image(data.mlx, H, W);
+		data.img.img = mlx_new_image(data.mlx, W, H);
 		data.img.addr = mlx_get_data_addr(data.img.img, &data.img.bits_per_pixel,
 			&data.img.line_length, &data.img.endian);
 
@@ -538,7 +547,7 @@ int main(int argc, char **argv)
 			StructureNotifyMask, &on_destroy, &data);
 
 		set_img(&data);
-		// ft_printf_map(&data);
+		ft_printf_map(&data);
 
 		raycasting(&data);
 		// mlx_loop_hook(game_engine);

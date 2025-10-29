@@ -35,8 +35,8 @@
 
 # define TILE_SIZE 32
 
-# define H 1280
-# define W 720
+# define W 1280
+# define H 720
 
 # define KEY_W 119
 # define KEY_S 115
