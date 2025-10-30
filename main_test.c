@@ -720,8 +720,8 @@ void raycasting(t_all *data)
 		if ((data->wall == 0 && data->ray_dir_x > 0) || (data->wall == 1 && data->ray_dir_y < 0))
             texture_x = TEXTURE_SIZE - texture_x - 1;
 
-        // if (data->ray_dir_x == 0)
-        	// texture_x = (int)((0.1) * (double)TEXTURE_SIZE);
+        if (data->ray_dir_x == 0)
+        	texture_x = (int)((0.1) * (double)TEXTURE_SIZE);
 
         double pixel_ratio = (double)TEXTURE_SIZE / data->line_height;
         double texture_pos = (data->texture_start - (H /2) + (data->line_height / 2)) * pixel_ratio;
