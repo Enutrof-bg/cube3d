@@ -50,12 +50,12 @@
 
 # define KEY_ESC 65307
 
-# define MS 0.1
+# define MS 1
 # define ROTATE 0.05
 
 # define TEXTURE_SIZE 256
-# define MAP_SIZE_X 50
-# define MAP_SIZE_Y 30
+# define MAP_SIZE_X 20
+# define MAP_SIZE_Y 10
 
 # define DEG_TO_RAD(deg) ((deg) * M_PI / 180.0)
 

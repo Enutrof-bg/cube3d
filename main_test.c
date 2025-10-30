@@ -204,44 +204,54 @@ void	ft_printf_map(t_all *data)
 	int map_x = 0;
 	int map_y = 0;
 
+	int pixel = 0;
+
 	i = 0;
 	j = 0;
-	// if (data->player_pos_int_y + MAP_SIZE_Y/2 > data->map_heigth)
-	// {
-	// 	i = data->map_heigth - data->player_pos_int_y;
-	// 	printf("map_heigth:%d pos_y:%d\n", data->map_heigth, data->player_pos_int_y);
-	// 	printf("debut i1:%d\n", i);
-	// }
-	// else if (data->player_pos_int_y < MAP_SIZE_Y)
-	// {
-	// 	i = 0;
-	// 	printf("map_heigth:%d pos_y:%d\n", data->map_heigth, data->player_pos_int_y);
-	// 	printf("debut i2:%d\n", i);
-	// }
-	// else
-	// {
-	// 	i = data->player_pos_int_y - MAP_SIZE_Y/2;
-	// 	printf("map_heigth:%d pos_y:%d\n", data->map_heigth, data->player_pos_int_y);
-	// 	printf("debut i3:%d\n", i);
-	// }
-	// printf("debut i:%d\n", i);
+	if ((int)data->pos_player_y + MAP_SIZE_Y/2 > data->map_heigth)
+	{
+		// i = data->map_heigth - (int)data->pos_player_y;
+		i = data->map_heigth - MAP_SIZE_Y;
+		printf("map_heigth:%d pos_y:%f\n", data->map_heigth, data->pos_player_y);
+		printf("debut i1:%d\n", i);
+	}
+	else if ((int)data->pos_player_y < MAP_SIZE_Y/2)
+	{
+		i = 0;
+		printf("map_heigth:%d pos_y:%f\n", data->map_heigth, data->pos_player_y);
+		printf("debut i2:%d\n", i);
+	}
+	else
+	{
+		i = (int)data->pos_player_y - MAP_SIZE_Y/2;
+		printf("map_heigth:%d pos_y:%f\n", data->map_heigth, data->pos_player_y);
+		printf("debut i3:%d\n", i);
+	}
+
 	while (data->map[i])
 	{
 
 		map_y = 0;
 		j = 0;
-		// if (data->player_pos_int_x + MAP_SIZE_X/2 > data->map_length)
-		// {
-		// 	j = data->map_length - data->player_pos_int_x;
-		// }
-		// else if (data->player_pos_int_x < MAP_SIZE_X)
-		// {
-		// 	j = 0;
-		// }
-		// else
-		// {
-		// 	j = data->player_pos_int_x - MAP_SIZE_X/2;
-		// }
+		if ((int)data->pos_player_x + MAP_SIZE_X/2 > data->map_length)
+		{
+			// i = data->map_length - (int)data->pos_player_x;
+			j = data->map_length - MAP_SIZE_X;
+			printf("map_length:%d pos_y:%f\n", data->map_length, data->pos_player_x);
+			printf("debut i1:%d\n", j);
+		}
+		else if ((int)data->pos_player_x < MAP_SIZE_X/2)
+		{
+			j = 0;
+			printf("map_length:%d pos_y:%f\n", data->map_length, data->pos_player_x);
+			printf("debut i2:%d\n", j);
+		}
+		else
+		{
+			j = (int)data->pos_player_x - MAP_SIZE_X/2;
+			printf("map_length:%d pos_y:%f\n", data->map_length, data->pos_player_x);
+			printf("debut i3:%d\n", j);
+		}
 		while (data->map[i][j])
 		{
 
@@ -250,17 +260,18 @@ void	ft_printf_map(t_all *data)
 			// if (i >= (data->pos_player_x - MAP_SIZE_X) && i < (data->pos_player_x + MAP_SIZE_X) && map_x < MAP_SIZE_X
 				// && j >= (data->pos_player_y - MAP_SIZE_Y) && j < (data->pos_player_y + MAP_SIZE_Y) && map_y < MAP_SIZE_Y)
 
+			// if (pixel < MAP_SIZE_Y)
 			{
 				if (data->map[i][j] == '0')
-					mlx_put_image_to_window(data->mlx, data->mlx_win, data->img_sol,
+					mlx_put_image_to_window(data->mlx, data->mlx_win_2, data->img_sol,
 						data->img_width * map_y, data->img_heigth * map_x);
 				if (data->map[i][j] == '1')
-					mlx_put_image_to_window(data->mlx, data->mlx_win, data->img_wall,
+					mlx_put_image_to_window(data->mlx, data->mlx_win_2, data->img_wall,
 						data->img_width * map_y, data->img_heigth * map_x);
 				if (data->map[i][j] == 'P')
-					mlx_put_image_to_window(data->mlx, data->mlx_win, data->img_player,
+					mlx_put_image_to_window(data->mlx, data->mlx_win_2, data->img_player,
 						data->img_width * map_y, data->img_heigth * map_x);
-				
+				pixel++;
 			}
 			map_y++;
 			j++;
