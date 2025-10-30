@@ -84,7 +84,7 @@ int	on_destroy(t_all *data)
 	// 	mlx_destroy_image(data->mlx, data->img.img_exit_open);
 	if (data->img.img)
 		mlx_destroy_image(data->mlx, data->img.img);
-	mlx_destroy_window(data->mlx, data->mlx_win);
+	// mlx_destroy_window(data->mlx, data->mlx_win);
 	mlx_destroy_window(data->mlx, data->mlx_win_2);
 	mlx_destroy_display(data->mlx);
 	if (data->map)
@@ -204,22 +204,26 @@ void	ft_printf_map(t_all *data)
 	int map_x = 0;
 	int map_y = 0;
 
-	int pixel = 0;
+	int pixel_y = 0;
+	int pixel_x = 0;
 
 	i = 0;
 	j = 0;
 	if ((int)data->pos_player_y + MAP_SIZE_Y/2 > data->map_heigth)
 	{
 		// i = data->map_heigth - (int)data->pos_player_y;
-		i = data->map_heigth - MAP_SIZE_Y;
-		printf("map_heigth:%d pos_y:%f\n", data->map_heigth, data->pos_player_y);
-		printf("debut i1:%d\n", i);
+		if (data->map_heigth > MAP_SIZE_Y)
+			i = data->map_heigth - MAP_SIZE_Y;
+		else
+			i = 0;
+		// printf("map_heigth:%d pos_y:%f\n", data->map_heigth, data->pos_player_y);
+		// printf("debut i1:%d\n", i);
 	}
 	else if ((int)data->pos_player_y < MAP_SIZE_Y/2)
 	{
 		i = 0;
-		printf("map_heigth:%d pos_y:%f\n", data->map_heigth, data->pos_player_y);
-		printf("debut i2:%d\n", i);
+		// printf("map_heigth:%d pos_y:%f\n", data->map_heigth, data->pos_player_y);
+		// printf("debut i2:%d\n", i);
 	}
 	else
 	{
@@ -228,31 +232,35 @@ void	ft_printf_map(t_all *data)
 		printf("debut i3:%d\n", i);
 	}
 
-	while (data->map[i])
+	while (data->map[i] && pixel_y < MAP_SIZE_Y)
 	{
 
 		map_y = 0;
 		j = 0;
+		pixel_x = 0;
 		if ((int)data->pos_player_x + MAP_SIZE_X/2 > data->map_length)
 		{
 			// i = data->map_length - (int)data->pos_player_x;
-			j = data->map_length - MAP_SIZE_X;
-			printf("map_length:%d pos_y:%f\n", data->map_length, data->pos_player_x);
-			printf("debut i1:%d\n", j);
+			if (data->map_length > MAP_SIZE_X)
+				j = data->map_length - MAP_SIZE_X;
+			else
+				j = 0;
+			// printf("map_length:%d pos_y:%f\n", data->map_length, data->pos_player_x);
+			// printf("debut i1:%d\n", j);
 		}
 		else if ((int)data->pos_player_x < MAP_SIZE_X/2)
 		{
 			j = 0;
-			printf("map_length:%d pos_y:%f\n", data->map_length, data->pos_player_x);
-			printf("debut i2:%d\n", j);
+			// printf("map_length:%d pos_y:%f\n", data->map_length, data->pos_player_x);
+			// printf("debut i2:%d\n", j);
 		}
 		else
 		{
 			j = (int)data->pos_player_x - MAP_SIZE_X/2;
-			printf("map_length:%d pos_y:%f\n", data->map_length, data->pos_player_x);
-			printf("debut i3:%d\n", j);
+			// printf("map_length:%d pos_y:%f\n", data->map_length, data->pos_player_x);
+			// printf("debut i3:%d\n", j);
 		}
-		while (data->map[i][j])
+		while (data->map[i][j] && pixel_x < MAP_SIZE_X)
 		{
 
 			// printf("minimap i:%d j:%d m_x:%d m_y:%d\n", i, j, map_x, map_y);
@@ -271,15 +279,17 @@ void	ft_printf_map(t_all *data)
 				if (data->map[i][j] == 'P')
 					mlx_put_image_to_window(data->mlx, data->mlx_win_2, data->img_player,
 						data->img_width * map_y, data->img_heigth * map_x);
-				pixel++;
+				
 			}
+			pixel_x++;
 			map_y++;
 			j++;
 		}
+		pixel_y++;
 		map_x++;
 		i++;
 	}
-	printf("fin i:%d\n", i);
+	// printf("fin i:%d\n", i);
 	// mlx_put_image_to_window(data->mlx, data->mlx_win_2, data->img_n, 0, 0);
 }
 
@@ -584,8 +594,16 @@ void raycasting(t_all *data)
 		data->player_pos_int_x = (int)data->pos_player_x;
 		data->player_pos_int_y = (int)data->pos_player_y;
 
-		data->line_length_x = fabs(1 / data->ray_dir_x);
-		data->line_length_y = fabs(1 / data->ray_dir_y);
+		if (data->ray_dir_x == 0)
+			data->line_length_x = 1e30;
+		else
+			data->line_length_x = fabs(1 / data->ray_dir_x);
+		if (data->ray_dir_y == 0)
+			data->line_length_y = 1e30;
+		else
+			data->line_length_y = fabs(1 / data->ray_dir_y);
+
+		// print_data(data);
 
 		if (data->ray_dir_x < 0)
 		{
@@ -712,6 +730,9 @@ void raycasting(t_all *data)
 		if ((data->wall == 0 && data->ray_dir_x > 0) || (data->wall == 1 && data->ray_dir_y < 0))
             texture_x = TEXTURE_SIZE - texture_x - 1;
 
+        // if (data->ray_dir_x == 0)
+        	// texture_x = (int)((0.1) * (double)TEXTURE_SIZE);
+
         double pixel_ratio = (double)TEXTURE_SIZE / data->line_height;
         double texture_pos = (data->texture_start - (H /2) + (data->line_height / 2)) * pixel_ratio;
 
@@ -747,10 +768,13 @@ void raycasting(t_all *data)
 				// printf("addr:%d\n", (int)((pixel * data->w.line_length + data->ratio_pixel * TEXTURE_SIZE * ( data->w.bits_per_pixel / 8))));
 				// color = (data->w.addr[(int)((texture_y * data->w.line_length + texture_x * ( data->w.bits_per_pixel / 8)))]);
 				// color = *(unsigned int*)&(data->w.addr[(int)((texture_y * data->w.line_length + texture_x * ( data->w.bits_per_pixel / 8)))]);
+
 				color = *(unsigned int*)(data->n.addr + (texture_y * data->n.line_length + texture_x * ( data->n.bits_per_pixel / 8)));
-				// char *pixel_addr = data->w.addr + (texture_y * data->w.line_length + texture_x * ( data->w.bits_per_pixel / 8));
+
+				// color = *(unsigned int*)(data->n.addr + (texture_y * data->n.line_length + texture_x * ( data->n.bits_per_pixel / 8)));
+				// char *pixel_addr = data->n.addr + (texture_y * data->n.line_length + texture_x * ( data->n.bits_per_pixel / 8));
 				// color = *(unsigned int*)pixel_addr;
-				
+				// color = 0;
 			}
 
 			else if (data->wall == 0 && data->ray_dir_x > 0)
@@ -777,6 +801,7 @@ void raycasting(t_all *data)
 				// color = *(unsigned int*)pixel_addr;
 			}
 			my_mlx_pixel_put(data, pos, y, color);
+			// my_mlx_pixel_put(data, pos, y, 0);
 			y++;
 		}
 
@@ -827,46 +852,40 @@ int main(int argc, char **argv)
 		// printf("%f\n", data.pos_player_x);
 		// printf("%f\n", data.pos_player_y);
 
-		data.angle_player = 0;
-		data.rotate_speed = 9;
-
-		data.start_time = get_time_ms();
+		// data.angle_player = 0;
+		// data.rotate_speed = 9DIR_PLA
+		// data.start_time = get_time_ms();
 
 		data.mlx = mlx_init();
 
 		data.mlx_win_2 = mlx_new_window(data.mlx,
 				W, H, "3D");
 
-		data.mlx_win = mlx_new_window(data.mlx,
-				TILE_SIZE * MAP_SIZE_X,
-				TILE_SIZE * MAP_SIZE_Y, "minimap");
+		// data.mlx_win = mlx_new_window(data.mlx,
+		// 		TILE_SIZE * MAP_SIZE_X,
+		// 		TILE_SIZE * MAP_SIZE_Y, "minimap");
 		
 		data.img.img = mlx_new_image(data.mlx, W, H);
 		data.img.addr = mlx_get_data_addr(data.img.img, &data.img.bits_per_pixel,
 			&data.img.line_length, &data.img.endian);
 		// mlx_pixel_put(, img.addr[11])
 
-		// data.minimap.img = mlx_new_image(data.mlx, W, H);
-		// data.minimap.addr = mlx_get_data_addr(data.minimap.img, &data.minimap.bits_per_pixel,
-		// 	&data.minimap.line_length, &data.minimap.endian);
 
 		set_img(&data);
 
+
 		mlx_hook(data.mlx_win_2, 2 , 1L<<0,&on_keypress, &data);
 		// mlx_key_hook(data.mlx_win, &on_keypress, &data);
-
 		mlx_hook(data.mlx_win_2, DestroyNotify,
 			StructureNotifyMask, &on_destroy, &data);
-
 		// mlx_hook(data.mlx_win_2, 6, 1L<<0, &ft_mouse, &data);
 
-		raycasting(&data);
+
+		// raycasting(&data);
 		ft_printf_map(&data);
 
 		// mlx_mouse_hide(data.mlx, data.mlx_win_2);
 		// mlx_mouse_show(data.mlx, data.mlx_win_2);
-	
-		
 		// mlx_loop_hook(data.mlx, &ft_mouse, &data);
 
 		mlx_loop(data.mlx);

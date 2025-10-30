@@ -54,8 +54,8 @@
 # define ROTATE 0.05
 
 # define TEXTURE_SIZE 256
-# define MAP_SIZE_X 20
-# define MAP_SIZE_Y 10
+# define MAP_SIZE_X 40
+# define MAP_SIZE_Y 40
 
 # define DEG_TO_RAD(deg) ((deg) * M_PI / 180.0)
 
