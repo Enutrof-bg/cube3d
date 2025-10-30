@@ -67,7 +67,6 @@ int	on_destroy(t_all *data)
 		mlx_destroy_image(data->mlx, data->img_wall);
 	if (data->img_player)
 		mlx_destroy_image(data->mlx, data->img_player);
-
 	if (data->img_n)
 		mlx_destroy_image(data->mlx, data->img_n);
 	if (data->img_s)
@@ -76,12 +75,6 @@ int	on_destroy(t_all *data)
 		mlx_destroy_image(data->mlx, data->img_e);
 	if (data->img_w)
 		mlx_destroy_image(data->mlx, data->img_w);
-	// if (data->img.img_key)
-	// 	mlx_destroy_image(data->mlx, data->img.img_key);
-	// if (data->img.img_exit)
-	// 	mlx_destroy_image(data->mlx, data->img.img_exit);
-	// if (data->img.img_exit_open)
-	// 	mlx_destroy_image(data->mlx, data->img.img_exit_open);
 	if (data->img.img)
 		mlx_destroy_image(data->mlx, data->img.img);
 	// mlx_destroy_window(data->mlx, data->mlx_win);
@@ -89,7 +82,6 @@ int	on_destroy(t_all *data)
 	mlx_destroy_display(data->mlx);
 	if (data->map)
 		ft_free_double_tab(data->map);
-	// free(data->img.img);
 	free(data->mlx);
 	exit(0);
 	return (0);
@@ -99,14 +91,13 @@ void	set_img(t_all *data)
 {
 	data->img_width = 32;
 	data->img_heigth = 32;
-	// data->player_end = 0;
-	// data->player_collect = 0;
 	data->img_sol = NULL;
 	data->img_wall = NULL;
 	data->img_player = NULL;
-	// data->img.img_key = NULL;
-	// data->img.img_exit = NULL;
-	// data->img.img_exit_open = NULL;
+	data->img_n = NULL;
+	data->img_s = NULL;
+	data->img_e = NULL;
+	data->img_w = NULL;
 	// ft_get_img_grass(data);
 	// ft_get_img_wall(data);
 	// ft_get_img_char(data);
@@ -262,7 +253,6 @@ void	ft_printf_map(t_all *data)
 		}
 		while (data->map[i][j] && pixel_x < MAP_SIZE_X)
 		{
-
 			// printf("minimap i:%d j:%d m_x:%d m_y:%d\n", i, j, map_x, map_y);
 			// if (map_y < MAP_SIZE_X && map_x < MAP_SIZE_Y)
 			// if (i >= (data->pos_player_x - MAP_SIZE_X) && i < (data->pos_player_x + MAP_SIZE_X) && map_x < MAP_SIZE_X
@@ -832,32 +822,16 @@ int	ft_mouse(t_all *data)
 
 int main(int argc, char **argv)
 {
-	(void)argc;
-	(void)argv;
-	// printf("test\n");
-	// char **map;
 	t_all data;
 
 	if (argc == 2)
 	{
 		data.map = ft_open_map(&data, argv[1]);
-		// int i = 0;
-		// while (data.map[i])
-		// {
-		// 	printf("%s\n", data.map[i]);
-		// 	i++;
-		// }
 		if (set_pos_player(&data) == -1)
 			return (1);
-		// printf("%f\n", data.pos_player_x);
-		// printf("%f\n", data.pos_player_y);
-
-		// data.angle_player = 0;
-		// data.rotate_speed = 9DIR_PLA
 		// data.start_time = get_time_ms();
 
 		data.mlx = mlx_init();
-
 		data.mlx_win_2 = mlx_new_window(data.mlx,
 				W, H, "3D");
 
@@ -884,9 +858,9 @@ int main(int argc, char **argv)
 		raycasting(&data);
 		ft_printf_map(&data);
 
-		// mlx_mouse_hide(data.mlx, data.mlx_win_2);
+		mlx_mouse_hide(data.mlx, data.mlx_win_2);
 		// mlx_mouse_show(data.mlx, data.mlx_win_2);
-		// mlx_loop_hook(data.mlx, &ft_mouse, &data);
+		mlx_loop_hook(data.mlx, &ft_mouse, &data);
 
 		mlx_loop(data.mlx);
 	}
