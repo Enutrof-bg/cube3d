@@ -54,6 +54,8 @@
 # define ROTATE 0.05
 
 # define TEXTURE_SIZE 256
+# define MAP_SIZE_X 50
+# define MAP_SIZE_Y 30
 
 # define DEG_TO_RAD(deg) ((deg) * M_PI / 180.0)
 
@@ -154,6 +156,12 @@ typedef struct s_list
 
 	double ratio;
 	double ratio_pixel;
+
+	int mouse_x;
+	int mouse_y;
+
+	double temp_x;
+	double temp_y;
 
 }t_all;
 
