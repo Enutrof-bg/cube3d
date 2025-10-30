@@ -209,17 +209,25 @@ void	ft_printf_map(t_all *data)
 	// if (data->player_pos_int_y + MAP_SIZE_Y/2 > data->map_heigth)
 	// {
 	// 	i = data->map_heigth - data->player_pos_int_y;
+	// 	printf("map_heigth:%d pos_y:%d\n", data->map_heigth, data->player_pos_int_y);
+	// 	printf("debut i1:%d\n", i);
 	// }
 	// else if (data->player_pos_int_y < MAP_SIZE_Y)
 	// {
 	// 	i = 0;
+	// 	printf("map_heigth:%d pos_y:%d\n", data->map_heigth, data->player_pos_int_y);
+	// 	printf("debut i2:%d\n", i);
 	// }
 	// else
 	// {
 	// 	i = data->player_pos_int_y - MAP_SIZE_Y/2;
+	// 	printf("map_heigth:%d pos_y:%d\n", data->map_heigth, data->player_pos_int_y);
+	// 	printf("debut i3:%d\n", i);
 	// }
+	// printf("debut i:%d\n", i);
 	while (data->map[i])
 	{
+
 		map_y = 0;
 		j = 0;
 		// if (data->player_pos_int_x + MAP_SIZE_X/2 > data->map_length)
@@ -236,6 +244,8 @@ void	ft_printf_map(t_all *data)
 		// }
 		while (data->map[i][j])
 		{
+
+			// printf("minimap i:%d j:%d m_x:%d m_y:%d\n", i, j, map_x, map_y);
 			// if (map_y < MAP_SIZE_X && map_x < MAP_SIZE_Y)
 			// if (i >= (data->pos_player_x - MAP_SIZE_X) && i < (data->pos_player_x + MAP_SIZE_X) && map_x < MAP_SIZE_X
 				// && j >= (data->pos_player_y - MAP_SIZE_Y) && j < (data->pos_player_y + MAP_SIZE_Y) && map_y < MAP_SIZE_Y)
@@ -258,6 +268,7 @@ void	ft_printf_map(t_all *data)
 		map_x++;
 		i++;
 	}
+	printf("fin i:%d\n", i);
 	// mlx_put_image_to_window(data->mlx, data->mlx_win_2, data->img_n, 0, 0);
 }
 
@@ -351,7 +362,7 @@ int check_collision(t_all *data, double x, double y)
 	int_x = (int)x;
 	int_y = (int)y;
 	if (x >= 0 && x < data->map_length	&& y >= 0 && y < data->map_heigth
-		&& data->map[int_x][int_y] != '1')
+		&& data->map[int_y][int_x] != '1')
 		return(0);
 	return (1);
 }
@@ -384,15 +395,15 @@ int	on_keypress(int keysym, t_all *data)
 			data->temp_y = data->pos_player_y + data->dir_player_y * MS;
 			if (check_collision(data, data->temp_x, data->pos_player_y) == 0)
 			{
-				// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
+				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
 				data->pos_player_x = data->temp_x;
-				// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
+				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
 			}
 			if (check_collision(data, data->pos_player_x, data->temp_y) == 0)
 			{
-				// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
+				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
 				data->pos_player_y = data->temp_y;
-				// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
+				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
 			}
 			// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
 			// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
@@ -405,18 +416,32 @@ int	on_keypress(int keysym, t_all *data)
 		// 		&& (data->pos_player_y - (sin(DEG_TO_RAD(data->angle_player))) * 1 >= 0)
 		// 		&& (data->pos_player_y - (sin(DEG_TO_RAD(data->angle_player))) * 1 < data->map_heigth)
 		// 		&& data->map[(int)(data->pos_player_y - (sin(DEG_TO_RAD(data->angle_player))))][(int)(data->pos_player_x - (cos(DEG_TO_RAD(data->angle_player))))] != '1')
-		if (data->pos_player_x - data->dir_player_x * MS >= 0
-			&& data->pos_player_x - data->dir_player_x * MS < data->map_length
-			&& data->pos_player_y - data->dir_player_y * MS >= 0
-			&& data->pos_player_y - data->dir_player_y * MS < data->map_heigth
-			&& data->map[(int)(data->pos_player_y - data->dir_player_y * MS)][(int)(data->pos_player_x - data->dir_player_x * MS)] != '1')
+		// if (data->pos_player_x - data->dir_player_x * MS >= 0
+		// 	&& data->pos_player_x - data->dir_player_x * MS < data->map_length
+		// 	&& data->pos_player_y - data->dir_player_y * MS >= 0
+		// 	&& data->pos_player_y - data->dir_player_y * MS < data->map_heigth
+		// 	&& data->map[(int)(data->pos_player_y - data->dir_player_y * MS)][(int)(data->pos_player_x - data->dir_player_x * MS)] != '1')
+		// {
+		// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
+		// // data->pos_player_x = data->pos_player_x - (cos(DEG_TO_RAD(data->angle_player)) * 1);
+		// // data->pos_player_y = data->pos_player_y - (sin(DEG_TO_RAD(data->angle_player)) * 1);
+		// data->pos_player_x = data->pos_player_x - data->dir_player_x * MS;
+		// data->pos_player_y = data->pos_player_y - data->dir_player_y * MS;
+		// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
+		// }
+		data->temp_x = data->pos_player_x - data->dir_player_x * MS;
+		data->temp_y = data->pos_player_y - data->dir_player_y * MS;
+		if (check_collision(data, data->temp_x, data->pos_player_y) == 0)
 		{
-		data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
-		// data->pos_player_x = data->pos_player_x - (cos(DEG_TO_RAD(data->angle_player)) * 1);
-		// data->pos_player_y = data->pos_player_y - (sin(DEG_TO_RAD(data->angle_player)) * 1);
-		data->pos_player_x = data->pos_player_x - data->dir_player_x * MS;
-		data->pos_player_y = data->pos_player_y - data->dir_player_y * MS;
-		data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
+			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
+			data->pos_player_x = data->temp_x;
+			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
+		}
+		if (check_collision(data, data->pos_player_x, data->temp_y) == 0)
+		{
+			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
+			data->pos_player_y = data->temp_y;
+			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
 		}
 	}
 	else if (keysym == KEY_A)
@@ -427,18 +452,32 @@ int	on_keypress(int keysym, t_all *data)
 		// 		&& (data->pos_player_y - (sin(DEG_TO_RAD(data->angle_player) + M_PI /2))) < data->map_heigth
 		// 		&& data->map[(int)(data->pos_player_y - (sin(DEG_TO_RAD(data->angle_player) + M_PI /2)))][(int)(data->pos_player_x - (cos(DEG_TO_RAD(data->angle_player) + M_PI /2)))] != '1')
 		// {
-		if (data->pos_player_x - data->plane_dir_x * MS >= 0
-			&& data->pos_player_x - data->plane_dir_x * MS < data->map_length
-			&& data->pos_player_y - data->plane_dir_y * MS >= 0
-			&& data->pos_player_y - data->plane_dir_y * MS < data->map_heigth
-			&& data->map[(int)(data->pos_player_y - data->plane_dir_y * MS)][(int)(data->pos_player_x - data->plane_dir_x * MS)] != '1')
+		// if (data->pos_player_x - data->plane_dir_x * MS >= 0
+		// 	&& data->pos_player_x - data->plane_dir_x * MS < data->map_length
+		// 	&& data->pos_player_y - data->plane_dir_y * MS >= 0
+		// 	&& data->pos_player_y - data->plane_dir_y * MS < data->map_heigth
+		// 	&& data->map[(int)(data->pos_player_y - data->plane_dir_y * MS)][(int)(data->pos_player_x - data->plane_dir_x * MS)] != '1')
+		// {
+		// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
+		// // data->pos_player_x = data->pos_player_x - (cos(DEG_TO_RAD(data->angle_player) + M_PI /2) * 1);
+		// // data->pos_player_y = data->pos_player_y - (sin(DEG_TO_RAD(data->angle_player) + M_PI /2) * 1);
+		// data->pos_player_x = data->pos_player_x - data->plane_dir_x * MS;
+		// data->pos_player_y = data->pos_player_y - data->plane_dir_y * MS;
+		// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
+		// }
+		data->temp_x = data->pos_player_x - data->plane_dir_x * MS;
+		data->temp_y = data->pos_player_y - data->plane_dir_y * MS;
+		if (check_collision(data, data->temp_x, data->pos_player_y) == 0)
 		{
-		data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
-		// data->pos_player_x = data->pos_player_x - (cos(DEG_TO_RAD(data->angle_player) + M_PI /2) * 1);
-		// data->pos_player_y = data->pos_player_y - (sin(DEG_TO_RAD(data->angle_player) + M_PI /2) * 1);
-		data->pos_player_x = data->pos_player_x - data->plane_dir_x * MS;
-		data->pos_player_y = data->pos_player_y - data->plane_dir_y * MS;
-		data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
+			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
+			data->pos_player_x = data->temp_x;
+			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
+		}
+		if (check_collision(data, data->pos_player_x, data->temp_y) == 0)
+		{
+			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
+			data->pos_player_y = data->temp_y;
+			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
 		}
 	}
 	else if (keysym == KEY_D)
@@ -448,18 +487,32 @@ int	on_keypress(int keysym, t_all *data)
 		// 		&& (data->pos_player_y + (sin(DEG_TO_RAD(data->angle_player) + M_PI /2))) >= 0)
 		// 		&& (data->pos_player_y + (sin(DEG_TO_RAD(data->angle_player) + M_PI /2))) < data->map_heigth
 		// 		&& data->map[(int)(data->pos_player_y + (sin(DEG_TO_RAD(data->angle_player) + M_PI /2)))][(int)(data->pos_player_x + (cos(DEG_TO_RAD(data->angle_player) + M_PI /2)))] != '1')
-		if (data->pos_player_x + data->plane_dir_x * MS >= 0
-			&& data->pos_player_x + data->plane_dir_x * MS < data->map_length
-			&& data->pos_player_y + data->plane_dir_y * MS >= 0
-			&& data->pos_player_y + data->plane_dir_y * MS < data->map_heigth
-			&& data->map[(int)(data->pos_player_y + data->plane_dir_y * MS)][(int)(data->pos_player_x + data->plane_dir_x * MS)] != '1')
+		// if (data->pos_player_x + data->plane_dir_x * MS >= 0
+		// 	&& data->pos_player_x + data->plane_dir_x * MS < data->map_length
+		// 	&& data->pos_player_y + data->plane_dir_y * MS >= 0
+		// 	&& data->pos_player_y + data->plane_dir_y * MS < data->map_heigth
+		// 	&& data->map[(int)(data->pos_player_y + data->plane_dir_y * MS)][(int)(data->pos_player_x + data->plane_dir_x * MS)] != '1')
+		// {
+		// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
+		// // data->pos_player_x = data->pos_player_x + (cos(DEG_TO_RAD(data->angle_player) + M_PI /2) * 1);
+		// // data->pos_player_y = data->pos_player_y + (sin(DEG_TO_RAD(data->angle_player) + M_PI /2) * 1);
+		// data->pos_player_x = data->pos_player_x + data->plane_dir_x * MS;
+		// data->pos_player_y = data->pos_player_y + data->plane_dir_y * MS;
+		// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
+		// }
+		data->temp_x = data->pos_player_x + data->plane_dir_x * MS;
+		data->temp_y = data->pos_player_y + data->plane_dir_y * MS;
+		if (check_collision(data, data->temp_x, data->pos_player_y) == 0)
 		{
-		data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
-		// data->pos_player_x = data->pos_player_x + (cos(DEG_TO_RAD(data->angle_player) + M_PI /2) * 1);
-		// data->pos_player_y = data->pos_player_y + (sin(DEG_TO_RAD(data->angle_player) + M_PI /2) * 1);
-		data->pos_player_x = data->pos_player_x + data->plane_dir_x * MS;
-		data->pos_player_y = data->pos_player_y + data->plane_dir_y * MS;
-		data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
+			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
+			data->pos_player_x = data->temp_x;
+			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
+		}
+		if (check_collision(data, data->pos_player_x, data->temp_y) == 0)
+		{
+			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
+			data->pos_player_y = data->temp_y;
+			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
 		}
 	}
 	else if (/*keysym == KEY_A || */keysym == KEY_LEFT)
@@ -671,7 +724,7 @@ void raycasting(t_all *data)
 				// printf("y:%d | ", y);
 				// color = (data->e.addr[(int)((texture_y * data->e.line_length + texture_x * ( data->e.bits_per_pixel / 8)))]);
 				// color = *(unsigned int*)&(data->e.addr[(int)((texture_y * data->e.line_length + texture_x * ( data->e.bits_per_pixel / 8)))]);
-				color = *(unsigned int*)(data->e.addr + (texture_y * data->e.line_length + texture_x * ( data->e.bits_per_pixel / 8)));
+				color = *(unsigned int*)(data->s.addr + (texture_y * data->s.line_length + texture_x * ( data->s.bits_per_pixel / 8)));
 				// char *pixel_addr = data->e.addr + (texture_y * data->e.line_length + texture_x * ( data->e.bits_per_pixel / 8));
 				// color = *(unsigned int*)pixel_addr;
 			}
@@ -683,7 +736,7 @@ void raycasting(t_all *data)
 				// printf("addr:%d\n", (int)((pixel * data->w.line_length + data->ratio_pixel * TEXTURE_SIZE * ( data->w.bits_per_pixel / 8))));
 				// color = (data->w.addr[(int)((texture_y * data->w.line_length + texture_x * ( data->w.bits_per_pixel / 8)))]);
 				// color = *(unsigned int*)&(data->w.addr[(int)((texture_y * data->w.line_length + texture_x * ( data->w.bits_per_pixel / 8)))]);
-				color = *(unsigned int*)(data->w.addr + (texture_y * data->w.line_length + texture_x * ( data->w.bits_per_pixel / 8)));
+				color = *(unsigned int*)(data->n.addr + (texture_y * data->n.line_length + texture_x * ( data->n.bits_per_pixel / 8)));
 				// char *pixel_addr = data->w.addr + (texture_y * data->w.line_length + texture_x * ( data->w.bits_per_pixel / 8));
 				// color = *(unsigned int*)pixel_addr;
 				
@@ -696,7 +749,7 @@ void raycasting(t_all *data)
 				// printf("addr:%d\n", (int)((pixel * data->n.line_length + data->ratio_pixel * TEXTURE_SIZE * ( data->n.bits_per_pixel / 8))));
 				// color = (data->n.addr[(int)((texture_y * data->n.line_length + texture_x * ( data->n.bits_per_pixel / 8)))]);
 				// color = *(unsigned int*)&(data->n.addr[(int)((texture_y * data->n.line_length + texture_x * ( data->n.bits_per_pixel / 8)))]);
-				color = *(unsigned int*)(data->n.addr + (texture_y * data->n.line_length + texture_x * ( data->n.bits_per_pixel / 8)));
+				color = *(unsigned int*)(data->e.addr + (texture_y * data->e.line_length + texture_x * ( data->e.bits_per_pixel / 8)));
 				// char *pixel_addr = data->n.addr + (texture_y * data->n.line_length + texture_x * ( data->n.bits_per_pixel / 8));
 				// color = *(unsigned int*)pixel_addr;
 			}
@@ -708,7 +761,7 @@ void raycasting(t_all *data)
 				// printf("addr:%d\n", (int)((pixel * data->s.line_length + data->ratio_pixel * TEXTURE_SIZE * ( data->s.bits_per_pixel / 8))));
 				// color = (data->s.addr[(int)((texture_y * data->s.line_length + texture_x * ( data->s.bits_per_pixel / 8)))]);
 				// color = *(unsigned int*)&(data->s.addr[(int)((texture_y * data->s.line_length + texture_x * ( data->s.bits_per_pixel / 8)))]);
-				color = *(unsigned int*)(data->s.addr + (texture_y * data->s.line_length + texture_x * ( data->s.bits_per_pixel / 8)));
+				color = *(unsigned int*)(data->w.addr + (texture_y * data->w.line_length + texture_x * ( data->w.bits_per_pixel / 8)));
 				// char *pixel_addr = data->s.addr + (texture_y * data->s.line_length + texture_x * ( data->s.bits_per_pixel / 8));
 				// color = *(unsigned int*)pixel_addr;
 			}
@@ -799,11 +852,11 @@ int main(int argc, char **argv)
 		raycasting(&data);
 		ft_printf_map(&data);
 
-		mlx_mouse_hide(data.mlx, data.mlx_win_2);
+		// mlx_mouse_hide(data.mlx, data.mlx_win_2);
 		// mlx_mouse_show(data.mlx, data.mlx_win_2);
 	
 		
-		mlx_loop_hook(data.mlx, &ft_mouse, &data);
+		// mlx_loop_hook(data.mlx, &ft_mouse, &data);
 
 		mlx_loop(data.mlx);
 	}
