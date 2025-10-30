@@ -881,7 +881,7 @@ int main(int argc, char **argv)
 		// mlx_hook(data.mlx_win_2, 6, 1L<<0, &ft_mouse, &data);
 
 
-		// raycasting(&data);
+		raycasting(&data);
 		ft_printf_map(&data);
 
 		// mlx_mouse_hide(data.mlx, data.mlx_win_2);
