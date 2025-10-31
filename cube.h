@@ -101,13 +101,15 @@ typedef struct s_list
 
 	void *img_sol;
 	char *dest_sol;
+	t_screen sol_s;
 
 	void *img_wall;
 	char *dest_wall;
+	t_screen wall_s;
 
 	void *img_player;
 	char *dest_player;
-
+	t_screen player_s;
 
 	void *img_n;
 	char *dest_n;
@@ -176,6 +178,10 @@ typedef struct s_list
 
 	int check_door;
 	int is_door;
+
+	int move_x;
+	int move_y;
+	int rotate;
 }t_all;
 
 char	**ft_open_map(t_all *data, char *filename);

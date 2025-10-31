@@ -121,9 +121,12 @@ void	set_img(t_all *data)
 	if (!data->img_sol)
 	{
 		// ft_printf("Error\nXPM file invalid\n");
-		// on_destroy(data);
+		on_destroy(data);
 		exit(EXIT_FAILURE);
 	}
+	data->sol_s.addr = mlx_get_data_addr(data->img_sol, &data->sol_s.bits_per_pixel,
+			&data->sol_s.line_length, &data->sol_s.endian);
+
 
 	data->dest_wall = "./img/wall2.xpm";
 	data->img_wall = mlx_xpm_file_to_image(data->mlx,
@@ -131,9 +134,11 @@ void	set_img(t_all *data)
 	if (!data->img_wall)
 	{
 		// ft_printf("Error\nXPM file invalid\n");
-		// on_destroy(data);
+		on_destroy(data);
 		exit(EXIT_FAILURE);
 	}
+	data->wall_s.addr = mlx_get_data_addr(data->img_wall, &data->wall_s.bits_per_pixel,
+		&data->wall_s.line_length, &data->wall_s.endian);
 
 	data->dest_player = "./img/player2.xpm";
 	data->img_player = mlx_xpm_file_to_image(data->mlx,
@@ -141,9 +146,12 @@ void	set_img(t_all *data)
 	if (!data->img_player)
 	{
 		// ft_printf("Error\nXPM file invalid\n");
-		// on_destroy(data);
+		on_destroy(data);
 		exit(EXIT_FAILURE);
 	}
+	data->player_s.addr = mlx_get_data_addr(data->img_player, &data->player_s.bits_per_pixel,
+			&data->player_s.line_length, &data->player_s.endian);
+
 
 	data->dest_n = "./img/n.xpm";
 	data->img_n = mlx_xpm_file_to_image(data->mlx,
@@ -151,7 +159,7 @@ void	set_img(t_all *data)
 	if (!data->img_n)
 	{
 		// ft_printf("Error\nXPM file invalid\n");
-		// on_destroy(data);
+		on_destroy(data);
 		exit(EXIT_FAILURE);
 	}
 	data->n.addr = mlx_get_data_addr(data->img_n, &data->n.bits_per_pixel,
@@ -164,7 +172,7 @@ void	set_img(t_all *data)
 	if (!data->img_s)
 	{
 		// ft_printf("Error\nXPM file invalid\n");
-		// on_destroy(data);
+		on_destroy(data);
 		exit(EXIT_FAILURE);
 	}
 	data->s.addr = mlx_get_data_addr(data->img_s, &data->s.bits_per_pixel,
@@ -177,7 +185,7 @@ void	set_img(t_all *data)
 	if (!data->img_e)
 	{
 		// ft_printf("Error\nXPM file invalid\n");
-		// on_destroy(data);
+		on_destroy(data);
 		exit(EXIT_FAILURE);
 	}
 	data->e.addr = mlx_get_data_addr(data->img_e, &data->e.bits_per_pixel,
@@ -191,7 +199,7 @@ void	set_img(t_all *data)
 	if (!data->img_w)
 	{
 		// ft_printf("Error\nXPM file invalid\n");
-		// on_destroy(data);
+		on_destroy(data);
 		exit(EXIT_FAILURE);
 	}
 	data->w.addr = mlx_get_data_addr(data->img_w, &data->w.bits_per_pixel,
@@ -205,7 +213,7 @@ void	set_img(t_all *data)
 	if (!data->img_door_close)
 	{
 		// ft_printf("Error\nXPM file invalid\n");
-		// on_destroy(data);
+		on_destroy(data);
 		exit(EXIT_FAILURE);
 	}
 	data->door_close.addr = mlx_get_data_addr(data->img_door_close, &data->door_close.bits_per_pixel,
@@ -218,11 +226,41 @@ void	set_img(t_all *data)
 	if (!data->img_door_open)
 	{
 		// ft_printf("Error\nXPM file invalid\n");
-		// on_destroy(data);
+		on_destroy(data);
 		exit(EXIT_FAILURE);
 	}
 	data->door_open.addr = mlx_get_data_addr(data->img_door_open, &data->door_open.bits_per_pixel,
 			&data->door_open.line_length, &data->door_open.endian);
+}
+
+void	my_mlx_pixel_put(t_all *data, int x, int y, int color)
+{
+	char	*dst;
+
+	dst = data->img.addr + (y * data->img.line_length + x * (data->img.bits_per_pixel / 8));
+	*(unsigned int*)dst = color;
+}
+
+int ft_put_xpm_to_img(t_all *data, t_screen img, int x, int y)
+{
+	int i;
+	int j;
+	unsigned int	color;
+
+	i = 0;
+	j = 0;
+	while (i < TILE_SIZE)
+	{
+		j = 0;
+		while (j < TILE_SIZE)
+		{
+			color = *(unsigned int*)(img.addr + (j * img.line_length + i * ( img.bits_per_pixel / 8)));
+			my_mlx_pixel_put(data, x+i , y+j , color);
+			j++;
+		}
+		i++;
+	}
+	return (0);
 }
 
 void	ft_printf_map(t_all *data)
@@ -240,25 +278,18 @@ void	ft_printf_map(t_all *data)
 	j = 0;
 	if ((int)data->pos_player_y + MAP_SIZE_Y/2 > data->map_heigth)
 	{
-		// i = data->map_heigth - (int)data->pos_player_y;
 		if (data->map_heigth > MAP_SIZE_Y)
 			i = data->map_heigth - MAP_SIZE_Y;
 		else
 			i = 0;
-		// printf("map_heigth:%d pos_y:%f\n", data->map_heigth, data->pos_player_y);
-		// printf("debut i1:%d\n", i);
 	}
 	else if ((int)data->pos_player_y < MAP_SIZE_Y/2)
 	{
 		i = 0;
-		// printf("map_heigth:%d pos_y:%f\n", data->map_heigth, data->pos_player_y);
-		// printf("debut i2:%d\n", i);
 	}
 	else
 	{
 		i = (int)data->pos_player_y - MAP_SIZE_Y/2;
-		// printf("map_heigth:%d pos_y:%f\n", data->map_heigth, data->pos_player_y);
-		// printf("debut i3:%d\n", i);
 	}
 
 	while (data->map[i] && pixel_y < MAP_SIZE_Y)
@@ -269,44 +300,40 @@ void	ft_printf_map(t_all *data)
 		pixel_x = 0;
 		if ((int)data->pos_player_x + MAP_SIZE_X/2 > data->map_length)
 		{
-			// i = data->map_length - (int)data->pos_player_x;
 			if (data->map_length > MAP_SIZE_X)
 				j = data->map_length - MAP_SIZE_X;
 			else
 				j = 0;
-			// printf("map_length:%d pos_y:%f\n", data->map_length, data->pos_player_x);
-			// printf("debut i1:%d\n", j);
 		}
 		else if ((int)data->pos_player_x < MAP_SIZE_X/2)
 		{
 			j = 0;
-			// printf("map_length:%d pos_y:%f\n", data->map_length, data->pos_player_x);
-			// printf("debut i2:%d\n", j);
 		}
 		else
 		{
 			j = (int)data->pos_player_x - MAP_SIZE_X/2;
-			// printf("map_length:%d pos_y:%f\n", data->map_length, data->pos_player_x);
-			// printf("debut i3:%d\n", j);
 		}
 		while (data->map[i][j] && pixel_x < MAP_SIZE_X)
 		{
-			// printf("minimap i:%d j:%d m_x:%d m_y:%d\n", i, j, map_x, map_y);
-			// if (map_y < MAP_SIZE_X && map_x < MAP_SIZE_Y)
-			// if (i >= (data->pos_player_x - MAP_SIZE_X) && i < (data->pos_player_x + MAP_SIZE_X) && map_x < MAP_SIZE_X
-				// && j >= (data->pos_player_y - MAP_SIZE_Y) && j < (data->pos_player_y + MAP_SIZE_Y) && map_y < MAP_SIZE_Y)
-
-			// if (pixel < MAP_SIZE_Y)
 			{
 				if (data->map[i][j] == '0')
-					mlx_put_image_to_window(data->mlx, data->mlx_win_2, data->img_sol,
-						data->img_width * map_y, data->img_heigth * map_x);
+				{
+					ft_put_xpm_to_img(data, data->sol_s, map_y * TILE_SIZE, map_x * TILE_SIZE);
+					// mlx_put_image_to_window(data->mlx, data->mlx_win_2, data->img_sol,
+						// data->img_width * map_y, data->img_heigth * map_x);
+				}
 				if (data->map[i][j] == '1')
-					mlx_put_image_to_window(data->mlx, data->mlx_win_2, data->img_wall,
-						data->img_width * map_y, data->img_heigth * map_x);
+				{
+					ft_put_xpm_to_img(data, data->wall_s, map_y * TILE_SIZE, map_x * TILE_SIZE);
+					// mlx_put_image_to_window(data->mlx, data->mlx_win_2, data->img_wall,
+						// data->img_width * map_y, data->img_heigth * map_x);
+				}
 				if (data->map[i][j] == 'P')
-					mlx_put_image_to_window(data->mlx, data->mlx_win_2, data->img_player,
-						data->img_width * map_y, data->img_heigth * map_x);
+				{
+					ft_put_xpm_to_img(data, data->player_s, map_y * TILE_SIZE, map_x * TILE_SIZE);
+					// mlx_put_image_to_window(data->mlx, data->mlx_win_2, data->img_player,
+						// data->img_width * map_y, data->img_heigth * map_x);
+				}
 				
 			}
 			pixel_x++;
@@ -317,22 +344,6 @@ void	ft_printf_map(t_all *data)
 		map_x++;
 		i++;
 	}
-
-	i = MAP_SIZE_X * data->img_width;
-	j = MAP_SIZE_Y * data->img_width;
-	while (i < MAP_SIZE_X * data->img_width+2)
-	{
-		j = MAP_SIZE_Y * data->img_width;
-		while (j < MAP_SIZE_Y * data->img_width+2)
-		{
-			my_mlx_pixel_put(data, i, j, 0);
-			j++;
-		}
-
-		i++;
-	}
-	// printf("fin i:%d\n", i);
-	// mlx_put_image_to_window(data->mlx, data->mlx_win_2, data->img_n, 0, 0);
 }
 
 int set_dir_player(t_all *data, char dir)
@@ -532,279 +543,202 @@ int open_close_door(t_all *data)
 	// return (door);
 }
 
+int move_forward(t_all *data)
+{
+	data->temp_x = data->pos_player_x + data->dir_player_x * MS;
+	data->temp_y = data->pos_player_y + data->dir_player_y * MS;
+	if (check_collision(data, data->temp_x, data->pos_player_y) == 0)
+	{
+		if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'P')
+			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
+		else if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'Q')
+			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'O';
+		data->pos_player_x = data->temp_x;
+		if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == '0')
+			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
+		else if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'O')
+			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'Q';
+	}
+	if (check_collision(data, data->pos_player_x, data->temp_y) == 0)
+	{
+		if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'P')
+			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
+		else if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'Q')
+			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'O';
+		data->pos_player_y = data->temp_y;
+		if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == '0')
+			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
+		else if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'O')
+			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'Q';
+	}
+	return (0);
+}
+
+int move_backward(t_all *data)
+{
+	data->temp_x = data->pos_player_x - data->dir_player_x * MS;
+	data->temp_y = data->pos_player_y - data->dir_player_y * MS;
+	if (check_collision(data, data->temp_x, data->pos_player_y) == 0)
+	{
+		if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'P')
+			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
+		else if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'Q')
+			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'O';
+		data->pos_player_x = data->temp_x;
+		if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == '0')
+			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
+		else if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'O')
+			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'Q';
+	}
+	if (check_collision(data, data->pos_player_x, data->temp_y) == 0)
+	{
+		if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'P')
+			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
+		else if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'Q')
+			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'O';
+		data->pos_player_y = data->temp_y;
+		if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == '0')
+			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
+		else if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'O')
+			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'Q';
+	}
+	return (0);
+}
+
+int move_left(t_all *data)
+{
+	data->temp_x = data->pos_player_x - data->plane_dir_x * MS;
+	data->temp_y = data->pos_player_y - data->plane_dir_y * MS;
+	if (check_collision(data, data->temp_x, data->pos_player_y) == 0)
+	{
+		if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'P')
+			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
+		else if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'Q')
+			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'O';
+		data->pos_player_x = data->temp_x;
+		if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == '0')
+			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
+		else if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'O')
+			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'Q';
+	}
+	if (check_collision(data, data->pos_player_x, data->temp_y) == 0)
+	{
+		if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'P')
+			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
+		else if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'Q')
+			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'O';
+		data->pos_player_y = data->temp_y;
+		if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == '0')
+			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
+		else if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'O')
+			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'Q';
+	}
+	return (0);
+}
+
+int move_right(t_all *data)
+{
+	data->temp_x = data->pos_player_x + data->plane_dir_x * MS;
+	data->temp_y = data->pos_player_y + data->plane_dir_y * MS;
+	if (check_collision(data, data->temp_x, data->pos_player_y) == 0)
+	{
+		if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'P')
+			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
+		else if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'Q')
+			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'O';
+		data->pos_player_x = data->temp_x;
+		if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == '0')
+			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
+		else if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'O')
+			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'Q';
+	}
+	if (check_collision(data, data->pos_player_x, data->temp_y) == 0)
+	{
+		if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'P')
+			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
+		else if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'Q')
+			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'O';
+		data->pos_player_y = data->temp_y;
+		if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == '0')
+			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
+		else if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'O')
+			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'Q';
+	}
+	return (0);
+}
+
+int rotate_left(t_all *data)
+{
+	double temp;
+
+	temp = data->dir_player_x;
+	data->dir_player_x = data->dir_player_x * cos(-ROTATE) - data->dir_player_y * sin(-ROTATE);
+	data->dir_player_y = temp * sin(-ROTATE) + data->dir_player_y * cos(-ROTATE);
+
+	temp = data->plane_dir_x;
+	data->plane_dir_x = data->plane_dir_x * cos(-ROTATE) - data->plane_dir_y * sin(-ROTATE);
+	data->plane_dir_y = temp * sin(-ROTATE) + data->plane_dir_y * cos(-ROTATE);
+	return (0);
+}
+
+int rotate_right(t_all *data)
+{
+	double temp;
+
+	temp = data->dir_player_x;
+	data->dir_player_x = data->dir_player_x * cos(ROTATE) - data->dir_player_y * sin(ROTATE);
+	data->dir_player_y = temp * sin(ROTATE) + data->dir_player_y * cos(ROTATE);
+
+	temp = data->plane_dir_x;
+	data->plane_dir_x = data->plane_dir_x * cos(ROTATE) - data->plane_dir_y * sin(ROTATE);
+	data->plane_dir_y = temp * sin(ROTATE) + data->plane_dir_y * cos(ROTATE);
+	return (0);
+}
+
 int	on_keypress(int keysym, t_all *data)
 {
-	// static int	count = 0;
-	// char		*temp;
-	// print_data(data);
-	// printf("keysium:%d\n", keysym);
 	if (keysym == KEY_ESC)
 		on_destroy(data);
 	if (keysym == KEY_W)
 	{
-		// if ((data->pos_player_x + (cos(DEG_TO_RAD(data->angle_player))) * 1 >= 0)
-		// 		&& (data->pos_player_x + (cos(DEG_TO_RAD(data->angle_player))) * 1 < data->map_length)
-		// 		&& (data->pos_player_y + (sin(DEG_TO_RAD(data->angle_player))) * 1 >= 0)
-		// 		&& (data->pos_player_y + (sin(DEG_TO_RAD(data->angle_player))) * 1 < data->map_heigth)
-		// 		&& data->map[(int)(data->pos_player_y + (sin(DEG_TO_RAD(data->angle_player))))][(int)(data->pos_player_x + (cos(DEG_TO_RAD(data->angle_player))))] != '1')
-		// if (data->pos_player_x + data->dir_player_x * MS >= 0
-		// 	&& data->pos_player_x + data->dir_player_x * MS < data->map_length
-		// 	&& data->pos_player_y + data->dir_player_y * MS >= 0
-		// 	&& data->pos_player_y + data->dir_player_y * MS < data->map_heigth
-		// 	&& data->map[(int)(data->pos_player_y + data->dir_player_y * MS)][(int)(data->pos_player_x + data->dir_player_x * MS)] != '1')
-		// {
-
-			// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
-			// data->pos_player_x = data->pos_player_x + (cos(DEG_TO_RAD(data->angle_player)) * 1);
-			// data->pos_player_y = data->pos_player_y + (sin(DEG_TO_RAD(data->angle_player)) * 1);
-			data->temp_x = data->pos_player_x + data->dir_player_x * MS;
-			data->temp_y = data->pos_player_y + data->dir_player_y * MS;
-			if (check_collision(data, data->temp_x, data->pos_player_y) == 0)
-			{
-				// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
-				// data->pos_player_x = data->temp_x;
-				// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
-
-				if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'P')
-					data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
-				else if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'Q')
-					data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'O';
-				data->pos_player_x = data->temp_x;
-				if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == '0')
-					data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
-				else if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'O')
-					data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'Q';
-			}
-			if (check_collision(data, data->pos_player_x, data->temp_y) == 0)
-			{
-				// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
-				// data->pos_player_y = data->temp_y;
-				// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
-
-				if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'P')
-					data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
-				else if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'Q')
-					data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'O';
-				data->pos_player_y = data->temp_y;
-				if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == '0')
-					data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
-				else if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'O')
-					data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'Q';
-			}
-
+		data->move_x += 1;
+		move_forward(data);
 	}
 	else if (keysym == KEY_S)
 	{
-		// if ((data->pos_player_x - (cos(DEG_TO_RAD(data->angle_player))) * 1 >= 0)
-		// 		&& (data->pos_player_x - (cos(DEG_TO_RAD(data->angle_player))) * 1 < data->map_length)
-		// 		&& (data->pos_player_y - (sin(DEG_TO_RAD(data->angle_player))) * 1 >= 0)
-		// 		&& (data->pos_player_y - (sin(DEG_TO_RAD(data->angle_player))) * 1 < data->map_heigth)
-		// 		&& data->map[(int)(data->pos_player_y - (sin(DEG_TO_RAD(data->angle_player))))][(int)(data->pos_player_x - (cos(DEG_TO_RAD(data->angle_player))))] != '1')
-		// if (data->pos_player_x - data->dir_player_x * MS >= 0
-		// 	&& data->pos_player_x - data->dir_player_x * MS < data->map_length
-		// 	&& data->pos_player_y - data->dir_player_y * MS >= 0
-		// 	&& data->pos_player_y - data->dir_player_y * MS < data->map_heigth
-		// 	&& data->map[(int)(data->pos_player_y - data->dir_player_y * MS)][(int)(data->pos_player_x - data->dir_player_x * MS)] != '1')
-		// {
-		// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
-		// // data->pos_player_x = data->pos_player_x - (cos(DEG_TO_RAD(data->angle_player)) * 1);
-		// // data->pos_player_y = data->pos_player_y - (sin(DEG_TO_RAD(data->angle_player)) * 1);
-		// data->pos_player_x = data->pos_player_x - data->dir_player_x * MS;
-		// data->pos_player_y = data->pos_player_y - data->dir_player_y * MS;
-		// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
-		// }
-		data->temp_x = data->pos_player_x - data->dir_player_x * MS;
-		data->temp_y = data->pos_player_y - data->dir_player_y * MS;
-		if (check_collision(data, data->temp_x, data->pos_player_y) == 0)
-		{
-			// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
-			// data->pos_player_x = data->temp_x;
-			// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
-			if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'P')
-				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
-			else if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'Q')
-				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'O';
-			data->pos_player_x = data->temp_x;
-			if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == '0')
-				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
-			else if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'O')
-				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'Q';
-		}
-		if (check_collision(data, data->pos_player_x, data->temp_y) == 0)
-		{
-			// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
-			// data->pos_player_y = data->temp_y;
-			// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
-			if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'P')
-				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
-			else if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'Q')
-				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'O';
-			data->pos_player_y = data->temp_y;
-			if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == '0')
-				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
-			else if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'O')
-				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'Q';
-		}
+		data->move_x -= 1;
+		move_backward(data);
 	}
 	else if (keysym == KEY_A)
 	{
-		// if ((data->pos_player_x - (cos(DEG_TO_RAD(data->angle_player) + M_PI /2) >= 0)
-		// 		&& (data->pos_player_x - (cos(DEG_TO_RAD(data->angle_player) + M_PI /2))) < data->map_length
-		// 		&& (data->pos_player_y - (sin(DEG_TO_RAD(data->angle_player) + M_PI /2))) >= 0)
-		// 		&& (data->pos_player_y - (sin(DEG_TO_RAD(data->angle_player) + M_PI /2))) < data->map_heigth
-		// 		&& data->map[(int)(data->pos_player_y - (sin(DEG_TO_RAD(data->angle_player) + M_PI /2)))][(int)(data->pos_player_x - (cos(DEG_TO_RAD(data->angle_player) + M_PI /2)))] != '1')
-		// {
-		// if (data->pos_player_x - data->plane_dir_x * MS >= 0
-		// 	&& data->pos_player_x - data->plane_dir_x * MS < data->map_length
-		// 	&& data->pos_player_y - data->plane_dir_y * MS >= 0
-		// 	&& data->pos_player_y - data->plane_dir_y * MS < data->map_heigth
-		// 	&& data->map[(int)(data->pos_player_y - data->plane_dir_y * MS)][(int)(data->pos_player_x - data->plane_dir_x * MS)] != '1')
-		// {
-		// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
-		// // data->pos_player_x = data->pos_player_x - (cos(DEG_TO_RAD(data->angle_player) + M_PI /2) * 1);
-		// // data->pos_player_y = data->pos_player_y - (sin(DEG_TO_RAD(data->angle_player) + M_PI /2) * 1);
-		// data->pos_player_x = data->pos_player_x - data->plane_dir_x * MS;
-		// data->pos_player_y = data->pos_player_y - data->plane_dir_y * MS;
-		// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
-		// }
-		data->temp_x = data->pos_player_x - data->plane_dir_x * MS;
-		data->temp_y = data->pos_player_y - data->plane_dir_y * MS;
-		if (check_collision(data, data->temp_x, data->pos_player_y) == 0)
-		{
-			// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
-			// data->pos_player_x = data->temp_x;
-			// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
-
-			if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'P')
-				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
-			else if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'Q')
-				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'O';
-			data->pos_player_x = data->temp_x;
-			if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == '0')
-				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
-			else if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'O')
-				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'Q';
-		}
-		if (check_collision(data, data->pos_player_x, data->temp_y) == 0)
-		{
-			// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
-			// data->pos_player_y = data->temp_y;
-			// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
-			if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'P')
-				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
-			else if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'Q')
-				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'O';
-			data->pos_player_y = data->temp_y;
-			if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == '0')
-				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
-			else if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'O')
-				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'Q';
-
-		}
+		data->move_y -= 1;
+		move_left(data);
 	}
 	else if (keysym == KEY_D)
 	{
-		// if ((data->pos_player_x + (cos(DEG_TO_RAD(data->angle_player) + M_PI /2) >= 0)
-		// 		&& (data->pos_player_x + (cos(DEG_TO_RAD(data->angle_player) + M_PI /2))) < data->map_length
-		// 		&& (data->pos_player_y + (sin(DEG_TO_RAD(data->angle_player) + M_PI /2))) >= 0)
-		// 		&& (data->pos_player_y + (sin(DEG_TO_RAD(data->angle_player) + M_PI /2))) < data->map_heigth
-		// 		&& data->map[(int)(data->pos_player_y + (sin(DEG_TO_RAD(data->angle_player) + M_PI /2)))][(int)(data->pos_player_x + (cos(DEG_TO_RAD(data->angle_player) + M_PI /2)))] != '1')
-		// if (data->pos_player_x + data->plane_dir_x * MS >= 0
-		// 	&& data->pos_player_x + data->plane_dir_x * MS < data->map_length
-		// 	&& data->pos_player_y + data->plane_dir_y * MS >= 0
-		// 	&& data->pos_player_y + data->plane_dir_y * MS < data->map_heigth
-		// 	&& data->map[(int)(data->pos_player_y + data->plane_dir_y * MS)][(int)(data->pos_player_x + data->plane_dir_x * MS)] != '1')
-		// {
-		// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
-		// // data->pos_player_x = data->pos_player_x + (cos(DEG_TO_RAD(data->angle_player) + M_PI /2) * 1);
-		// // data->pos_player_y = data->pos_player_y + (sin(DEG_TO_RAD(data->angle_player) + M_PI /2) * 1);
-		// data->pos_player_x = data->pos_player_x + data->plane_dir_x * MS;
-		// data->pos_player_y = data->pos_player_y + data->plane_dir_y * MS;
-		// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
-		// }
-		data->temp_x = data->pos_player_x + data->plane_dir_x * MS;
-		data->temp_y = data->pos_player_y + data->plane_dir_y * MS;
-		if (check_collision(data, data->temp_x, data->pos_player_y) == 0)
-		{
-			// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
-			// data->pos_player_x = data->temp_x;
-			// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
-
-			if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'P')
-				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
-			else if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'Q')
-				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'O';
-			data->pos_player_x = data->temp_x;
-			if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == '0')
-				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
-			else if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'O')
-				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'Q';
-		}
-		if (check_collision(data, data->pos_player_x, data->temp_y) == 0)
-		{
-			// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
-			// data->pos_player_y = data->temp_y;
-			// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
-			if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'P')
-				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
-			else if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'Q')
-				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'O';
-			data->pos_player_y = data->temp_y;
-			if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == '0')
-				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
-			else if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'O')
-				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'Q';
-		}
+		data->move_y += 1;
+		move_right(data);
 	}
-	else if (/*keysym == KEY_A || */keysym == KEY_LEFT)
+	else if (keysym == KEY_LEFT)
 	{
-		double temp;
-		data->angle_player = (data->angle_player - data->rotate_speed) % 360;
-
-		temp = data->dir_player_x;
-		data->dir_player_x = data->dir_player_x * cos(-ROTATE) - data->dir_player_y * sin(-ROTATE);
-		data->dir_player_y = temp * sin(-ROTATE) + data->dir_player_y * cos(-ROTATE);
-
-		temp = data->plane_dir_x;
-		data->plane_dir_x = data->plane_dir_x * cos(-ROTATE) - data->plane_dir_y * sin(-ROTATE);
-		data->plane_dir_y = temp * sin(-ROTATE) + data->plane_dir_y * cos(-ROTATE);
+		data->rotate -= 1;
+		rotate_left(data);
 	}
-	else if (/*keysym == KEY_D || */keysym == KEY_RIGHT)
+	else if (keysym == KEY_RIGHT)
 	{
-		double temp;
-		data->angle_player = (data->angle_player + data->rotate_speed) % 360;
-
-		temp = data->dir_player_x;
-		data->dir_player_x = data->dir_player_x * cos(ROTATE) - data->dir_player_y * sin(ROTATE);
-		data->dir_player_y = temp * sin(ROTATE) + data->dir_player_y * cos(ROTATE);
-
-		temp = data->plane_dir_x;
-		data->plane_dir_x = data->plane_dir_x * cos(ROTATE) - data->plane_dir_y * sin(ROTATE);
-		data->plane_dir_y = temp * sin(ROTATE) + data->plane_dir_y * cos(ROTATE);
+		data->rotate += 1;
+		rotate_right(data);
 	}
 	else if (keysym == KEY_E)
 	{
 		open_close_door(data);
 	}
 
-	// int i = 0;
-	// while (data->map[i])
-	// 	printf("%s\n", data->map[i++]);
-	// printf("\n\n\n");
-	// print_data(data);
-	
+	printf("move: x:%d y:%d rotate: %d\n", data->move_x, data->move_y, data->rotate);
 
 	raycasting(data);
 	ft_printf_map(data);
 	return (0);
-}
-
-void	my_mlx_pixel_put(t_all *data, int x, int y, int color)
-{
-	char	*dst;
-
-	dst = data->img.addr + (y * data->img.line_length + x * (data->img.bits_per_pixel / 8));
-	*(unsigned int*)dst = color;
 }
 
 void raycasting(t_all *data)
@@ -1087,7 +1021,7 @@ void raycasting(t_all *data)
 
 					temp_texture_pos = temp_texture_pos + (temp_pixel_ratio * (y - temp_start) );
 					int temp_texture_y = (int)temp_texture_pos % TEXTURE_SIZE;
-					
+
 					if (y < temp_start)
 					// {
 					// 	my_mlx_pixel_put(data, pos, y, 8900331);
@@ -1214,11 +1148,15 @@ int main(int argc, char **argv)
 			&data.img.line_length, &data.img.endian);
 		// mlx_pixel_put(, img.addr[11])
 
+		data.move_x = 0;
+		data.move_y = 0;
+		data.rotate = 0;
 
 		set_img(&data);
 
 
-		mlx_hook(data.mlx_win_2, 2 , 1L<<0,&on_keypress, &data);
+		mlx_hook(data.mlx_win_2, 2, 1L<<0, &on_keypress, &data);
+		// mlx_hook(data.mlx_win_2, 2 , 1L<<0,&on_keypress_side, &data);
 		// mlx_key_hook(data.mlx_win, &on_keypress, &data);
 		mlx_hook(data.mlx_win_2, DestroyNotify,
 			StructureNotifyMask, &on_destroy, &data);
