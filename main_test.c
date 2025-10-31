@@ -1036,10 +1036,6 @@ void raycasting(t_all *data)
 					else if (data->wall == 0 && data->ray_dir_x < 0)
 						color = *(unsigned int*)(data->w.addr + (temp_texture_y * data->w.line_length + temp_texture_x * ( data->w.bits_per_pixel / 8)));
 				}
-
-
-
-
 			}
 			else if (data->wall == 1 && data->ray_dir_y > 0)
 			{
