@@ -43,6 +43,8 @@
 # define KEY_A 97
 # define KEY_D 100
 
+# define KEY_E 101
+
 # define KEY_UP 65362
 # define KEY_DOWN 65364
 # define KEY_LEFT 65361
@@ -123,6 +125,15 @@ typedef struct s_list
 	char *dest_w;
 	t_screen w;
 
+	void *img_door_close;
+	char *dest_door_close;
+	t_screen door_close;
+
+	void *img_door_open;
+	char *dest_door_open;
+	t_screen door_open;
+
+
 	long start_time;
 	long frame_time;
 
@@ -163,6 +174,8 @@ typedef struct s_list
 	double temp_x;
 	double temp_y;
 
+	int check_door;
+	int is_door;
 }t_all;
 
 char	**ft_open_map(t_all *data, char *filename);

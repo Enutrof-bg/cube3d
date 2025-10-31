@@ -13,6 +13,7 @@
 #include "cube.h"
 
 void raycasting(t_all *data);
+void	my_mlx_pixel_put(t_all *data, int x, int y, int color);
 
 long	get_time_ms(void)
 {
@@ -58,7 +59,6 @@ void	ft_free_double_tab(char **tab)
 	free(tab);
 }
 
-
 int	on_destroy(t_all *data)
 {
 	if (data->img_sol)
@@ -77,6 +77,13 @@ int	on_destroy(t_all *data)
 		mlx_destroy_image(data->mlx, data->img_w);
 	if (data->img.img)
 		mlx_destroy_image(data->mlx, data->img.img);
+
+	if (data->img_door_close)
+		mlx_destroy_image(data->mlx, data->img_door_close);
+
+	if (data->img_door_open)
+		mlx_destroy_image(data->mlx, data->img_door_open);
+
 	// mlx_destroy_window(data->mlx, data->mlx_win);
 	mlx_destroy_window(data->mlx, data->mlx_win_2);
 	mlx_destroy_display(data->mlx);
@@ -98,6 +105,9 @@ void	set_img(t_all *data)
 	data->img_s = NULL;
 	data->img_e = NULL;
 	data->img_w = NULL;
+
+	data->img_door_open = NULL;
+	data->img_door_close = NULL;
 	// ft_get_img_grass(data);
 	// ft_get_img_wall(data);
 	// ft_get_img_char(data);
@@ -173,6 +183,8 @@ void	set_img(t_all *data)
 	data->e.addr = mlx_get_data_addr(data->img_e, &data->e.bits_per_pixel,
 			&data->e.line_length, &data->e.endian);
 
+
+
 	data->dest_w = "./img/w.xpm";
 	data->img_w = mlx_xpm_file_to_image(data->mlx,
 			data->dest_w, &data->texture_width, &data->texture_heigth);
@@ -185,6 +197,32 @@ void	set_img(t_all *data)
 	data->w.addr = mlx_get_data_addr(data->img_w, &data->w.bits_per_pixel,
 			&data->w.line_length, &data->w.endian);
 
+
+
+	data->dest_door_close = "./img/door_close.xpm";
+	data->img_door_close = mlx_xpm_file_to_image(data->mlx,
+			data->dest_door_close, &data->texture_width, &data->texture_heigth);
+	if (!data->img_door_close)
+	{
+		// ft_printf("Error\nXPM file invalid\n");
+		// on_destroy(data);
+		exit(EXIT_FAILURE);
+	}
+	data->door_close.addr = mlx_get_data_addr(data->img_door_close, &data->door_close.bits_per_pixel,
+			&data->door_close.line_length, &data->door_close.endian);
+
+
+	data->dest_door_open = "./img/door_open2.xpm";
+	data->img_door_open = mlx_xpm_file_to_image(data->mlx,
+			data->dest_door_open, &data->texture_width, &data->texture_heigth);
+	if (!data->img_door_open)
+	{
+		// ft_printf("Error\nXPM file invalid\n");
+		// on_destroy(data);
+		exit(EXIT_FAILURE);
+	}
+	data->door_open.addr = mlx_get_data_addr(data->img_door_open, &data->door_open.bits_per_pixel,
+			&data->door_open.line_length, &data->door_open.endian);
 }
 
 void	ft_printf_map(t_all *data)
@@ -219,8 +257,8 @@ void	ft_printf_map(t_all *data)
 	else
 	{
 		i = (int)data->pos_player_y - MAP_SIZE_Y/2;
-		printf("map_heigth:%d pos_y:%f\n", data->map_heigth, data->pos_player_y);
-		printf("debut i3:%d\n", i);
+		// printf("map_heigth:%d pos_y:%f\n", data->map_heigth, data->pos_player_y);
+		// printf("debut i3:%d\n", i);
 	}
 
 	while (data->map[i] && pixel_y < MAP_SIZE_Y)
@@ -277,6 +315,20 @@ void	ft_printf_map(t_all *data)
 		}
 		pixel_y++;
 		map_x++;
+		i++;
+	}
+
+	i = MAP_SIZE_X * data->img_width;
+	j = MAP_SIZE_Y * data->img_width;
+	while (i < MAP_SIZE_X * data->img_width+2)
+	{
+		j = MAP_SIZE_Y * data->img_width;
+		while (j < MAP_SIZE_Y * data->img_width+2)
+		{
+			my_mlx_pixel_put(data, i, j, 0);
+			j++;
+		}
+
 		i++;
 	}
 	// printf("fin i:%d\n", i);
@@ -373,9 +425,111 @@ int check_collision(t_all *data, double x, double y)
 	int_x = (int)x;
 	int_y = (int)y;
 	if (x >= 0 && x < data->map_length	&& y >= 0 && y < data->map_heigth
-		&& data->map[int_y][int_x] != '1')
+		&& data->map[int_y][int_x] != '1' && data->map[int_y][int_x] != 'D')
 		return(0);
 	return (1);
+}
+
+int open_close_door(t_all *data)
+{
+	(void)data;
+	// static int door = 0;
+
+	// door = !door;
+		data->camera_x = 2 * 640 / (double)W - 1;
+		data->ray_dir_x = data->dir_player_x + data->plane_dir_x * data->camera_x;
+		data->ray_dir_y = data->dir_player_y + data->plane_dir_y * data->camera_x;
+
+		data->player_pos_int_x = (int)data->pos_player_x;
+		data->player_pos_int_y = (int)data->pos_player_y;
+
+		if (data->ray_dir_x == 0)
+			data->line_length_x = 1e30;
+		else
+			data->line_length_x = fabs(1 / data->ray_dir_x);
+		if (data->ray_dir_y == 0)
+			data->line_length_y = 1e30;
+		else
+			data->line_length_y = fabs(1 / data->ray_dir_y);
+
+		// print_data(data);
+
+		if (data->ray_dir_x < 0)
+		{
+			data->steps_x = -1;
+			data->distance_x = (data->pos_player_x - data->player_pos_int_x) * data->line_length_x;
+		}
+		else
+		{
+			data->steps_x = 1;
+			data->distance_x = (data->player_pos_int_x +1.0 - data->pos_player_x) * data->line_length_x;
+		}
+		if (data->ray_dir_y < 0)
+		{
+			data->steps_y = -1;
+			data->distance_y = (data->pos_player_y - data->player_pos_int_y) * data->line_length_y;
+		}
+		else
+		{
+			data->steps_y = 1;
+			data->distance_y = (data->player_pos_int_y +1.0 - data->pos_player_y) * data->line_length_y;
+		}
+
+		data->wall = 0;
+		data->contact = 0;
+		data->is_door = 0;
+		while (data->contact == 0 && data->is_door == 0)
+		{
+			if (data->distance_x < data->distance_y)
+			{
+				data->distance_x = data->distance_x + data->line_length_x;
+				data->player_pos_int_x += data->steps_x;
+				data->wall = 0;
+			}
+			else
+			{
+				data->distance_y = data->distance_y + data->line_length_y;
+				data->player_pos_int_y += data->steps_y;
+				data->wall = 1;
+			}
+			if (data->player_pos_int_x < 0 || data->player_pos_int_x >= data->map_length
+				|| data->player_pos_int_y < 0 || data->player_pos_int_y >= data->map_heigth)
+			{
+				break;
+			}
+			if (data->map[data->player_pos_int_y][data->player_pos_int_x] == '1')
+				data->contact = 1;
+
+			if (data->map[data->player_pos_int_y][data->player_pos_int_x] == 'D')
+			{
+				if (data->wall == 0)
+				{
+					data->wall_distance = (data->player_pos_int_x - data->pos_player_x + (1 - data->steps_x)/2) / data->ray_dir_x;
+				}
+				else
+				{
+					data->wall_distance = (data->player_pos_int_y - data->pos_player_y + (1 - data->steps_y)/2) / data->ray_dir_y;
+				}
+				if (data->wall_distance < 3)
+					data->map[data->player_pos_int_y][data->player_pos_int_x] = 'O';
+			}
+
+			else if (data->map[data->player_pos_int_y][data->player_pos_int_x] == 'O')
+			{
+				if (data->wall == 0)
+				{
+					data->wall_distance = (data->player_pos_int_x - data->pos_player_x + (1 - data->steps_x)/2) / data->ray_dir_x;
+				}
+				else
+				{
+					data->wall_distance = (data->player_pos_int_y - data->pos_player_y + (1 - data->steps_y)/2) / data->ray_dir_y;
+				}
+				if (data->wall_distance < 3)
+					data->map[data->player_pos_int_y][data->player_pos_int_x] = 'D';
+			}
+		}
+		return 0;
+	// return (door);
 }
 
 int	on_keypress(int keysym, t_all *data)
@@ -383,6 +537,7 @@ int	on_keypress(int keysym, t_all *data)
 	// static int	count = 0;
 	// char		*temp;
 	// print_data(data);
+	// printf("keysium:%d\n", keysym);
 	if (keysym == KEY_ESC)
 		on_destroy(data);
 	if (keysym == KEY_W)
@@ -406,19 +561,37 @@ int	on_keypress(int keysym, t_all *data)
 			data->temp_y = data->pos_player_y + data->dir_player_y * MS;
 			if (check_collision(data, data->temp_x, data->pos_player_y) == 0)
 			{
-				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
+				// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
+				// data->pos_player_x = data->temp_x;
+				// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
+
+				if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'P')
+					data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
+				else if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'Q')
+					data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'O';
 				data->pos_player_x = data->temp_x;
-				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
+				if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == '0')
+					data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
+				else if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'O')
+					data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'Q';
 			}
 			if (check_collision(data, data->pos_player_x, data->temp_y) == 0)
 			{
-				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
+				// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
+				// data->pos_player_y = data->temp_y;
+				// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
+
+				if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'P')
+					data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
+				else if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'Q')
+					data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'O';
 				data->pos_player_y = data->temp_y;
-				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
+				if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == '0')
+					data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
+				else if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'O')
+					data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'Q';
 			}
-			// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
-			// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
-		// }
+
 	}
 	else if (keysym == KEY_S)
 	{
@@ -444,15 +617,33 @@ int	on_keypress(int keysym, t_all *data)
 		data->temp_y = data->pos_player_y - data->dir_player_y * MS;
 		if (check_collision(data, data->temp_x, data->pos_player_y) == 0)
 		{
-			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
+			// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
+			// data->pos_player_x = data->temp_x;
+			// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
+			if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'P')
+				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
+			else if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'Q')
+				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'O';
 			data->pos_player_x = data->temp_x;
-			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
+			if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == '0')
+				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
+			else if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'O')
+				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'Q';
 		}
 		if (check_collision(data, data->pos_player_x, data->temp_y) == 0)
 		{
-			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
+			// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
+			// data->pos_player_y = data->temp_y;
+			// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
+			if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'P')
+				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
+			else if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'Q')
+				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'O';
 			data->pos_player_y = data->temp_y;
-			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
+			if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == '0')
+				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
+			else if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'O')
+				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'Q';
 		}
 	}
 	else if (keysym == KEY_A)
@@ -480,15 +671,35 @@ int	on_keypress(int keysym, t_all *data)
 		data->temp_y = data->pos_player_y - data->plane_dir_y * MS;
 		if (check_collision(data, data->temp_x, data->pos_player_y) == 0)
 		{
-			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
+			// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
+			// data->pos_player_x = data->temp_x;
+			// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
+
+			if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'P')
+				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
+			else if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'Q')
+				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'O';
 			data->pos_player_x = data->temp_x;
-			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
+			if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == '0')
+				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
+			else if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'O')
+				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'Q';
 		}
 		if (check_collision(data, data->pos_player_x, data->temp_y) == 0)
 		{
-			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
+			// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
+			// data->pos_player_y = data->temp_y;
+			// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
+			if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'P')
+				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
+			else if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'Q')
+				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'O';
 			data->pos_player_y = data->temp_y;
-			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
+			if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == '0')
+				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
+			else if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'O')
+				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'Q';
+
 		}
 	}
 	else if (keysym == KEY_D)
@@ -515,15 +726,34 @@ int	on_keypress(int keysym, t_all *data)
 		data->temp_y = data->pos_player_y + data->plane_dir_y * MS;
 		if (check_collision(data, data->temp_x, data->pos_player_y) == 0)
 		{
-			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
+			// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
+			// data->pos_player_x = data->temp_x;
+			// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
+
+			if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'P')
+				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
+			else if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'Q')
+				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'O';
 			data->pos_player_x = data->temp_x;
-			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
+			if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == '0')
+				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
+			else if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'O')
+				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'Q';
 		}
 		if (check_collision(data, data->pos_player_x, data->temp_y) == 0)
 		{
-			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
+			// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
+			// data->pos_player_y = data->temp_y;
+			// data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
+			if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'P')
+				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = '0';
+			else if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'Q')
+				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'O';
 			data->pos_player_y = data->temp_y;
-			data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
+			if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == '0')
+				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'P';
+			else if (data->map[(int)data->pos_player_y][(int)data->pos_player_x] == 'O')
+				data->map[(int)data->pos_player_y][(int)data->pos_player_x] = 'Q';
 		}
 	}
 	else if (/*keysym == KEY_A || */keysym == KEY_LEFT)
@@ -552,6 +782,15 @@ int	on_keypress(int keysym, t_all *data)
 		data->plane_dir_x = data->plane_dir_x * cos(ROTATE) - data->plane_dir_y * sin(ROTATE);
 		data->plane_dir_y = temp * sin(ROTATE) + data->plane_dir_y * cos(ROTATE);
 	}
+	else if (keysym == KEY_E)
+	{
+		open_close_door(data);
+	}
+
+	// int i = 0;
+	// while (data->map[i])
+	// 	printf("%s\n", data->map[i++]);
+	// printf("\n\n\n");
 	// print_data(data);
 	
 
@@ -618,7 +857,8 @@ void raycasting(t_all *data)
 
 		data->wall = 0;
 		data->contact = 0;
-		while (data->contact == 0)
+		data->is_door = 0;
+		while (data->contact == 0 && data->is_door == 0)
 		{
 			if (data->distance_x < data->distance_y)
 			{
@@ -639,6 +879,30 @@ void raycasting(t_all *data)
 			}
 			if (data->map[data->player_pos_int_y][data->player_pos_int_x] == '1')
 				data->contact = 1;
+
+
+			// if (data->check_door == 1 && pos == 640 && data->map[data->player_pos_int_y][data->player_pos_int_x] == 'D')
+			// {
+			// 	data->map[data->player_pos_int_y][data->player_pos_int_x] = 'O';
+			// 	// data->check_door = 0;
+			// 	data->is_door = 2;
+			// }
+
+
+			if (data->map[data->player_pos_int_y][data->player_pos_int_x] == 'O')
+			{
+				data->is_door = 2;
+			}
+
+
+			if (data->map[data->player_pos_int_y][data->player_pos_int_x] == 'D')
+			{
+				// open_close_door();
+				data->is_door = 1;
+				// data->check_door = 0;
+			}
+
+			 // data->check_door = 0;
 		}
 		// int test;
 		if (data->wall == 0)
@@ -666,15 +930,19 @@ void raycasting(t_all *data)
 
 		int y = 0;
 		unsigned int color;
-		while (y < data->texture_start)
+
+
+
+
+
+
+		// pos < MAP_SIZE_X && y < MAP_SIZE_Y
+		while (y < data->texture_start /* && pos > MAP_SIZE_X && y > MAP_SIZE_Y*/)
 		{
 			// my_mlx_pixel_put(data, pos, y, 0X87CEEB);
 			my_mlx_pixel_put(data, pos, y, 8900331);
 			y++;
 		}
-
-
-
 		int pixel;
 		(void)pixel;
 		// data->ratio_pixel = TEXTURE_SIZE /(data->texture_end - data->texture_start);
@@ -726,7 +994,7 @@ void raycasting(t_all *data)
         double pixel_ratio = (double)TEXTURE_SIZE / data->line_height;
         double texture_pos = (data->texture_start - (H /2) + (data->line_height / 2)) * pixel_ratio;
 
-		while (y < data->texture_end)
+		while (y < data->texture_end /*&& pos > MAP_SIZE_X && y > MAP_SIZE_Y*//* && !(pos < MAP_SIZE_X && y < MAP_SIZE_Y)*/)
 		{
 			// printf("ratio_pixel:%f\n", data->ratio_pixel);
 			int texture_y = (int)texture_pos % TEXTURE_SIZE;
@@ -738,7 +1006,111 @@ void raycasting(t_all *data)
 			
 			color = 0;
 			// dst = data->img.addr + (y * data->img.line_length + x * (data->img.bits_per_pixel / 8));
-			if (data->wall == 1 && data->ray_dir_y > 0)
+
+			//crosshair
+			if (pos > W/2 -3 && pos < W/2+3 && y > H/2-3 && y < H/2+3)
+			{
+				color = 0x0AFF0E;
+			}
+			else if (data->is_door == 1)
+			{
+				color = *(unsigned int*)(data->door_close.addr + (texture_y * data->door_close.line_length + texture_x * ( data->door_close.bits_per_pixel / 8)));
+			}
+			else if (data->is_door == 2)
+			{
+
+				color = *(unsigned int*)(data->door_open.addr + (texture_y * data->door_open.line_length + texture_x * ( data->door_open.bits_per_pixel / 8)));
+				if (color == 0xD84CE6)
+				{
+					color = 0xFFFFFF;
+
+					while (data->contact == 0)
+					{
+						if (data->distance_x < data->distance_y)
+						{
+							data->distance_x = data->distance_x + data->line_length_x;
+							data->player_pos_int_x += data->steps_x;
+							data->wall = 0;
+						}
+						else
+						{
+							data->distance_y = data->distance_y + data->line_length_y;
+							data->player_pos_int_y += data->steps_y;
+							data->wall = 1;
+						}
+						if (data->player_pos_int_x < 0 || data->player_pos_int_x >= data->map_length
+							|| data->player_pos_int_y < 0 || data->player_pos_int_y >= data->map_heigth)
+						{
+							break;
+						}
+						if (data->map[data->player_pos_int_y][data->player_pos_int_x] == '1')
+							data->contact = 1;
+					}
+					if (data->wall == 0)
+					{
+						data->wall_distance = (data->player_pos_int_x - data->pos_player_x + (1 - data->steps_x)/2) / data->ray_dir_x;
+					}
+					else
+					{
+						data->wall_distance = (data->player_pos_int_y - data->pos_player_y + (1 - data->steps_y)/2) / data->ray_dir_y;
+					}
+
+					// int temp_line_height = (int)H / data->wall_distance;
+					int temp_dist = (int)H / data->wall_distance;
+					int temp_start = (H /2) - (temp_dist / 2);
+					if (temp_start < 0)
+						temp_start = 0;
+
+					int temp_end =  (H /2) + (temp_dist / 2);
+					if (temp_end >= H)
+						temp_end = H - 1;
+
+					if (data->wall == 0)
+						data->ratio = data->pos_player_y + data->wall_distance * data->ray_dir_y;
+					else if (data->wall == 1)
+						data->ratio = data->pos_player_x + data->wall_distance * data->ray_dir_x;
+
+					data->ratio -= floor(data->ratio);
+
+					int temp_texture_x = (int)((1 - data->ratio) * (double)TEXTURE_SIZE);
+
+					if ((data->wall == 0 && data->ray_dir_x > 0) || (data->wall == 1 && data->ray_dir_y < 0))
+			            temp_texture_x = TEXTURE_SIZE - temp_texture_x - 1;
+
+			        if (data->ray_dir_x == 0)
+			        	temp_texture_x = (int)((0.1) * (double)TEXTURE_SIZE);
+
+			        double temp_pixel_ratio = (double)TEXTURE_SIZE / temp_dist;
+			        double temp_texture_pos = (temp_start - (H /2) + (temp_dist / 2)) * temp_pixel_ratio;
+
+			        // int temp_texture_y = (int)temp_texture_pos % TEXTURE_SIZE;
+
+					temp_texture_pos = temp_texture_pos + (temp_pixel_ratio * (y - temp_start) );
+					int temp_texture_y = (int)temp_texture_pos % TEXTURE_SIZE;
+					
+					if (y < temp_start)
+					// {
+					// 	my_mlx_pixel_put(data, pos, y, 8900331);
+					// 	y++;
+						color = 8900331;
+					// }
+					else if (y > temp_end)
+						color = 3100463;
+					else if (data->wall == 1 && data->ray_dir_y > 0)
+						color = *(unsigned int*)(data->s.addr + (temp_texture_y * data->s.line_length + temp_texture_x * ( data->s.bits_per_pixel / 8)));
+					else if (data->wall == 1 && data->ray_dir_y < 0)
+						color = *(unsigned int*)(data->n.addr + (temp_texture_y * data->n.line_length + temp_texture_x * ( data->n.bits_per_pixel / 8)));
+					else if (data->wall == 0 && data->ray_dir_x > 0)
+						color = *(unsigned int*)(data->e.addr + (temp_texture_y * data->e.line_length + temp_texture_x * ( data->e.bits_per_pixel / 8)));
+					else if (data->wall == 0 && data->ray_dir_x < 0)
+						color = *(unsigned int*)(data->w.addr + (temp_texture_y * data->w.line_length + temp_texture_x * ( data->w.bits_per_pixel / 8)));
+				}
+
+
+
+
+			}
+			else if (data->wall == 1 && data->ray_dir_y > 0)
 			{
 				// color = data->e.addr[(int)((pixel * data->e.line_length + data->ratio_pixel * TEXTURE_SIZE * ( data->e.bits_per_pixel / 8)))];
 				// // printf("y:%d | ", y);
@@ -790,15 +1162,13 @@ void raycasting(t_all *data)
 				// char *pixel_addr = data->s.addr + (texture_y * data->s.line_length + texture_x * ( data->s.bits_per_pixel / 8));
 				// color = *(unsigned int*)pixel_addr;
 			}
+
 			my_mlx_pixel_put(data, pos, y, color);
 			// my_mlx_pixel_put(data, pos, y, 0);
 			y++;
 		}
 
-
-
-
-		while (y < H)
+		while (y < H/* && !(pos < MAP_SIZE_X && y < MAP_SIZE_Y)*/)
 		{
 			// my_mlx_pixel_put(data, pos, y, 0x2F4F2F);
 			my_mlx_pixel_put(data, pos, y, 3100463);
@@ -830,7 +1200,7 @@ int main(int argc, char **argv)
 		if (set_pos_player(&data) == -1)
 			return (1);
 		// data.start_time = get_time_ms();
-
+		data.check_door = 0;
 		data.mlx = mlx_init();
 		data.mlx_win_2 = mlx_new_window(data.mlx,
 				W, H, "3D");
@@ -858,10 +1228,10 @@ int main(int argc, char **argv)
 		raycasting(&data);
 		ft_printf_map(&data);
 
-		mlx_mouse_hide(data.mlx, data.mlx_win_2);
+		// mlx_mouse_hide(data.mlx, data.mlx_win_2);
 		// mlx_mouse_show(data.mlx, data.mlx_win_2);
-		mlx_loop_hook(data.mlx, &ft_mouse, &data);
-
+		// mlx_loop_hook(data.mlx, &ft_mouse, &data);
+// 
 		mlx_loop(data.mlx);
 	}
 }
