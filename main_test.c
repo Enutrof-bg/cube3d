@@ -748,8 +748,6 @@ void raycasting(t_all *data)
 	pos = 0;
 	while (pos < W)
 	{
-		// my_mlx_pixel_put(data, pos, i, 0x00FF0000);
-
 		data->camera_x = 2 * pos / (double)W - 1;
 		data->ray_dir_x = data->dir_player_x + data->plane_dir_x * data->camera_x;
 		data->ray_dir_y = data->dir_player_y + data->plane_dir_y * data->camera_x;
@@ -827,7 +825,6 @@ void raycasting(t_all *data)
 			{
 				data->is_door = 2;
 			}
-
 
 			if (data->map[data->player_pos_int_y][data->player_pos_int_x] == 'D')
 			{
