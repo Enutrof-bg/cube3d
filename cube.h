@@ -82,10 +82,21 @@ typedef struct s_sprite
 	t_screen	s_screen;
 }t_sprite;
 
+typedef struct s_ratio
+{
+	int texture_x;
+	int texture_y;
+	double texture_pos;
+	double pixel_ratio;
+	int dist;
+	int start;
+	int end;
+}t_ratio;
+
 typedef struct s_list
 {
 	t_sprite anim[15];
-
+	t_ratio r1;
 	double pos_player_x;
 	double pos_player_y;
 	char **map;
@@ -206,6 +217,12 @@ typedef struct s_list
 	int rotate;
 
 	int shoot;
+
+	// int texture_x;
+	// int texture_y;
+	// double texture_pos;
+	// double pixel_ratio;
+
 }t_all;
 
 char	**ft_open_map(t_all *data, char *filename);
