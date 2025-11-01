@@ -702,42 +702,110 @@ int	on_keypress(int keysym, t_all *data)
 	if (keysym == KEY_W)
 	{
 		data->move_x += 1;
-		move_forward(data);
+		// move_forward(data);
 	}
 	else if (keysym == KEY_S)
 	{
 		data->move_x -= 1;
-		move_backward(data);
+		// move_backward(data);
 	}
 	else if (keysym == KEY_A)
 	{
 		data->move_y -= 1;
-		move_left(data);
+		// move_left(data);
 	}
 	else if (keysym == KEY_D)
 	{
 		data->move_y += 1;
-		move_right(data);
+		// move_right(data);
 	}
 	else if (keysym == KEY_LEFT)
 	{
 		data->rotate -= 1;
-		rotate_left(data);
+		// rotate_left(data);
 	}
 	else if (keysym == KEY_RIGHT)
 	{
 		data->rotate += 1;
-		rotate_right(data);
+		// rotate_right(data);
 	}
 	else if (keysym == KEY_E)
 	{
 		open_close_door(data);
 	}
 
-	printf("move: x:%d y:%d rotate: %d\n", data->move_x, data->move_y, data->rotate);
+	// printf("move: x:%d y:%d rotate: %d\n", data->move_x, data->move_y, data->rotate);
 
-	raycasting(data);
+	// raycasting(data);
+	// ft_printf_map(data);
+	return (0);
+}
+
+int	on_keyrelease(int keysym, t_all *data)
+{
+	if (keysym == KEY_ESC)
+		on_destroy(data);
+	if (keysym == KEY_W)
+	{
+		data->move_x = 0;
+		// move_forward(data);
+	}
+	else if (keysym == KEY_S)
+	{
+		data->move_x =0;
+		// move_backward(data);
+	}
+	else if (keysym == KEY_A)
+	{
+		data->move_y = 0;
+		// move_left(data);
+	}
+	else if (keysym == KEY_D)
+	{
+		data->move_y = 0;
+		// move_right(data);
+	}
+	else if (keysym == KEY_LEFT)
+	{
+		data->rotate = 0;
+		// rotate_left(data);
+	}
+	else if (keysym == KEY_RIGHT)
+	{
+		data->rotate = 0;
+		// rotate_right(data);
+	}
+	// else if (keysym == KEY_E)
+	// {
+		// open_close_door(data);
+	// }
+
+	// printf("move: x:%d y:%d rotate: %d\n", data->move_x, data->move_y, data->rotate);
+
+	// raycasting(data);
+	// ft_printf_map(data);
+	return (0);
+}
+
+int ft_move(t_all *data)
+{
+	if (data->move_x >= 1)
+		move_forward(data);
+	if (data->move_x <= -1)
+		move_backward(data);
+	if (data->move_y >= 1)
+		move_right(data);
+	if (data->move_y <= -1) 
+		move_left(data);
+	if (data->rotate >= 1)
+		rotate_right(data);
+	if (data->rotate <= -1)
+		rotate_left(data);
+
+	// printf("time:%ld\n", (get_time_ms() - data->start_time));
+	
 	ft_printf_map(data);
+	raycasting(data);
 	return (0);
 }
 
@@ -763,8 +831,6 @@ void raycasting(t_all *data)
 			data->line_length_y = 1e30;
 		else
 			data->line_length_y = fabs(1 / data->ray_dir_y);
-
-		// print_data(data);
 
 		if (data->ray_dir_x < 0)
 		{
@@ -804,38 +870,21 @@ void raycasting(t_all *data)
 				data->player_pos_int_y += data->steps_y;
 				data->wall = 1;
 			}
+
 			if (data->player_pos_int_x < 0 || data->player_pos_int_x >= data->map_length
 				|| data->player_pos_int_y < 0 || data->player_pos_int_y >= data->map_heigth)
-			{
 				break;
-			}
+
 			if (data->map[data->player_pos_int_y][data->player_pos_int_x] == '1')
 				data->contact = 1;
 
-
-			// if (data->check_door == 1 && pos == 640 && data->map[data->player_pos_int_y][data->player_pos_int_x] == 'D')
-			// {
-			// 	data->map[data->player_pos_int_y][data->player_pos_int_x] = 'O';
-			// 	// data->check_door = 0;
-			// 	data->is_door = 2;
-			// }
-
-
 			if (data->map[data->player_pos_int_y][data->player_pos_int_x] == 'O')
-			{
 				data->is_door = 2;
-			}
 
 			if (data->map[data->player_pos_int_y][data->player_pos_int_x] == 'D')
-			{
-				// open_close_door();
 				data->is_door = 1;
-				// data->check_door = 0;
-			}
 
-			 // data->check_door = 0;
 		}
-		// int test;
 		if (data->wall == 0)
 		{
 			data->wall_distance = (data->player_pos_int_x - data->pos_player_x + (1 - data->steps_x)/2) / data->ray_dir_x;
@@ -861,56 +910,23 @@ void raycasting(t_all *data)
 
 		int y = 0;
 		unsigned int color;
-
-
-
-
-
-
-		// pos < MAP_SIZE_X && y < MAP_SIZE_Y
-		while (y < data->texture_start /* && pos > MAP_SIZE_X && y > MAP_SIZE_Y*/)
+		while (y < data->texture_start)
 		{
 			// my_mlx_pixel_put(data, pos, y, 0X87CEEB);
 			my_mlx_pixel_put(data, pos, y, 8900331);
 			y++;
 		}
-		int pixel;
-		(void)pixel;
-		// data->ratio_pixel = TEXTURE_SIZE /(data->texture_end - data->texture_start);
-		// printf("ratio_pixel:%f\n", data->ratio_pixel);
-
 		if (data->wall == 0)
 		{
 			// data->ratio = (data->distance_x / data->dir_player_y) - (int)data->player_pos_int_x;
 			// data->ratio = (data->distance_y / data->dir_player_x) - (int)data->distance_x;
 			data->ratio = data->pos_player_y + data->wall_distance * data->ray_dir_y;
-			// data->ratio = data->wall_distance;
-			// printf("ratio:%f\n", data->ratio);
-
-
-			// data->ratio_pixel = TEXTURE_SIZE /(data->texture_end - data->texture_start);
-			// printf("ratio_pixel:%f\n", data->ratio_pixel);
-
-			// pixel = (y - data->texture_start) * data->ratio_pixel;
-			// printf("pixel:%d\n", pixel);
-			// color = 16777215;
-			// color = 0x856985;
 		}
 		else
 		{
 			// data->ratio = (data->distance_y / data->dir_player_x) - (int)data->player_pos_int_y;
 			// data->ratio = (data->distance_y / data->dir_player_x) - (int)data->distance_y;
 			data->ratio = data->pos_player_x + data->wall_distance * data->ray_dir_x;
-			// data->ratio = data->wall_distance;
-			// printf("ratio:%f\n", data->ratio);
-
-			// data->ratio_pixel = TEXTURE_SIZE /(data->texture_end - data->texture_start);
-			// printf("ratio_pixel:%f\n", data->ratio_pixel);
-
-			// pixel = (y - data->texture_start) * data->ratio_pixel;
-			// printf("pixel:%d\n", pixel);
-			// color = 0;
-			// color = 0xA19291;
 		}
 		data->ratio -= floor(data->ratio);
 
@@ -925,18 +941,11 @@ void raycasting(t_all *data)
         double pixel_ratio = (double)TEXTURE_SIZE / data->line_height;
         double texture_pos = (data->texture_start - (H /2) + (data->line_height / 2)) * pixel_ratio;
 
-		while (y < data->texture_end /*&& pos > MAP_SIZE_X && y > MAP_SIZE_Y*//* && !(pos < MAP_SIZE_X && y < MAP_SIZE_Y)*/)
+		while (y < data->texture_end)
 		{
-			// printf("ratio_pixel:%f\n", data->ratio_pixel);
 			int texture_y = (int)texture_pos % TEXTURE_SIZE;
 			texture_pos += pixel_ratio;
-
-			// pixel = (y - data->texture_start) * data->ratio_pixel;
-			// // printf("pixel:%f\n", pixel);
-			
-			
 			color = 0;
-			// dst = data->img.addr + (y * data->img.line_length + x * (data->img.bits_per_pixel / 8));
 
 			//crosshair
 			if (pos > W/2 -3 && pos < W/2+3 && y > H/2-3 && y < H/2+3)
@@ -1020,11 +1029,7 @@ void raycasting(t_all *data)
 					int temp_texture_y = (int)temp_texture_pos % TEXTURE_SIZE;
 
 					if (y < temp_start)
-					// {
-					// 	my_mlx_pixel_put(data, pos, y, 8900331);
-					// 	y++;
 						color = 8900331;
-					// }
 					else if (y > temp_end)
 						color = 3100463;
 					else if (data->wall == 1 && data->ray_dir_y > 0)
@@ -1089,13 +1094,10 @@ void raycasting(t_all *data)
 				// char *pixel_addr = data->s.addr + (texture_y * data->s.line_length + texture_x * ( data->s.bits_per_pixel / 8));
 				// color = *(unsigned int*)pixel_addr;
 			}
-
 			my_mlx_pixel_put(data, pos, y, color);
-			// my_mlx_pixel_put(data, pos, y, 0);
 			y++;
 		}
-
-		while (y < H/* && !(pos < MAP_SIZE_X && y < MAP_SIZE_Y)*/)
+		while (y < H)
 		{
 			// my_mlx_pixel_put(data, pos, y, 0x2F4F2F);
 			my_mlx_pixel_put(data, pos, y, 3100463);
@@ -1126,7 +1128,7 @@ int main(int argc, char **argv)
 		data.map = ft_open_map(&data, argv[1]);
 		if (set_pos_player(&data) == -1)
 			return (1);
-		// data.start_time = get_time_ms();
+		data.start_time = get_time_ms();
 		data.check_door = 0;
 		data.mlx = mlx_init();
 		data.mlx_win_2 = mlx_new_window(data.mlx,
@@ -1149,10 +1151,14 @@ int main(int argc, char **argv)
 
 
 		mlx_hook(data.mlx_win_2, 2, 1L<<0, &on_keypress, &data);
+		mlx_hook(data.mlx_win_2, 3, 1L<<1, &on_keyrelease, &data);
+		mlx_loop_hook(data.mlx, &ft_move, &data);
 		// mlx_hook(data.mlx_win_2, 2 , 1L<<0,&on_keypress_side, &data);
 		// mlx_key_hook(data.mlx_win, &on_keypress, &data);
 		mlx_hook(data.mlx_win_2, DestroyNotify,
 			StructureNotifyMask, &on_destroy, &data);
+
+	
 		// mlx_hook(data.mlx_win_2, 6, 1L<<0, &ft_mouse, &data);
 
 

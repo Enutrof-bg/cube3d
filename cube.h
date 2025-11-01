@@ -52,8 +52,8 @@
 
 # define KEY_ESC 65307
 
-# define MS 1
-# define ROTATE 0.05
+# define MS 0.1
+# define ROTATE 0.01
 
 # define TEXTURE_SIZE 256
 # define MAP_SIZE_X 40
