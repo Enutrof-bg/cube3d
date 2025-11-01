@@ -542,10 +542,6 @@ int check_collision(t_all *data, double x, double y)
 
 int open_close_door(t_all *data)
 {
-	(void)data;
-	// static int door = 0;
-
-	// door = !door;
 		data->camera_x = 2 * 640 / (double)W - 1;
 		data->ray_dir_x = data->dir_player_x + data->plane_dir_x * data->camera_x;
 		data->ray_dir_y = data->dir_player_y + data->plane_dir_y * data->camera_x;
@@ -561,9 +557,6 @@ int open_close_door(t_all *data)
 			data->line_length_y = 1e30;
 		else
 			data->line_length_y = fabs(1 / data->ray_dir_y);
-
-		// print_data(data);
-
 		if (data->ray_dir_x < 0)
 		{
 			data->steps_x = -1;
@@ -609,37 +602,26 @@ int open_close_door(t_all *data)
 			}
 			if (data->map[data->player_pos_int_y][data->player_pos_int_x] == '1')
 				data->contact = 1;
-
 			if (data->map[data->player_pos_int_y][data->player_pos_int_x] == 'D')
 			{
 				if (data->wall == 0)
-				{
 					data->wall_distance = (data->player_pos_int_x - data->pos_player_x + (1 - data->steps_x)/2) / data->ray_dir_x;
-				}
 				else
-				{
 					data->wall_distance = (data->player_pos_int_y - data->pos_player_y + (1 - data->steps_y)/2) / data->ray_dir_y;
-				}
 				if (data->wall_distance < 3)
 					data->map[data->player_pos_int_y][data->player_pos_int_x] = 'O';
 			}
-
 			else if (data->map[data->player_pos_int_y][data->player_pos_int_x] == 'O')
 			{
 				if (data->wall == 0)
-				{
 					data->wall_distance = (data->player_pos_int_x - data->pos_player_x + (1 - data->steps_x)/2) / data->ray_dir_x;
-				}
 				else
-				{
 					data->wall_distance = (data->player_pos_int_y - data->pos_player_y + (1 - data->steps_y)/2) / data->ray_dir_y;
-				}
 				if (data->wall_distance < 3)
 					data->map[data->player_pos_int_y][data->player_pos_int_x] = 'D';
 			}
 		}
 		return 0;
-	// return (door);
 }
 
 void ft_move_player_x(t_all *data)
@@ -1085,69 +1067,23 @@ void raycasting(t_all *data)
 				}
 			}
 			else if (data->wall == 1 && data->ray_dir_y > 0)
-			{
-				// color = data->east.s_screen.addr[(int)((pixel * data->east.s_screen.line_length + data->ratio_pixel * TEXTURE_SIZE * ( data->east.s_screen.bits_per_pixel / 8)))];
-				// // printf("y:%d | ", y);
-				// printf("addr:%d\n", (int)((pixel * data->east.s_screen.line_length + data->ratio_pixel * TEXTURE_SIZE * ( data->east.s_screen.bits_per_pixel / 8))));
-				// printf("y:%d | ", y);
-				// color = (data->east.s_screen.addr[(int)((texture_y * data->east.s_screen.line_length + texture_x * ( data->east.s_screen.bits_per_pixel / 8)))]);
-				// color = *(unsigned int*)&(data->east.s_screen.addr[(int)((texture_y * data->east.s_screen.line_length + texture_x * ( data->east.s_screen.bits_per_pixel / 8)))]);
 				color = *(unsigned int*)(data->south.s_screen.addr + (texture_y * data->south.s_screen.line_length + texture_x * ( data->south.s_screen.bits_per_pixel / 8)));
-				// char *pixel_addr = data->east.s_screen.addr + (texture_y * data->east.s_screen.line_length + texture_x * ( data->east.s_screen.bits_per_pixel / 8));
-				// color = *(unsigned int*)pixel_addr;
-			}
-
 			else if (data->wall == 1 && data->ray_dir_y < 0)
-			{
-				// color = *(unsigned int*)&data->west.s_screen.addr[(int)((pixel * data->west.s_screen.line_length + data->ratio_pixel * TEXTURE_SIZE * ( data->west.s_screen.bits_per_pixel / 8)))];
-				// printf("y:%d | ", y);
-				// printf("addr:%d\n", (int)((pixel * data->west.s_screen.line_length + data->ratio_pixel * TEXTURE_SIZE * ( data->west.s_screen.bits_per_pixel / 8))));
-				// color = (data->west.s_screen.addr[(int)((texture_y * data->west.s_screen.line_length + texture_x * ( data->west.s_screen.bits_per_pixel / 8)))]);
-				// color = *(unsigned int*)&(data->west.s_screen.addr[(int)((texture_y * data->west.s_screen.line_length + texture_x * ( data->west.s_screen.bits_per_pixel / 8)))]);
-
 				color = *(unsigned int*)(data->north.s_screen.addr + (texture_y * data->north.s_screen.line_length + texture_x * ( data->north.s_screen.bits_per_pixel / 8)));
-
-				// color = *(unsigned int*)(data->n.addr + (texture_y * data->n.line_length + texture_x * ( data->n.bits_per_pixel / 8)));
-				// char *pixel_addr = data->n.addr + (texture_y * data->n.line_length + texture_x * ( data->n.bits_per_pixel / 8));
-				// color = *(unsigned int*)pixel_addr;
-				// color = 0;
-			}
-
 			else if (data->wall == 0 && data->ray_dir_x > 0)
-			{
-				// color = *(unsigned int*)&data->n.addr[(int)((pixel * data->n.line_length + data->ratio_pixel * TEXTURE_SIZE * ( data->n.bits_per_pixel / 8)))];
-				// printf("y:%d | ", y);
-				// printf("addr:%d\n", (int)((pixel * data->n.line_length + data->ratio_pixel * TEXTURE_SIZE * ( data->n.bits_per_pixel / 8))));
-				// color = (data->n.addr[(int)((texture_y * data->n.line_length + texture_x * ( data->n.bits_per_pixel / 8)))]);
-				// color = *(unsigned int*)&(data->n.addr[(int)((texture_y * data->n.line_length + texture_x * ( data->n.bits_per_pixel / 8)))]);
 				color = *(unsigned int*)(data->east.s_screen.addr + (texture_y * data->east.s_screen.line_length + texture_x * ( data->east.s_screen.bits_per_pixel / 8)));
-				// char *pixel_addr = data->n.addr + (texture_y * data->n.line_length + texture_x * ( data->n.bits_per_pixel / 8));
-				// color = *(unsigned int*)pixel_addr;
-			}
-
 			else if (data->wall == 0 && data->ray_dir_x < 0)
-			{
-				// color = *(unsigned int*)&data->s.addr[(int)((pixel * data->s.line_length + data->ratio_pixel * TEXTURE_SIZE * ( data->s.bits_per_pixel / 8)))];
-				// printf("y:%d | ", y);
-				// printf("addr:%d\n", (int)((pixel * data->s.line_length + data->ratio_pixel * TEXTURE_SIZE * ( data->s.bits_per_pixel / 8))));
-				// color = (data->s.addr[(int)((texture_y * data->s.line_length + texture_x * ( data->s.bits_per_pixel / 8)))]);
-				// color = *(unsigned int*)&(data->s.addr[(int)((texture_y * data->s.line_length + texture_x * ( data->s.bits_per_pixel / 8)))]);
 				color = *(unsigned int*)(data->west.s_screen.addr + (texture_y * data->west.s_screen.line_length + texture_x * ( data->west.s_screen.bits_per_pixel / 8)));
-				// char *pixel_addr = data->s.addr + (texture_y * data->s.line_length + texture_x * ( data->s.bits_per_pixel / 8));
-				// color = *(unsigned int*)pixel_addr;
-			}
 			my_mlx_pixel_put(data, pos, y, color);
 			y++;
 		}
 		while (y < H)
 		{
-			// my_mlx_pixel_put(data, pos, y, 0x2F4F2F);
 			my_mlx_pixel_put(data, pos, y, 3100463);
 			y++;
 		}
 		pos++;
 	}
-	// mlx_put_image_to_window(data->mlx, data->mlx_win_2, data->img.img, 0, 0);
 }
 
 int	ft_mouse(t_all *data)
