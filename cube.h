@@ -52,12 +52,13 @@
 
 # define KEY_ESC 65307
 
-# define MS 0.1
-# define ROTATE 0.01
+# define MS 0.2
+# define ROTATE 0.03
 
 # define TEXTURE_SIZE 256
 # define MAP_SIZE_X 40
 # define MAP_SIZE_Y 40
+# define MASK_MAGENTA 0xD84CE6
 
 # define DEG_TO_RAD(deg) ((deg) * M_PI / 180.0)
 
@@ -71,8 +72,19 @@ typedef struct s_sreen
 
 }t_screen;
 
+typedef struct s_sprite
+{
+	void *img;
+	char *dest;
+	int img_width;
+	int img_heigth;
+	t_screen s_screen;
+}t_sprite;
+
 typedef struct s_list
 {
+	t_sprite anim[15];
+
 	double pos_player_x;
 	double pos_player_y;
 	char **map;
@@ -182,6 +194,8 @@ typedef struct s_list
 	int move_x;
 	int move_y;
 	int rotate;
+
+	int shoot;
 }t_all;
 
 char	**ft_open_map(t_all *data, char *filename);

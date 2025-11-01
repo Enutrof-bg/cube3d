@@ -84,6 +84,13 @@ int	on_destroy(t_all *data)
 	if (data->img_door_open)
 		mlx_destroy_image(data->mlx, data->img_door_open);
 
+	int i = 0;
+	while (i < 15)
+	{
+		if (data->anim[i].img)
+			mlx_destroy_image(data->mlx, data->anim[i].img);
+		i++;
+	}
 	// mlx_destroy_window(data->mlx, data->mlx_win);
 	mlx_destroy_window(data->mlx, data->mlx_win_2);
 	mlx_destroy_display(data->mlx);
@@ -105,15 +112,9 @@ void	set_img(t_all *data)
 	data->img_s = NULL;
 	data->img_e = NULL;
 	data->img_w = NULL;
-
 	data->img_door_open = NULL;
 	data->img_door_close = NULL;
-	// ft_get_img_grass(data);
-	// ft_get_img_wall(data);
-	// ft_get_img_char(data);
-	// ft_get_img_key(data);
-	// ft_get_img_exit(data);
-	// ft_get_img_exit_open(data);
+
 
 	data->dest_sol = "./img/sol2.xpm";
 	data->img_sol = mlx_xpm_file_to_image(data->mlx,
@@ -233,6 +234,50 @@ void	set_img(t_all *data)
 			&data->door_open.line_length, &data->door_open.endian);
 }
 
+void set_img_anim(t_all *data)
+{
+	 static const char *paths[15] = {
+      "./img/anim/anim1.xpm", "./img/anim/anim2.xpm",
+        "./img/anim/anim3.xpm", "./img/anim/anim4.xpm", "./img/anim/anim5.xpm",
+        "./img/anim/anim6.xpm", "./img/anim/anim7.xpm", "./img/anim/anim8.xpm",
+        "./img/anim/anim9.xpm", "./img/anim/anim10.xpm", "./img/anim/anim11.xpm",
+        "./img/anim/anim12.xpm", "./img/anim/anim13.xpm", "./img/anim/anim14.xpm", 
+        "./img/anim/anim15.xpm"
+       }; // tkt
+
+	int i;
+
+	i = 0;
+	while (i < 15)
+	{
+		data->anim[i].dest = (char *)paths[i];
+		data->anim[i].img = mlx_xpm_file_to_image(data->mlx,
+			data->anim[i].dest,
+			&data->anim[i].img_width,
+			&data->anim[i].img_heigth);
+		if (!data->anim[i].img)
+		{
+			printf("Prout %d\n", i);
+			exit(12);
+		}
+        // if (!data->anim[i].img)
+        // {
+		// 	data->anim[i].s_screen.addr = NULL;
+		// 	data->anim[i].img_width = 0;
+		// 	data->anim[i].img_heigth = 0;
+		// }
+		// else
+		// {
+			data->anim[i].s_screen.addr = mlx_get_data_addr(data->anim[i].img,
+				&data->anim[i].s_screen.bits_per_pixel,
+				&data->anim[i].s_screen.line_length,
+				&data->anim[i].s_screen.endian);
+		// }
+		i++;
+	}
+}
+
+
 void	my_mlx_pixel_put(t_all *data, int x, int y, int color)
 {
 	char	*dst;
@@ -254,7 +299,11 @@ int ft_put_xpm_to_img(t_all *data, t_screen img, int x, int y)
 		j = 0;
 		while (j < TILE_SIZE)
 		{
-			color = *(unsigned int*)(img.addr + (j * img.line_length + i * ( img.bits_per_pixel / 8)));
+			// int check = (j * img.line_length + i * ( img.bits_per_pixel / 8));
+			// if (check < 0 || (int)sizeof(unsigned int) > data->anim[i].img_width * data->anim[i].img_heigth)
+			// 	color = 0;
+			// else
+				color = *(unsigned int*)(img.addr + (j * img.line_length + i * ( img.bits_per_pixel / 8)));
 			my_mlx_pixel_put(data, x+i , y+j , color);
 			j++;
 		}
@@ -262,6 +311,55 @@ int ft_put_xpm_to_img(t_all *data, t_screen img, int x, int y)
 	}
 	return (0);
 }
+
+
+int ft_put_anim(t_all *data, t_sprite img, int x, int y)
+{
+	int i;
+	int j;
+	unsigned int	color;
+
+	i = 0;
+	j = 0;
+	while (i < img.img_width)
+	{
+		j = 0;
+		while (j < img.img_heigth)
+		{
+			// int check = (j * img.line_length + i * ( img.bits_per_pixel / 8));
+			// if (check < 0 || (int)sizeof(unsigned int) > data->anim[i].img_width * data->anim[i].img_heigth)
+			// 	color = 0;
+			// else
+			color = *(unsigned int*)(img.s_screen.addr + (j * img.s_screen.line_length + i * ( img.s_screen.bits_per_pixel / 8)));
+			if (color != MASK_MAGENTA)
+				my_mlx_pixel_put(data, x+i , y+j , color);
+			j++;
+		}
+		i++;
+	}
+	return (0);
+}
+
+void ft_print_anim(t_all *data)
+{
+
+	static int frame = 0;
+
+	printf("test0:%d\n", frame);
+	if (frame > 14)
+	{
+		frame = 0;
+		data->shoot = 0;
+		printf("tes1:%d\n", frame);
+	}
+	if (data->shoot == 1)
+	{
+		printf("test2:%d\n", frame);
+		ft_put_anim(data, data->anim[frame], W - data->anim[frame].img_width -100,H - data->anim[frame].img_heigth);
+		frame++;
+	}
+}
+
 
 void	ft_printf_map(t_all *data)
 {
@@ -697,6 +795,7 @@ int rotate_right(t_all *data)
 
 int	on_keypress(int keysym, t_all *data)
 {
+	// printf("key:%d\n", keysym);
 	if (keysym == KEY_ESC)
 		on_destroy(data);
 	if (keysym == KEY_W)
@@ -732,6 +831,10 @@ int	on_keypress(int keysym, t_all *data)
 	else if (keysym == KEY_E)
 	{
 		open_close_door(data);
+	}
+	else if (keysym == 32)
+	{
+		data->shoot = 1;
 	}
 
 	// printf("move: x:%d y:%d rotate: %d\n", data->move_x, data->move_y, data->rotate);
@@ -789,6 +892,17 @@ int	on_keyrelease(int keysym, t_all *data)
 
 int ft_move(t_all *data)
 {
+	static int fps = 0;
+	// static long last;
+	long now = get_time_ms();
+	// last = now;
+
+	long elapsed = now - data->start_time;
+	if (elapsed >= 22)
+	{
+		data->start_time = now;
+		fps++;
+
 	if (data->move_x >= 1)
 		move_forward(data);
 	if (data->move_x <= -1)
@@ -803,9 +917,20 @@ int ft_move(t_all *data)
 		rotate_left(data);
 
 	// printf("time:%ld\n", (get_time_ms() - data->start_time));
-	
-	ft_printf_map(data);
+
+	// ft_printf_map(data);
 	raycasting(data);
+	ft_printf_map(data);
+	ft_print_anim(data);
+
+	mlx_put_image_to_window(data->mlx, data->mlx_win_2, data->img.img, 0, 0);
+	}
+	// else
+	// {
+	// 	long wait_ms = 30 - elapsed;
+	// 	if (wait_ms > 0)
+	// 		ft_usleep(wait_ms * 1000);
+	// }
 	return (0);
 }
 
@@ -960,7 +1085,7 @@ void raycasting(t_all *data)
 			{
 
 				color = *(unsigned int*)(data->door_open.addr + (texture_y * data->door_open.line_length + texture_x * ( data->door_open.bits_per_pixel / 8)));
-				if (color == 0xD84CE6)
+				if (color == MASK_MAGENTA)
 				{
 					color = 0xFFFFFF;
 
@@ -1105,7 +1230,7 @@ void raycasting(t_all *data)
 		}
 		pos++;
 	}
-	mlx_put_image_to_window(data->mlx, data->mlx_win_2, data->img.img, 0, 0);
+	// mlx_put_image_to_window(data->mlx, data->mlx_win_2, data->img.img, 0, 0);
 }
 
 int	ft_mouse(t_all *data)
@@ -1147,8 +1272,9 @@ int main(int argc, char **argv)
 		data.move_y = 0;
 		data.rotate = 0;
 
+		data.shoot = 0;
 		set_img(&data);
-
+		set_img_anim(&data);
 
 		mlx_hook(data.mlx_win_2, 2, 1L<<0, &on_keypress, &data);
 		mlx_hook(data.mlx_win_2, 3, 1L<<1, &on_keyrelease, &data);
