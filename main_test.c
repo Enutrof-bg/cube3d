@@ -345,16 +345,16 @@ void ft_print_anim(t_all *data)
 
 	static int frame = 0;
 
-	printf("test0:%d\n", frame);
+	// printf("test0:%d\n", frame);
 	if (frame > 14)
 	{
 		frame = 0;
 		data->shoot = 0;
-		printf("tes1:%d\n", frame);
+		// printf("tes1:%d\n", frame);
 	}
 	if (data->shoot == 1)
 	{
-		printf("test2:%d\n", frame);
+		// printf("test2:%d\n", frame);
 		ft_put_anim(data, data->anim[frame], W - data->anim[frame].img_width -100,H - data->anim[frame].img_heigth);
 		frame++;
 	}
@@ -1110,6 +1110,10 @@ void raycasting(t_all *data)
 						}
 						if (data->map[data->player_pos_int_y][data->player_pos_int_x] == '1')
 							data->contact = 1;
+						if (data->map[data->player_pos_int_y][data->player_pos_int_x] == 'D')
+							data->contact = 2;
+						if (data->map[data->player_pos_int_y][data->player_pos_int_x] == 'O')
+							data->contact = 3;
 					}
 					if (data->wall == 0)
 					{
@@ -1157,6 +1161,10 @@ void raycasting(t_all *data)
 						color = 8900331;
 					else if (y > temp_end)
 						color = 3100463;
+					else if (data->contact == 2)
+						color = *(unsigned int*)(data->door_close.addr + (temp_texture_y * data->door_close.line_length + temp_texture_x * ( data->door_close.bits_per_pixel / 8)));
+					else if (data->contact == 3)
+						color = *(unsigned int*)(data->door_open.addr + (temp_texture_y * data->door_open.line_length + temp_texture_x * ( data->door_open.bits_per_pixel / 8)));
 					else if (data->wall == 1 && data->ray_dir_y > 0)
 						color = *(unsigned int*)(data->s.addr + (temp_texture_y * data->s.line_length + temp_texture_x * ( data->s.bits_per_pixel / 8)));
 					else if (data->wall == 1 && data->ray_dir_y < 0)
