@@ -53,7 +53,7 @@ clean:
 	ft_strjoin.o \
 	ft_strdup.o \
 	ft_strdup.o \
-	${DIRGNL}/get_next_line.o\
+	${DIRGNL}/get_next_line.o \
 	${DIRGNL}/get_next_line_utils.o
 # 	make fclean -C ft_printf
 # 	make fclean -C minilibx-linux

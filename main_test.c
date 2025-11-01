@@ -828,6 +828,8 @@ void ft_calculate_distance(t_all *data)
 
 void ft_algo_dda(t_all *data)
 {
+	data->contact = 0;
+	data->is_door = 0;
 	while (data->contact == 0 && data->is_door == 0)
 	{
 		if (data->distance_x < data->distance_y)
@@ -888,9 +890,12 @@ void ft_calculate_sprite_ratio(t_all *data, t_ratio *r1)
 }
 
 void ft_render_door(t_all *data, int y, unsigned int *color);
+void ft_dda_continue_door(t_all *data);
 
 void ft_render_door_color(t_all *data, int y, t_ratio *r, unsigned int *color)
 {
+	static int recursive = 0;
+
 	r->texture_pos = r->texture_pos + (r->pixel_ratio * (y - r->start) );
 	r->texture_y = (int)r->texture_pos % TEXTURE_SIZE;
 	if (y < r->start)
@@ -898,15 +903,18 @@ void ft_render_door_color(t_all *data, int y, t_ratio *r, unsigned int *color)
 	else if (y > r->end)
 		*color = 3100463;
 	else if (data->contact == 2)
-	// {
 		*color = *(unsigned int*)(data->door_close.s_screen.addr + (r->texture_y * data->door_close.s_screen.line_length + r->texture_x * ( data->door_close.s_screen.bits_per_pixel / 8)));
-	// 	if (*color == MASK_MAGENTA)
-	// 	{
-	// 		ft_render_door(data, y, color);
-	// 	}
-	// }
 	else if (data->contact == 3)
+	{
 		*color = *(unsigned int*)(data->door_open.s_screen.addr + (r->texture_y * data->door_open.s_screen.line_length + r->texture_x * ( data->door_open.s_screen.bits_per_pixel / 8)));
+		if (*color == MASK_MAGENTA && recursive < 5)
+		{
+            recursive++;
+			data->contact = 0;
+			ft_render_door(data, y, color);
+            recursive--;
+		}
+	}
 	else if (data->wall == 1 && data->ray_dir_y > 0)
 		*color = *(unsigned int*)(data->south.s_screen.addr + (r->texture_y * data->south.s_screen.line_length + r->texture_x * ( data->south.s_screen.bits_per_pixel / 8)));
 	else if (data->wall == 1 && data->ray_dir_y < 0)
@@ -919,6 +927,7 @@ void ft_render_door_color(t_all *data, int y, t_ratio *r, unsigned int *color)
 
 void ft_dda_continue_door(t_all *data)
 {
+	// data->contact = 0;
 	while (data->contact == 0)
 	{
 		if (data->distance_x < data->distance_y)
@@ -948,10 +957,26 @@ void ft_dda_continue_door(t_all *data)
 void ft_render_door(t_all *data, int y, unsigned int *color)
 {
 	t_ratio r;
+	int saved_pos_x = data->player_pos_int_x;
+    int saved_pos_y = data->player_pos_int_y;
+    double saved_dist_x = data->distance_x;
+    double saved_dist_y = data->distance_y;
+    int saved_wall = data->wall;
+    int saved_contact = data->contact;
+
 	ft_dda_continue_door(data);
-	ft_calculate_distance_wall(data, &r);
-	ft_calculate_sprite_ratio(data, &r);
-	ft_render_door_color(data, y, &r, color);
+	if (data->contact != 0)
+	{
+		ft_calculate_distance_wall(data, &r);
+		ft_calculate_sprite_ratio(data, &r);
+		ft_render_door_color(data, y, &r, color);
+	}
+	data->player_pos_int_x = saved_pos_x;
+    data->player_pos_int_y = saved_pos_y;
+    data->distance_x = saved_dist_x;
+    data->distance_y = saved_dist_y;
+    data->wall = saved_wall;
+    data->contact = saved_contact;
 }
 
 void ft_get_color(t_all *data, int y, int pos, unsigned int *color)
