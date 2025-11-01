@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #ifndef CUBE_H
-#define CUBE_H
+# define CUBE_H
 
 // # define _USE_MATH_DEFINES
 
@@ -58,27 +58,28 @@
 # define TEXTURE_SIZE 256
 # define MAP_SIZE_X 40
 # define MAP_SIZE_Y 40
+
 # define MASK_MAGENTA 0xD84CE6
 
 # define DEG_TO_RAD(deg) ((deg) * M_PI / 180.0)
 
 typedef struct s_sreen
 {
-	void *img;
-	char *addr;
-	int bits_per_pixel;
-	int line_length;
-	int endian;
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
 
 }t_screen;
 
 typedef struct s_sprite
 {
-	void *img;
-	char *dest;
-	int img_width;
-	int img_heigth;
-	t_screen s_screen;
+	void		*img;
+	char		*dest;
+	int			img_width;
+	int			img_heigth;
+	t_screen	s_screen;
 }t_sprite;
 
 typedef struct s_list
@@ -111,41 +112,50 @@ typedef struct s_list
 	int texture_width;
 	int texture_heigth;
 
-	void *img_sol;
-	char *dest_sol;
-	t_screen sol_s;
+	// void *img_sol;
+	// char *dest_sol;
+	// t_screen sol_s;
+	t_sprite t_sol;
 
-	void *img_wall;
-	char *dest_wall;
-	t_screen wall_s;
+	// void *img_wall;
+	// char *dest_wall;
+	// t_screen wall_s;
+	t_sprite t_wall;
 
-	void *img_player;
-	char *dest_player;
-	t_screen player_s;
+	// void *img_player;
+	// char *dest_player;
+	// t_screen player_s;
+	t_sprite t_player;
 
-	void *img_n;
-	char *dest_n;
-	t_screen n;
+	// void *img_n;
+	// char *dest_n;
+	// t_screen n;
+	t_sprite north;
 
-	void *img_s;
-	char *dest_s;
-	t_screen s;
+	// void *img_s;
+	// char *dest_s;
+	// t_screen s;
+	t_sprite south;
 
-	void *img_e;
-	char *dest_e;
-	t_screen e;
+	// void *img_e;
+	// char *dest_e;
+	// t_screen e;
+	t_sprite east;
 
-	void *img_w;
-	char *dest_w;
-	t_screen w;
+	// void *img_w;
+	// char *dest_w;
+	// t_screen w;
+	t_sprite west;
 
-	void *img_door_close;
-	char *dest_door_close;
-	t_screen door_close;
+	// void *img_door_close;
+	// char *dest_door_close;
+	// t_screen door_close;
+	t_sprite door_close;
 
-	void *img_door_open;
-	char *dest_door_open;
-	t_screen door_open;
+	// void *img_door_open;
+	// char *dest_door_open;
+	// t_screen door_open;
+	t_sprite door_open;
 
 
 	long start_time;
