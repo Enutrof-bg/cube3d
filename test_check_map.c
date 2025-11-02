@@ -69,7 +69,7 @@ char	*ft_open(char *filename)
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 	{
-		// ft_printf("Error\nFilename invalid\n");
+		ft_printf("Error\nFilename invalid\n");
 		exit(EXIT_FAILURE);
 	}
 	result = ft_strdup("");

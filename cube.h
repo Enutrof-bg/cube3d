@@ -29,6 +29,8 @@
 # include <sys/time.h>
 # include <math.h>
 
+# include "ft_printf/ft_printf.h"
+
 # ifndef M_PI
 #  define M_PI 3.14159265358979323846
 # endif
@@ -61,7 +63,7 @@
 
 # define MASK_MAGENTA 0xD84CE6
 
-# define DEG_TO_RAD(deg) ((deg) * M_PI / 180.0)
+// # define DEG_TO_RAD(deg) ((deg) * M_PI / 180.0)
 
 typedef struct s_sreen
 {
@@ -84,145 +86,116 @@ typedef struct s_sprite
 
 typedef struct s_ratio
 {
-	int texture_x;
-	int texture_y;
-	double texture_pos;
-	double pixel_ratio;
-	int dist;
-	int start;
-	int end;
+	int			texture_x;
+	int			texture_y;
+	double		texture_pos;
+	double		pixel_ratio;
+	int			dist;
+	int			start;
+	int			end;
 }t_ratio;
+
+typedef struct s_save
+{
+	int			saved_pos_x;
+	int			saved_pos_y;
+	double		saved_dist_x;
+	double		saved_dist_y;
+	int			saved_wall;
+	int			saved_contact;
+}t_save;
 
 typedef struct s_list
 {
-	t_sprite anim[15];
-	t_ratio r1;
-	double pos_player_x;
-	double pos_player_y;
-	char **map;
+	t_sprite	anim[15];
+	t_ratio		r1;
+	double		pos_player_x;
+	double		pos_player_y;
+	char		**map;
 
-	double dir_player_x;
-	double dir_player_y;
+	double		dir_player_x;
+	double		dir_player_y;
 
-	double plane_dir_x;
-	double plane_dir_y;
+	double		plane_dir_x;
+	double		plane_dir_y;
 
-	int angle_player;
-	int rotate_speed;
+	int			angle_player;
+	int			rotate_speed;
 
-	void *mlx;
-	void *mlx_win;
-	void *mlx_win_2;
+	void		*mlx;
+	void		*mlx_win;
+	void		*mlx_win_2;
 
-	int map_length;
-	int map_heigth;
+	int			map_length;
+	int			map_heigth;
 
-	int img_width;
-	int img_heigth;
+	int			img_width;
+	int			img_heigth;
 
-	int texture_width;
-	int texture_heigth;
+	int			texture_width;
+	int			texture_heigth;
 
-	// void *img_sol;
-	// char *dest_sol;
-	// t_screen sol_s;
-	t_sprite t_sol;
+	t_sprite	t_sol;
+	t_sprite	t_wall;
+	t_sprite	t_player;
+	t_sprite	north;
+	t_sprite	south;
+	t_sprite	east;
+	t_sprite	west;
+	t_sprite	door_close;
+	t_sprite	door_open;
 
-	// void *img_wall;
-	// char *dest_wall;
-	// t_screen wall_s;
-	t_sprite t_wall;
+	long		start_time;
+	long		frame_time;
 
-	// void *img_player;
-	// char *dest_player;
-	// t_screen player_s;
-	t_sprite t_player;
+	t_screen	img;
+	t_screen	minimap;
 
-	// void *img_n;
-	// char *dest_n;
-	// t_screen n;
-	t_sprite north;
+	double		camera_x;
 
-	// void *img_s;
-	// char *dest_s;
-	// t_screen s;
-	t_sprite south;
+	double		ray_dir_x;
+	double		ray_dir_y;
 
-	// void *img_e;
-	// char *dest_e;
-	// t_screen e;
-	t_sprite east;
+	double		line_length_x;
+	double		line_length_y;
 
-	// void *img_w;
-	// char *dest_w;
-	// t_screen w;
-	t_sprite west;
+	int			steps_x;
+	int			steps_y;
 
-	// void *img_door_close;
-	// char *dest_door_close;
-	// t_screen door_close;
-	t_sprite door_close;
+	double		distance_x;
+	double		distance_y;
 
-	// void *img_door_open;
-	// char *dest_door_open;
-	// t_screen door_open;
-	t_sprite door_open;
+	int			player_pos_int_x;
+	int			player_pos_int_y;
 
+	int			wall;
+	int			contact;
 
-	long start_time;
-	long frame_time;
+	double		wall_distance;
+	double		texture_start;
+	double		texture_end;
+	double		line_height;
 
-	t_screen img;
-	t_screen minimap;
+	double		ratio;
+	double		ratio_pixel;
 
-	double camera_x;
+	int			mouse_x;
+	int			mouse_y;
 
-	double ray_dir_x;
-	double ray_dir_y;
-	
-	double line_length_x;
-	double line_length_y;
+	double		temp_x;
+	double		temp_y;
 
-	int steps_x;
-	int steps_y;
+	int			check_door;
+	int			is_door;
 
-	double distance_x;
-	double distance_y;
+	int			move_x;
+	int			move_y;
+	int			rotate;
 
-	int player_pos_int_x;
-	int player_pos_int_y;
+	int			shoot;
 
-	int wall;
-	int contact;
-
-	double wall_distance;
-	double texture_start;
-	double texture_end;
-	double line_height;
-
-	double ratio;
-	double ratio_pixel;
-
-	int mouse_x;
-	int mouse_y;
-
-	double temp_x;
-	double temp_y;
-
-	int check_door;
-	int is_door;
-
-	int move_x;
-	int move_y;
-	int rotate;
-
-	int shoot;
-
-	// int texture_x;
-	// int texture_y;
-	// double texture_pos;
-	// double pixel_ratio;
-
+	int			pixel_x;
+	int			pixel_y;
 }t_all;
 
 char	**ft_open_map(t_all *data, char *filename);
@@ -230,5 +203,107 @@ char	*ft_itoa(int n);
 char	**ft_split(char *s, char c);
 // char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strdup(char *s);
+
+//ft_free.c
+int		on_destroy(t_all *data);
+int		ft_destroy_image(t_all *data);
+int		ft_destroy_image_anim(t_all *data);
+void	free_map(t_all *data);
+void	ft_clean_mlx(t_all *data);
+
+//ft_print_debug.c
+void	print_data(t_all *data);
+
+//init_texture.c
+void	ft_set_null(t_all *data);
+void	ft_set_img_path(t_all *data);
+int		set_img(t_all *data);
+
+//init_texture_door.c
+int		ft_set_img_door_close(t_all *data);
+int		ft_set_img_door_open(t_all *data);
+
+//init_texture_wall.c
+int		ft_set_img_north(t_all *data);
+int		ft_set_img_south(t_all *data);
+int		ft_set_img_east(t_all *data);
+int		ft_set_img_west(t_all *data);
+
+//init_texture_minimap.c
+int		ft_set_img_sol(t_all *data);
+int		ft_set_img_wall(t_all *data);
+int		ft_set_img_player(t_all *data);
+
+//init_texture_anim.c
+void	set_img_anim(t_all *data);
+
+//init_value.c
+void	ft_init_value(t_all *data);
+
+//ft_time.c
+long	get_time_ms(void);
+long	get_time_micro(void);
+void	ft_usleep(long usec);
+
+//hook.c
+int		on_keypress(int keysym, t_all *data);
+int		on_keyrelease(int keysym, t_all *data);
+int		ft_move(t_all *data);
+void	all_hook(t_all *data);
+//init_dir.c
+int		set_pos_player(t_all *data);
+int		set_dir_player(t_all *data, char dir);
+int		ft_set_dir_2(t_all *data, char dir);
+
+//ft_minimap.c
+void	ft_printf_map(t_all *data);
+int		ft_minimap_i(t_all *data);
+int		ft_minimap_j(t_all *data);
+
+//movement.c
+int		move_forward(t_all *data);
+int		move_backward(t_all *data);
+int		move_left(t_all *data);
+int		move_right(t_all *data);
+
+//movement_rotate.c
+int		rotate_left(t_all *data);
+int		rotate_right(t_all *data);
+
+//movement_side.c
+void	ft_move_player_x(t_all *data);
+void	ft_move_player_y(t_all *data);
+int		check_collision(t_all *data, double new_x, double new_y);
+
+//open_door.c
+int		open_close_door(t_all *data);
+
+//print_pixel.c
+void	my_mlx_pixel_put(t_all *data, int x, int y, int color);
+int		ft_put_xpm_to_img(t_all *data, t_screen img, int x, int y);
+
+//print_anim.c
+int		ft_put_anim(t_all *data, t_sprite img, int x, int y);
+void	ft_print_anim(t_all *data);
+
+//raycasting.c
+void	raycasting(t_all *data);
+
+//raycasting_calculate.c
+void	ft_calculate_ray(t_all *data, int pos);
+void	ft_calculate_distance(t_all *data);
+void	ft_algo_dda(t_all *data);
+void	ft_calculate_distance_wall(t_all *data, t_ratio *r1);
+
+//raycasting_render.c
+void	ft_calculate_sprite_ratio(t_all *data, t_ratio *r1);
+void	ft_render_image(t_all *data, int pos);
+void	ft_get_color(t_all *data, int y, int pos, unsigned int *color);
+void	ft_pick_pixel_color(t_all *data, unsigned int *color,
+			t_sprite ref, t_ratio r1);
+
+//raycasting_door.c
+void	ft_render_door(t_all *data, int y, unsigned int *color);
+void	ft_dda_continue_door(t_all *data);
 
 #endif
