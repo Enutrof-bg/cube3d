@@ -27,27 +27,28 @@ void	ft_render_door_color(t_all *data, int y,
 	static int	recursive = 0;
 
 	r->texture_pos = r->texture_pos + (r->pixel_ratio * (y - r->start));
-	r->texture_y = (int)r->texture_pos % TEXTURE_SIZE;
+	// r->texture_pos = 
+	// r->texture_pos = (r->start - (H / 2) + (r->dist / 2)) * r->pixel_ratio;
 	if (y < r->start)
 		*color = 8900331;
 	else if (y > r->end)
 		*color = 3100463;
 	else if (data->contact == 2)
-		ft_pick_pixel_color(data, color, data->door_close, *r);
+		ft_pick_pixel_color(data, color, data->door_close, r);
 	else if (data->contact == 3)
 	{
-		ft_pick_pixel_color(data, color, data->door_open, *r);
+		ft_pick_pixel_color(data, color, data->door_open, r);
 		if (*color == MASK_MAGENTA && recursive < 5)
 			ft_render_door_recursive(data, y, color, &recursive);
 	}
 	else if (data->wall == 1 && data->ray_dir_y > 0)
-		ft_pick_pixel_color(data, color, data->south, *r);
+		ft_pick_pixel_color(data, color, data->south, r);
 	else if (data->wall == 1 && data->ray_dir_y < 0)
-		ft_pick_pixel_color(data, color, data->north, *r);
+		ft_pick_pixel_color(data, color, data->north, r);
 	else if (data->wall == 0 && data->ray_dir_x > 0)
-		ft_pick_pixel_color(data, color, data->east, *r);
+		ft_pick_pixel_color(data, color, data->east, r);
 	else if (data->wall == 0 && data->ray_dir_x < 0)
-		ft_pick_pixel_color(data, color, data->west, *r);
+		ft_pick_pixel_color(data, color, data->west, r);
 }
 
 void	ft_dda_continue_door(t_all *data)

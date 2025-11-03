@@ -299,8 +299,10 @@ void	ft_calculate_distance_wall(t_all *data, t_ratio *r1);
 void	ft_calculate_sprite_ratio(t_all *data, t_ratio *r1);
 void	ft_render_image(t_all *data, int pos);
 void	ft_get_color(t_all *data, int y, int pos, unsigned int *color);
+// void	ft_pick_pixel_color(t_all *data, unsigned int *color,
+// 			t_sprite ref, t_ratio r1);
 void	ft_pick_pixel_color(t_all *data, unsigned int *color,
-			t_sprite ref, t_ratio r1);
+		t_sprite ref, t_ratio *r1);
 
 //raycasting_door.c
 void	ft_render_door(t_all *data, int y, unsigned int *color);

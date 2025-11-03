@@ -83,6 +83,7 @@ void	ft_clean_mlx(t_all *data)
 
 int	on_destroy(t_all *data)
 {
+	mlx_do_key_autorepeaton(data->mlx);
 	ft_destroy_image(data);
 	ft_destroy_image_anim(data);
 	free_map(data);

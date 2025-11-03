@@ -40,17 +40,17 @@ int	on_keyrelease(int keysym, t_all *data)
 	if (keysym == KEY_ESC)
 		on_destroy(data);
 	if (keysym == KEY_W)
-		data->move_x = 0;
+		data->move_x -= 1;
 	else if (keysym == KEY_S)
-		data->move_x = 0;
+		data->move_x += 1;
 	else if (keysym == KEY_A)
-		data->move_y = 0;
+		data->move_y += 1;
 	else if (keysym == KEY_D)
-		data->move_y = 0;
+		data->move_y-= 1;
 	else if (keysym == KEY_LEFT)
-		data->rotate = 0;
+		data->rotate += 1;
 	else if (keysym == KEY_RIGHT)
-		data->rotate = 0;
+		data->rotate -= 1;
 	return (0);
 }
 
@@ -93,6 +93,7 @@ int	ft_move(t_all *data)
 
 void	all_hook(t_all *data)
 {
+	mlx_do_key_autorepeatoff(data->mlx);
 	mlx_hook(data->mlx_win_2, 2, 1L << 0, &on_keypress, data);
 	mlx_hook(data->mlx_win_2, 3, 1L << 1, &on_keyrelease, data);
 	mlx_loop_hook(data->mlx, &ft_move, data);

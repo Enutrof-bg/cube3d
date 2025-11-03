@@ -14,6 +14,9 @@
 
 void	ft_set_null(t_all *data)
 {
+	int i;
+
+	i = 0;
 	data->t_sol.img = NULL;
 	data->t_wall.img = NULL;
 	data->t_player.img = NULL;
@@ -23,6 +26,11 @@ void	ft_set_null(t_all *data)
 	data->west.img = NULL;
 	data->door_open.img = NULL;
 	data->door_close.img = NULL;
+	while (i < 15)
+	{
+		data->anim[i].img = NULL;
+		i++;
+	}
 }
 
 void	ft_set_img_path(t_all *data)
@@ -30,10 +38,10 @@ void	ft_set_img_path(t_all *data)
 	data->t_sol.dest = "./img/sol2.xpm";
 	data->t_wall.dest = "./img/wall2.xpm";
 	data->t_player.dest = "./img/player2.xpm";
-	data->north.dest = "./img/n.xpm";
-	data->south.dest = "./img/s.xpm";
-	data->east.dest = "./img/e.xpm";
-	data->west.dest = "./img/w.xpm";
+	data->north.dest = "./img/n1.xpm";
+	data->south.dest = "./img/s1.xpm";
+	data->east.dest = "./img/e1.xpm";
+	data->west.dest = "./img/w1.xpm";
 	data->door_close.dest = "./img/door_close.xpm";
 	data->door_open.dest = "./img/door_open2.xpm";
 }

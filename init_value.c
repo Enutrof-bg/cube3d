@@ -25,4 +25,5 @@ void	ft_init_value(t_all *data)
 	data->mlx = NULL;
 	data->mlx_win_2 = NULL;
 	data->img.img = NULL;
+	data->r1.texture_y = 0;
 }
