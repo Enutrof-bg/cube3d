@@ -12,6 +12,23 @@
 
 #include "cube.h"
 
+void ft_count(t_all *data)
+{
+	int i = 0;
+	int len = 0;
+	int temp;
+	while (data->map[i])
+	{
+		temp = ft_strlen(data->map[i]);
+		if (temp > len)
+			len = temp;
+
+		i++;
+	}
+	data->map_length = len;
+	data->map_heigth = i;
+}
+
 void	ft_init_value(t_all *data)
 {
 	data->start_time = get_time_ms();
@@ -26,4 +43,6 @@ void	ft_init_value(t_all *data)
 	data->mlx_win_2 = NULL;
 	data->img.img = NULL;
 	data->r1.texture_y = 0;
+	data->map = data->cub.map;
+	ft_count(data);
 }

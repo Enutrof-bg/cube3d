@@ -51,6 +51,8 @@ int	fill_direction(int index, char *file, t_cub *cub)
 		i++;
 		j++;
 	}
+	if (line[j - 1] == '\n')
+		line[j - 1] = '\0';
 	line[j] = '\0';
 	fill_direction_2(cub, index, line);
 	return (1);

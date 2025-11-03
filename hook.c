@@ -78,6 +78,7 @@ int	ft_move(t_all *data)
 
 	now = get_time_ms();
 	elapsed = now - data->start_time;
+	ft_mouse(data);
 	if (elapsed >= 22)
 	{
 		data->start_time = now;
@@ -87,6 +88,12 @@ int	ft_move(t_all *data)
 		ft_print_anim(data);
 		mlx_put_image_to_window(data->mlx, data->mlx_win_2,
 			data->img.img, 0, 0);
+
+		// int i = 0;
+		// while (data->map[i])
+		// 	printf("%s", data->map[i++]);
+		// printf("\n\n\n");
+		print_data(data);
 	}
 	return (0);
 }
@@ -96,7 +103,14 @@ void	all_hook(t_all *data)
 	mlx_do_key_autorepeatoff(data->mlx);
 	mlx_hook(data->mlx_win_2, 2, 1L << 0, &on_keypress, data);
 	mlx_hook(data->mlx_win_2, 3, 1L << 1, &on_keyrelease, data);
+	mlx_hook(data->mlx_win_2, 6 , 1L << 6, &on_mouse, &data); 
+
+
+	// mlx_mouse_hide(data->mlx, data->mlx_win_2);
+
+	// mlx_loop_hook(data->mlx, &ft_mouse, &data);
 	mlx_loop_hook(data->mlx, &ft_move, data);
+
 	mlx_hook(data->mlx_win_2, DestroyNotify,
 		StructureNotifyMask, &on_destroy, data);
 }

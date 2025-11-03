@@ -32,7 +32,7 @@ void	set_img_anim(t_all *data)
 				data->anim[i].dest, &data->anim[i].img_width,
 				&data->anim[i].img_heigth);
 		if (!data->anim[i].img)
-			return (printf("Prout %d\n", i), exit(12));
+			return (printf("Prout %d\n", i), exit(1));
 		data->anim[i].s_screen.addr = mlx_get_data_addr(data->anim[i].img,
 				&data->anim[i].s_screen.bits_per_pixel,
 				&data->anim[i].s_screen.line_length,

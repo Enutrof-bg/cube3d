@@ -18,6 +18,7 @@ DIRGNL = gnl
 DIRPRINT = ft_printf
 
 INCPRINTF = -Lft_printf -lftprintf
+# INCCUBE = -Lparsing -lCub3d
 
 FILE = main_test.c \
 test_check_map.c \
@@ -50,12 +51,20 @@ ft_print_debug.c \
 hook.c \
 open_door.c \
 init_value.c \
+mouse.c \
 ${DIRGNL}/get_next_line.c \
 ${DIRGNL}/get_next_line_utils.c \
 
-#${DIRGNL}/get_next_line.c ${DIRGNL}/get_next_line_utils.c \
+SRC_PATH = parsing/sources/
+SRC_FILES = check_valid_map_2.c check_valid_map.c free.c get_next_line_utils.c \
+			get_next_line.c init.c main.c parsing_colours.c parsing_directions.c \
+			parsing_loading_map.c parsing_map_char.c parsing_map.c utils.c utils_2.c \
+			check_valid_map_3.c
+SRC = $(addprefix $(SRC_PATH), $(SRC_FILES))
+OBJS = $(patsubst %.c,%.o,$(SRC))
+INCLUDES = -Iincludes
 
-SRC = ${FILE:.c=.o}
+SRC2 = ${FILE:.c=.o}
 
 NAME = cube
 
@@ -64,7 +73,7 @@ ${DIRPRINT}/ft_putnbr.o ${DIRPRINT}/ft_putptr.o ${DIRPRINT}/ft_putunsigned.o
 
 all: ${NAME}
 
-${NAME} : ${SRC} #${FILEPRINTF}
+${NAME} : ${SRC2} ${OBJS}
 	make -C minilibx-linux
 	make -C ft_printf
 	${CC} ${CFLAGS} $^ ${MLX} ${INCPRINTF} -o $@
@@ -73,7 +82,8 @@ ${NAME} : ${SRC} #${FILEPRINTF}
 	${CC} ${CFLAGS} -c $< -o $@
 
 clean:
-	rm -f main_test.o \
+	rm -f $(OBJS) \
+	main_test.o \
 	test_check_map.o \
 	ft_itoa.o \
 	ft_split.o \
@@ -105,6 +115,7 @@ clean:
 	hook.o \
 	open_door.o \
 	init_value.o \
+	mouse.o \
 	${DIRGNL}/get_next_line.o \
 	${DIRGNL}/get_next_line_utils.o
 	make fclean -C ft_printf

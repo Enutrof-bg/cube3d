@@ -14,6 +14,7 @@
 
 void	print_data(t_all *data)
 {
+	printf("\n\n\n");
 	printf("pos_player_x:%f\n", data->pos_player_x);
 	printf("pos_player_y:%f\n", data->pos_player_y);
 	printf("pos_player_x(int):%d\n", (int)data->pos_player_x);

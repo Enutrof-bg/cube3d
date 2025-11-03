@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "cube.h"
+
 int	on_mouse(int x, int y, t_all *data)
 {
 	static int prev_mouse = -200000;
@@ -18,42 +20,47 @@ int	on_mouse(int x, int y, t_all *data)
 		prev_mouse = data->mouse_x;
 		return 0;
 	}
+	// printf("mouse: x:%d y:%d\n", data->mouse_x, data->mouse_y);
+
 	data->mouse_x = x;
     data->mouse_y = y;
-	// printf("ici\n");
-	// printf("DIR = %f\n", data->ray_dir_x);
-	if (/*data->mouse_x < W/2  && */data->mouse_x < prev_mouse) //vers la gauche
+	if (data->mouse_x < prev_mouse) //vers la gauche
 	{
-		// printf("1\n");
+		// rotate_left(data);
+		printf("test");
 		double temp;
-		data->angle_player = (data->angle_player - data->rotate_speed) % 180;
 
 		temp = data->dir_player_x;
-		data->dir_player_x = data->dir_player_x * cos(-ROTATE_M) - data->dir_player_y * sin(-ROTATE_M);
-		data->dir_player_y = temp * sin(-ROTATE_M) + data->dir_player_y * cos(-ROTATE_M);
+		data->dir_player_x = data->dir_player_x * cos(-ROTATE) - data->dir_player_y * sin(-ROTATE);
+		data->dir_player_y = temp * sin(-ROTATE) + data->dir_player_y * cos(-ROTATE);
+		// temp = data->plane_dir_x;
+		// data->plane_dir_x = data->plane_dir_x * cos(-ROTATE) - data->plane_dir_y * sin(-ROTATE);
+		// data->plane_dir_y = temp * sin(-ROTATE) + data->plane_dir_y * cos(-ROTATE);
 
-		temp = data->plane_dir_x;
-		data->plane_dir_x = data->plane_dir_x * cos(-ROTATE_M) - data->plane_dir_y * sin(-ROTATE_M);
-		data->plane_dir_y = temp * sin(-ROTATE_M) + data->plane_dir_y * cos(-ROTATE_M);
+		// double temp;
+
+		// temp = data->dir_player_x;
+		// data->dir_player_x = data->dir_player_x * cos(-ROTATE * 0.1) - data->dir_player_y * sin(-ROTATE * 0.1);
+		// data->dir_player_y = temp * sin(-ROTATE) + data->dir_player_y * cos(-ROTATE);
+
+		// // temp = data->plane_dir_x;
+		// // data->plane_dir_x = data->plane_dir_x * cos(-ROTATE * 0.1) - data->plane_dir_y * sin(-ROTATE * 0.1);
+		// // data->plane_dir_y = temp * sin(-ROTATE * 0.1) + data->plane_dir_y * cos(-ROTATE * 0.1);
 	}
-	else if (/*data->mouse_x > W/2*/ data->mouse_x > prev_mouse) //vers la droite
+	else if (data->mouse_x > prev_mouse) //vers la droite
 	{
-		// printf("1\n");
-		double temp;
-		data->angle_player = (data->angle_player + data->rotate_speed) % 180;
+		// rotate_right(data);
+		// double temp;
 
-		temp = data->dir_player_x;
-		data->dir_player_x = data->dir_player_x * cos(ROTATE_M) - data->dir_player_y * sin(ROTATE_M);
-		data->dir_player_y = temp * sin(ROTATE_M) + data->dir_player_y * cos(ROTATE_M);
+		// temp = data->dir_player_x;
+		// data->dir_player_x = data->dir_player_x * cos(ROTATE) - data->dir_player_y * sin(ROTATE);
+		// data->dir_player_y = temp * sin(ROTATE) + data->dir_player_y * cos(ROTATE);
 
-		temp = data->plane_dir_x;
-		data->plane_dir_x = data->plane_dir_x * cos(ROTATE_M) - data->plane_dir_y * sin(ROTATE_M);
-		data->plane_dir_y = temp * sin(ROTATE_M) + data->plane_dir_y * cos(ROTATE_M);
+		// temp = data->plane_dir_x;
+		// data->plane_dir_x = data->plane_dir_x * cos(ROTATE) - data->plane_dir_y * sin(ROTATE);
+		// data->plane_dir_y = temp * sin(ROTATE) + data->plane_dir_y * cos(ROTATE);
 	}
 	prev_mouse = x;
-	// print_data(data);
-	raycasting(data);
-	ft_printf_map(data);
 	return (0);
 }
 
@@ -78,7 +85,7 @@ int	ft_mouse(t_all *data)
 		// mlx_mouse_move(data->mlx, data->mlx_win_2, W/2, H/2);
 	return (1);
 }
-
+/*
 int main(int argc, char **argv)
 {
 	t_all data;
@@ -126,3 +133,4 @@ int main(int argc, char **argv)
 		mlx_loop(data.mlx);
 	}
 }
+*/

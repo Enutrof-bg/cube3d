@@ -17,7 +17,7 @@
 
 # include "minilibx-linux/mlx.h"
 # include "minilibx-linux/mlx_int.h"
-# include "gnl/get_next_line.h"
+// # include "gnl/get_next_line.h"
 # include <stdlib.h>
 # include <time.h>
 # include <stdio.h>
@@ -30,6 +30,9 @@
 # include <math.h>
 
 # include "ft_printf/ft_printf.h"
+# include "parsing/includes/cub3d.h"
+# include "parsing/includes/get_next_line.h"
+
 
 # ifndef M_PI
 #  define M_PI 3.14159265358979323846
@@ -57,13 +60,32 @@
 # define MS 0.2
 # define ROTATE 0.03
 
-# define TEXTURE_SIZE 256
+// # define TEXTURE_SIZE 64
 # define MAP_SIZE_X 40
 # define MAP_SIZE_Y 40
 
 # define MASK_MAGENTA 0xD84CE6
 
 // # define DEG_TO_RAD(deg) ((deg) * M_PI / 180.0)
+
+typedef struct s_cub
+{
+	char    **file; //idee de tout recup de base puis de separer entre le double tab map et info_map pour les gerer separement
+	char    **map;
+	char    **info_map;
+	int     line_info;
+	int     line_total;
+	
+	char    *NO;
+	char    *SO;
+	char    *WE;
+	char    *EA;
+	int     *F;
+	int     *C;
+	char    *floor;
+	char    *celling;
+	
+}t_cub;
 
 typedef struct s_sreen
 {
@@ -107,6 +129,8 @@ typedef struct s_save
 
 typedef struct s_list
 {
+	t_cub cub;
+	
 	t_sprite	anim[15];
 	t_ratio		r1;
 	double		pos_player_x;
@@ -198,11 +222,11 @@ typedef struct s_list
 	int			pixel_y;
 }t_all;
 
-char	**ft_open_map(t_all *data, char *filename);
+// char	**ft_open_map_2(t_all *data, char *filename);
 char	*ft_itoa(int n);
-char	**ft_split(char *s, char c);
+// char	**ft_split(char *s, char c);
 // char	*ft_strjoin(char *s1, char *s2);
-char	*ft_strdup(char *s);
+// char	*ft_strdup(const char *s1);
 
 //ft_free.c
 int		on_destroy(t_all *data);
@@ -214,7 +238,7 @@ void	ft_clean_mlx(t_all *data);
 //ft_print_debug.c
 void	print_data(t_all *data);
 
-//init_texture.c
+//init_.c
 void	ft_set_null(t_all *data);
 void	ft_set_img_path(t_all *data);
 int		set_img(t_all *data);
@@ -307,5 +331,79 @@ void	ft_pick_pixel_color(t_all *data, unsigned int *color,
 //raycasting_door.c
 void	ft_render_door(t_all *data, int y, unsigned int *color);
 void	ft_dda_continue_door(t_all *data);
+
+
+int	on_mouse(int x, int y, t_all *data);
+int	ft_mouse(t_all *data);
+
+int ft_open_map(t_all *data, char *filename);
+
+//parsing_map
+bool	load_and_check(t_cub *cub);
+bool	check_general(t_cub *cub);
+
+//parsing_map_char
+bool	floor_celling(char c); 
+bool	player_char(char c);
+bool	check_map_char(t_cub *cub);
+bool	valid_char(char c);
+
+//utils
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
+int		double_tab_lenght(char **tab);
+int		ft_atoi(char *str);
+int		nb_line_info(char **file, t_cub *cub);
+int		nb_line(char *file, t_cub *cub);
+
+//check_valid_map
+bool	check_zero_leak(t_cub *cub);
+bool	check_sides(t_cub *cub);
+bool	check_map_spaces(t_cub *cub);
+bool	check_map(t_cub *cub);
+bool	check_map_2(char *str);
+
+//parsing_colours
+bool	check_numbers(int *tab);
+bool	check_rgb_str(char *str);
+int		check_rgb_str_2(t_cub *cub);
+void	ft_check_colours_1(t_cub *cub);
+void	ft_check_colours_2(t_cub *cub);
+
+//check_valid_map_2
+int		fill_floor_celling(int index, char *file, t_cub *cub);
+void	fill_floor_celling_2(t_cub *cub, int index, char *line);
+char	*skip_space(char *str);
+int		is_valid(char *file);
+bool	check_name(char *file);
+
+//check_valid_map_3
+void	check_valide_space_2(t_cub **cub, int i, int j, int k);
+void	check_valid_space(t_cub **cub, int f);
+
+//parsing_directions
+void	fill_direction_2(t_cub *cub, int index, char *line);
+int		fill_direction(int index,char *file, t_cub *cub);
+int		directions_texture(char **file, t_cub *cub);
+
+//parsing_loading_map
+char	**load_file(char *file, t_cub *cub);
+char	**load_info(char **file, t_cub *cub);
+char	**load_map(char **file, t_cub *cub);
+
+
+//free
+void    ft_free_tab(char **tab);
+void    ft_free_all(t_cub *cub);
+void    ft_free_all_2(t_cub *cub);
+void    ft_free_all_3(t_cub *cub);
+
+//init
+int    init_all(t_cub *cub);
+
+int		ft_count_word(char const *s, char c);
+char	*ft_malloc(char const *s, int start, int end);
+char	**ft_split(char const *s, char c);
+void	ft_free_all_split(char **tab, int last);
+int		extern_loop(const char *s, int i, char c, int flag);
 
 #endif

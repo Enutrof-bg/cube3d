@@ -20,6 +20,7 @@ int	ft_set_img_north(t_all *data)
 	if (!data->north.img)
 	{
 		ft_printf("Error\nXPM file invalid\n");
+		ft_printf("'%s'", data->north.dest);
 		on_destroy(data);
 		exit(EXIT_FAILURE);
 	}

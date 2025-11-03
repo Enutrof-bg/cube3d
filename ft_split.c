@@ -10,109 +10,109 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cube.h"
+// #include "cube.h"
 
-static size_t	ft_count_word(char *str, char c)
-{
-	size_t	i;
-	size_t	count;
+// static size_t	ft_count_word(char *str, char c)
+// {
+// 	size_t	i;
+// 	size_t	count;
 
-	count = 0;
-	i = 0;
-	while (str[i] != '\0')
-	{
-		while (str[i] == c)
-			i++;
-		if (str[i] != c && str[i] != '\0')
-		{
-			count++;
-			while (str[i] != c && str[i] != '\0')
-			{
-				i++;
-			}
-		}
-	}
-	return (count);
-}
+// 	count = 0;
+// 	i = 0;
+// 	while (str[i] != '\0')
+// 	{
+// 		while (str[i] == c)
+// 			i++;
+// 		if (str[i] != c && str[i] != '\0')
+// 		{
+// 			count++;
+// 			while (str[i] != c && str[i] != '\0')
+// 			{
+// 				i++;
+// 			}
+// 		}
+// 	}
+// 	return (count);
+// }
 
-static char	*ft_add(char *str, char *src, char c)
-{
-	size_t	i;
+// static char	*ft_add(char *str, char *src, char c)
+// {
+// 	size_t	i;
 
-	i = 0;
-	while (src[i] != '\0' && src[i] != c)
-	{
-		str[i] = src[i];
-		i++;
-	}
-	str[i] = '\0';
-	return (str);
-}
+// 	i = 0;
+// 	while (src[i] != '\0' && src[i] != c)
+// 	{
+// 		str[i] = src[i];
+// 		i++;
+// 	}
+// 	str[i] = '\0';
+// 	return (str);
+// }
 
-static char	**ft_string_malloc(char **new_tab, size_t j, size_t index)
-{
-	new_tab[index] = malloc(sizeof(char) * (j + 1));
-	if (!new_tab[index])
-	{
-		while (index > 0)
-		{
-			index--;
-			free(new_tab[index]);
-		}
-		free(new_tab);
-		return (NULL);
-	}
-	return (new_tab);
-}
+// static char	**ft_string_malloc(char **new_tab, size_t j, size_t index)
+// {
+// 	new_tab[index] = malloc(sizeof(char) * (j + 1));
+// 	if (!new_tab[index])
+// 	{
+// 		while (index > 0)
+// 		{
+// 			index--;
+// 			free(new_tab[index]);
+// 		}
+// 		free(new_tab);
+// 		return (NULL);
+// 	}
+// 	return (new_tab);
+// }
 
-static char	**ft_word_split(char *str, char c, char **new_tab, size_t index)
-{
-	size_t	i;
-	size_t	j;
+// static char	**ft_word_split(char *str, char c, char **new_tab, size_t index)
+// {
+// 	size_t	i;
+// 	size_t	j;
 
-	i = 0;
-	j = 0;
-	while (str[i] != '\0')
-	{
-		if (str[i] == c)
-			i++;
-		else
-		{
-			if (str[i + j] == c || str[i + j] == '\0')
-			{
-				new_tab = ft_string_malloc(new_tab, j, index);
-				if (new_tab == NULL)
-					return (NULL);
-				new_tab[index] = ft_add(new_tab[index], &str[i], c);
-				index++;
-				i = i + j;
-				j = 0;
-			}
-			j++;
-		}
-	}
-	return (new_tab);
-}
+// 	i = 0;
+// 	j = 0;
+// 	while (str[i] != '\0')
+// 	{
+// 		if (str[i] == c)
+// 			i++;
+// 		else
+// 		{
+// 			if (str[i + j] == c || str[i + j] == '\0')
+// 			{
+// 				new_tab = ft_string_malloc(new_tab, j, index);
+// 				if (new_tab == NULL)
+// 					return (NULL);
+// 				new_tab[index] = ft_add(new_tab[index], &str[i], c);
+// 				index++;
+// 				i = i + j;
+// 				j = 0;
+// 			}
+// 			j++;
+// 		}
+// 	}
+// 	return (new_tab);
+// }
 
-char	**ft_split(char *s, char c)
-{
-	char	**new_tab;
-	size_t	index;
-	size_t	len;
+// char	**ft_split(char *s, char c)
+// {
+// 	char	**new_tab;
+// 	size_t	index;
+// 	size_t	len;
 
-	len = ft_count_word((char *)s, c);
-	index = 0;
-	if (s == NULL)
-		return (NULL);
-	new_tab = (char **)malloc(sizeof(char *) * (len + 1));
-	if (new_tab == NULL)
-		return (NULL);
-	new_tab = ft_word_split((char *)s, c, new_tab, index);
-	if (!new_tab)
-		return (NULL);
-	new_tab[len] = 0;
-	return (new_tab);
-}
+// 	len = ft_count_word((char *)s, c);
+// 	index = 0;
+// 	if (s == NULL)
+// 		return (NULL);
+// 	new_tab = (char **)malloc(sizeof(char *) * (len + 1));
+// 	if (new_tab == NULL)
+// 		return (NULL);
+// 	new_tab = ft_word_split((char *)s, c, new_tab, index);
+// 	if (!new_tab)
+// 		return (NULL);
+// 	new_tab[len] = 0;
+// 	return (new_tab);
+// }
 
 /*
 int main()

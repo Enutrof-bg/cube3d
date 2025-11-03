@@ -12,23 +12,23 @@
 
 #include "cube.h"
 
-char	*ft_strdup(char *s)
-{
-	char	*newstr;
-	int		i;
+// char	*ft_strdup(char *s)
+// {
+// 	char	*newstr;
+// 	int		i;
 
-	i = 0;
-	newstr = malloc(sizeof(char) * ft_strlen(s) + 1);
-	if (newstr == NULL)
-		return (NULL);
-	while (s[i] != '\0')
-	{
-		newstr[i] = s[i];
-		i++;
-	}
-	newstr[i] = '\0';
-	return (newstr);
-}
+// 	i = 0;
+// 	newstr = malloc(sizeof(char) * ft_strlen(s) + 1);
+// 	if (newstr == NULL)
+// 		return (NULL);
+// 	while (s[i] != '\0')
+// 	{
+// 		newstr[i] = s[i];
+// 		i++;
+// 	}
+// 	newstr[i] = '\0';
+// 	return (newstr);
+// }
 /*
 int main()
 {	
