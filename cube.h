@@ -84,6 +84,8 @@ typedef struct s_cub
 	int     *C;
 	char    *floor;
 	char    *celling;
+	int		rgb_floor;
+	int		rgb_celling;
 	
 }t_cub;
 
@@ -129,6 +131,9 @@ typedef struct s_save
 
 typedef struct s_list
 {
+	int ceiling;
+	int floor;
+
 	t_cub cub;
 	
 	t_sprite	anim[15];

@@ -30,9 +30,9 @@ void	ft_render_door_color(t_all *data, int y,
 	// r->texture_pos = 
 	// r->texture_pos = (r->start - (H / 2) + (r->dist / 2)) * r->pixel_ratio;
 	if (y < r->start)
-		*color = 8900331;
+		*color = data->ceiling;
 	else if (y > r->end)
-		*color = 3100463;
+		*color = data->floor;
 	else if (data->contact == 2)
 		ft_pick_pixel_color(data, color, data->door_close, r);
 	else if (data->contact == 3)

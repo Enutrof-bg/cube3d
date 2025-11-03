@@ -44,5 +44,8 @@ void	ft_init_value(t_all *data)
 	data->img.img = NULL;
 	data->r1.texture_y = 0;
 	data->map = data->cub.map;
+	data->ceiling = (data->cub.C[0] << 16) + (data->cub.C[1] << 8) + (data->cub.C[2]);
+	data->floor = (data->cub.F[0] << 16) + (data->cub.F[1] << 8) + (data->cub.F[2]);
+	printf("%d %d\n", data->ceiling, data->floor);
 	ft_count(data);
 }

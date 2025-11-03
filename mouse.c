@@ -24,41 +24,34 @@ int	on_mouse(int x, int y, t_all *data)
 
 	data->mouse_x = x;
     data->mouse_y = y;
+	// usleep(1000);
 	if (data->mouse_x < prev_mouse) //vers la gauche
 	{
 		// rotate_left(data);
-		printf("test");
+		// printf("test");
 		double temp;
 
 		temp = data->dir_player_x;
 		data->dir_player_x = data->dir_player_x * cos(-ROTATE) - data->dir_player_y * sin(-ROTATE);
 		data->dir_player_y = temp * sin(-ROTATE) + data->dir_player_y * cos(-ROTATE);
-		// temp = data->plane_dir_x;
-		// data->plane_dir_x = data->plane_dir_x * cos(-ROTATE) - data->plane_dir_y * sin(-ROTATE);
-		// data->plane_dir_y = temp * sin(-ROTATE) + data->plane_dir_y * cos(-ROTATE);
-
-		// double temp;
-
-		// temp = data->dir_player_x;
-		// data->dir_player_x = data->dir_player_x * cos(-ROTATE * 0.1) - data->dir_player_y * sin(-ROTATE * 0.1);
-		// data->dir_player_y = temp * sin(-ROTATE) + data->dir_player_y * cos(-ROTATE);
-
-		// // temp = data->plane_dir_x;
-		// // data->plane_dir_x = data->plane_dir_x * cos(-ROTATE * 0.1) - data->plane_dir_y * sin(-ROTATE * 0.1);
-		// // data->plane_dir_y = temp * sin(-ROTATE * 0.1) + data->plane_dir_y * cos(-ROTATE * 0.1);
+		
+		temp = data->plane_dir_x;
+		data->plane_dir_x = data->plane_dir_x * cos(-ROTATE) - data->plane_dir_y * sin(-ROTATE);
+		data->plane_dir_y = temp * sin(-ROTATE) + data->plane_dir_y * cos(-ROTATE);
 	}
 	else if (data->mouse_x > prev_mouse) //vers la droite
 	{
 		// rotate_right(data);
-		// double temp;
+		// printf("asd");
+		double temp;
 
-		// temp = data->dir_player_x;
-		// data->dir_player_x = data->dir_player_x * cos(ROTATE) - data->dir_player_y * sin(ROTATE);
-		// data->dir_player_y = temp * sin(ROTATE) + data->dir_player_y * cos(ROTATE);
+		temp = data->dir_player_x;
+		data->dir_player_x = data->dir_player_x * cos(ROTATE) - data->dir_player_y * sin(ROTATE);
+		data->dir_player_y = temp * sin(ROTATE) + data->dir_player_y * cos(ROTATE);
 
-		// temp = data->plane_dir_x;
-		// data->plane_dir_x = data->plane_dir_x * cos(ROTATE) - data->plane_dir_y * sin(ROTATE);
-		// data->plane_dir_y = temp * sin(ROTATE) + data->plane_dir_y * cos(ROTATE);
+		temp = data->plane_dir_x;
+		data->plane_dir_x = data->plane_dir_x * cos(ROTATE) - data->plane_dir_y * sin(ROTATE);
+		data->plane_dir_y = temp * sin(ROTATE) + data->plane_dir_y * cos(ROTATE);
 	}
 	prev_mouse = x;
 	return (0);
@@ -71,15 +64,15 @@ int	ft_mouse(t_all *data)
 
 	// data->mouse_x = W /2;
 	// data->mouse_y = H/2;
-	if (data->mouse_x  < 0 || data->mouse_y < -37 || data->mouse_x > W || data->mouse_y > H)
+	if (data->mouse_x  < 5 || data->mouse_y < -37 || data->mouse_x > W-5 || data->mouse_y > H -5)
 	{
-		if (data->mouse_x  <= 0)
+		if (data->mouse_x  <= 5)
 			mlx_mouse_move(data->mlx, data->mlx_win_2,W/2, H/2);
 		if (data->mouse_y < -37)
 			mlx_mouse_move(data->mlx, data->mlx_win_2, W/2, H/2);
 		if (data->mouse_x > W)
 			mlx_mouse_move(data->mlx, data->mlx_win_2, W/2, H/2);
-		if (data->mouse_y > H )
+		if (data->mouse_y > H -5)
 			mlx_mouse_move(data->mlx, data->mlx_win_2, W/2, H/2);
 	}	
 		// mlx_mouse_move(data->mlx, data->mlx_win_2, W/2, H/2);

@@ -107,7 +107,7 @@ void	ft_render_image(t_all *data, int pos)
 
 	y = 0;
 	while (y < data->r1.start)
-		my_mlx_pixel_put(data, pos, y++, 8900331);
+		my_mlx_pixel_put(data, pos, y++, data->ceiling);
 	ft_calculate_sprite_ratio(data, &data->r1);
 	while (y < data->r1.end)
 	{
@@ -116,5 +116,5 @@ void	ft_render_image(t_all *data, int pos)
 		my_mlx_pixel_put(data, pos, y++, color);
 	}
 	while (y < H)
-		my_mlx_pixel_put(data, pos, y++, 3100463);
+		my_mlx_pixel_put(data, pos, y++, data->floor);
 }
