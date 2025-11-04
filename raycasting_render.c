@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting_render.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kevwang <kevwang@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vafavard <vafavard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/02 14:33:51 by kevwang           #+#    #+#             */
-/*   Updated: 2025/11/02 14:33:52 by kevwang          ###   ########.fr       */
+/*   Updated: 2025/11/04 18:06:43 by vafavard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ void	ft_calculate_sprite_ratio(t_all *data, t_ratio *r1)
 	if ((data->wall == 0 && data->ray_dir_x > 0)
 		|| (data->wall == 1 && data->ray_dir_y < 0))
 		r1->texture_x = temp.img_width - r1->texture_x - 1;
-	if (data->ray_dir_x == 0)
-		r1->texture_x = (int)((0.1) * (double)temp.img_width);
+	// if (data->ray_dir_x == 0)
+	// 	r1->texture_x = (int)((0.1) * (double)temp.img_width);
 	r1->pixel_ratio = (double)temp.img_heigth / (double)r1->dist;
 	r1->texture_pos = (r1->start - (H / 2)
 			+ ((double)r1->dist / 2)) * r1->pixel_ratio;
@@ -61,10 +61,33 @@ void	ft_pick_pixel_color(t_all *data, unsigned int *color,
 		t_sprite ref, t_ratio *r1)
 {
 	(void)data;
-	r1->texture_y = (int)(r1->texture_pos) % ref.img_heigth;
+
+	/* compute texture y from the floating texture_pos and clamp */
+	int tex_y = (int)floor(r1->texture_pos);
+	if (tex_y < 0)
+		tex_y = 0;
+	if (tex_y >= ref.img_heigth)
+		tex_y = ref.img_heigth - 1;
+	/* ensure texture_x is inside texture width */
+	int tex_x = r1->texture_x;
+	if (tex_x < 0)
+		tex_x = 0;
+	if (tex_x >= ref.img_width)
+		tex_x = ref.img_width - 1;
+
+	r1->texture_y = tex_y;
+	r1->texture_x = tex_x;
+
+	/* guard against missing image data */
+	if (!ref.s_screen.addr || ref.s_screen.line_length <= 0)
+	{
+		*color = 0x000000; /* fallback black */
+		return ;
+	}
+
 	*color = *(unsigned int *)(ref.s_screen.addr
-			+ (r1->texture_y * ref.s_screen.line_length
-				+ r1->texture_x * (ref.s_screen.bits_per_pixel / 8)));
+		+ (tex_y * ref.s_screen.line_length
+			+ tex_x * (ref.s_screen.bits_per_pixel / 8)));
 }
 
 void	ft_get_color(t_all *data, int y, int pos, unsigned int *color)
