@@ -22,9 +22,6 @@ INCPRINTF = -Lft_printf -lftprintf
 
 FILE = main_test.c \
 ft_itoa.c \
-ft_split.c\
-ft_strjoin.c\
-ft_strdup.c\
 ft_time.c \
 movement.c \
 movement_rotate.c \
@@ -83,10 +80,6 @@ clean:
 	rm -f $(OBJS) \
 	main_test.o \
 	ft_itoa.o \
-	ft_split.o \
-	ft_strjoin.o \
-	ft_strdup.o \
-	ft_strdup.o \
 	ft_time.o \
 	movement.o \
 	movement_rotate.o \
