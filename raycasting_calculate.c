@@ -43,7 +43,7 @@ void	ft_calculate_distance(t_all *data)
 	else
 	{
 		data->steps_x = 1;
-		data->distance_x = (data->player_pos_int_x +1.0 - data->pos_player_x)
+		data->distance_x = (data->player_pos_int_x + 1.0 - data->pos_player_x)
 			* data->line_length_x;
 	}
 	if (data->ray_dir_y < 0)
@@ -55,7 +55,7 @@ void	ft_calculate_distance(t_all *data)
 	else
 	{
 		data->steps_y = 1;
-		data->distance_y = (data->player_pos_int_y +1.0 - data->pos_player_y)
+		data->distance_y = (data->player_pos_int_y + 1.0 - data->pos_player_y)
 			* data->line_length_y;
 	}
 }

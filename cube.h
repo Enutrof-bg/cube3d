@@ -65,6 +65,8 @@
 
 # define MASK_MAGENTA 0xD84CE6
 
+# define RANGE_DOOR 3.0
+
 // # define DEG_TO_RAD(deg) ((deg) * M_PI / 180.0)
 
 typedef struct s_cub
