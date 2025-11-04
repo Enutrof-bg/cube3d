@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kevwang <kevwang@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vafavard <vafavard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/02 14:15:09 by kevwang           #+#    #+#             */
-/*   Updated: 2025/11/02 14:15:09 by kevwang          ###   ########.fr       */
+/*   Updated: 2025/11/04 13:17:21 by vafavard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube.h"
-
+#include <string.h>
 // int	count_column(char **tab, int x)
 // {
 // 	int y = 0;
@@ -107,18 +107,12 @@ void	ft_minimap_get_sprite(t_all *data, int i, int j)
 	if (data->map[i][j] == '0')
 		ft_put_four_pixel(data, data->pixel_x * TILE_SIZE,
 			data->pixel_y * TILE_SIZE, 0xffffff);
-		// ft_put_xpm_to_img(data, data->t_sol.s_screen,
-		// 	data->pixel_x * TILE_SIZE, data->pixel_y * TILE_SIZE);
 	if (data->map[i][j] == '1')
 		ft_put_four_pixel(data, data->pixel_x * TILE_SIZE,
 			data->pixel_y * TILE_SIZE, 0x000000);
-		// ft_put_xpm_to_img(data, data->t_wall.s_screen,
-		// 	data->pixel_x * TILE_SIZE, data->pixel_y * TILE_SIZE);
 	if (data->map[i][j] == 'P' || data->map[i][j] == 'Q')
 		ft_put_four_pixel(data, data->pixel_x * TILE_SIZE,
 			data->pixel_y * TILE_SIZE, 0XFF0000);
-		// ft_put_xpm_to_img(data, data->t_player.s_screen,
-		// 	data->pixel_x * TILE_SIZE, data->pixel_y * TILE_SIZE);
 	if (data->map[i][j] == 'D')
 		ft_put_four_pixel(data, data->pixel_x * TILE_SIZE,
 			data->pixel_y * TILE_SIZE, 0xD6B258);
@@ -127,10 +121,54 @@ void	ft_minimap_get_sprite(t_all *data, int i, int j)
 			data->pixel_y * TILE_SIZE, 0x58D6D4);
 	if (data->map[i][j] == ' ')
 	{
-		return ;
+		ft_put_four_pixel(data, data->pixel_x * TILE_SIZE,
+			data->pixel_y * TILE_SIZE, 0XFF0000);
 	}
-		// ft_put_four_pixel(data, data->pixel_x * TILE_SIZE,
-			// data->pixel_y * TILE_SIZE, 0x321332);
+}
+
+int	find_biggest_line(t_all *data)
+{
+	int i = 0;
+	int line = 0;
+	
+	while (data->map[i])
+	{
+		if ((int)ft_strlen(data->map[i]) > line)
+			line = (int)ft_strlen(data->map[i]) - 1;
+		i++;
+	}
+	return (line);
+}
+
+int	realloc_minimap(t_all *data)
+{
+	char	*temp;
+	int i = 0;
+	int j = 0;
+	int line = find_biggest_line(data);
+	
+	while (data->map[i])
+	{
+		j = 0;
+		if ((int)ft_strlen(data->map[i]) < line)
+		{
+			temp = data->map[i];
+			data->map[i] = malloc(sizeof(char) * (line + 1));
+			if (!data->map[i])
+				return (0);
+			strcpy(data->map[i], temp);
+			j = (int)ft_strlen(temp) - 1;
+			free(temp);
+			while (j < line)
+			{
+				data->map[i][j] = ' ';
+				j++;
+			}
+			data->map[i][j] = '\0';
+		}
+		i++;
+	}
+	return (1);
 }
 
 void	ft_printf_map(t_all *data)
@@ -138,6 +176,7 @@ void	ft_printf_map(t_all *data)
 	int	i;
 	int	j;
 
+	realloc_minimap(data);
 	i = ft_minimap_i(data);
 	data->pixel_y = 0;
 	while (data->map[i] && data->pixel_y < MAP_SIZE_Y)

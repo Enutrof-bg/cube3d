@@ -6,7 +6,7 @@
 /*   By: vafavard <vafavard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 15:13:17 by vafavard          #+#    #+#             */
-/*   Updated: 2025/11/02 16:49:43 by vafavard         ###   ########.fr       */
+/*   Updated: 2025/11/04 12:01:39 by vafavard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ bool	check_zero_leak(t_cub *cub)
 				if (!cub->map[i + 1][j] || !cub->map[i - 1][j])
 					return (false);
 				else if (cub->map[i + 1][j] == ' ' || cub->map[i - 1][j] == ' ')
-					return (false);
+					return (printf("3\n"), false);
 			}
 			j++;
 		}
@@ -63,7 +63,7 @@ bool	check_sides(t_cub *cub)
 			if (cub->map[i][j + 1] == '\n')
 			{
 				if (cub->map[i][j] != '1' && cub->map[i][j] != ' ')
-					return (false);
+					return (printf("2\n"), false);
 			}
 			j++;
 		}
@@ -72,12 +72,23 @@ bool	check_sides(t_cub *cub)
 	return (true);
 }
 
+// void	print_map(char **map)
+// {
+// 	int i = 0;
+	
+// 	while (map[i])
+// 	{
+// 		printf("%s", map[i]);
+// 		i++;
+// 	}
+// }
+
 bool	check_map_spaces(t_cub *cub)
 {
 	int	i;
 	int	j;
 	int	flag;
-
+	// print_map(cub->map);
 	i = 1;
 	while (cub->map[i])
 	{
@@ -92,7 +103,7 @@ bool	check_map_spaces(t_cub *cub)
 					j++;
 			}
 			if (flag == 1 && (cub->map[i][j] != '1' && cub->map[i][j + 1]))
-				return (false);
+				return (printf("1 x = [%d] y = [%d]\n", i, j), false);
 			j++;
 		}
 		i++;

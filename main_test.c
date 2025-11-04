@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_test.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kevwang <kevwang@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vafavard <vafavard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 11:13:42 by kevwang           #+#    #+#             */
-/*   Updated: 2025/10/27 11:13:43 by kevwang          ###   ########.fr       */
+/*   Updated: 2025/11/04 11:13:13 by vafavard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	main(int argc, char **argv)
 		return (ft_printf("Error\nWrong number of arguments\n"), 1);
 
 
-	if (ft_open_map(&data, argv[1]) == 0)
+	if (!ft_open_map(&data, argv[1]))
 		return (ft_printf("Error\nFailed to open map\n"), 1);
 
 	// if (!data.map)

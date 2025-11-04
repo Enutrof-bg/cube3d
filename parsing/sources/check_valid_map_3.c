@@ -6,7 +6,7 @@
 /*   By: vafavard <vafavard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/02 16:35:08 by vafavard          #+#    #+#             */
-/*   Updated: 2025/11/02 16:43:33 by vafavard         ###   ########.fr       */
+/*   Updated: 2025/11/04 12:17:13 by vafavard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,27 @@ void	check_valid_space_3(t_cub **cub, int i, int j)
 		(*cub)->map[i][j] = '0';
 }
 
+void	print_map(char **map)
+{
+	int i = 0;
+	
+	while (map[i])
+	{
+		printf("%s", map[i]);
+		i++;
+	}
+}
+
 void	check_valide_space_2(t_cub **cub, int i, int j, int k)
 {
 	check_valid_space_3(cub, i, j);
+	// print_map((*cub)->map);
 	if ((*cub)->map[i][j - 1] == '1')
 	{
-		while ((*cub)->map[i][j + k] && (*cub)->map[i][j + k] != '1')
+		while ( j + k < (int)ft_strlen((*cub)->map[i]) && (*cub)->map[i][j + k] && (*cub)->map[i][j + k] != '1')
 		{
-			if ((*cub)->map[i][j + k] == '0')
+			// printf("[%d] %s j =[%d] k = [%d]", i, (*cub)->map[i], j, k);
+			if ((*cub)->map[i][j + k]  && (*cub)->map[i][j + k] == '0')
 			{
 				while (j < k)
 				{
@@ -57,7 +70,8 @@ void	check_valid_space(t_cub **cub, int f)
 {
 	int	i;
 	int	j;
-
+	f++;
+	
 	i = 1;
 	while (i < (double_tab_lenght((*cub)->map) - 1))
 	{
@@ -70,7 +84,7 @@ void	check_valid_space(t_cub **cub, int f)
 		}
 		i++;
 	}
-	if (f == 1)
+	if (f == 10)
 		return ;
-	check_valid_space(cub, 1);
+	check_valid_space(cub, f);
 }

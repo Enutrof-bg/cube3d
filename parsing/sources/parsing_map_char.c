@@ -6,7 +6,7 @@
 /*   By: vafavard <vafavard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 15:13:27 by vafavard          #+#    #+#             */
-/*   Updated: 2025/11/02 17:08:24 by vafavard         ###   ########.fr       */
+/*   Updated: 2025/11/04 13:34:14 by vafavard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,13 @@ bool	player_char(char c)
 	return (false);
 }
 
+bool	door_char(char c)
+{
+	if (c == 'O' || c == 'D')
+		return (true);
+	return (false);
+}
+
 bool	check_map_char(t_cub *cub)
 {
 	int	i;
@@ -48,7 +55,7 @@ bool	check_map_char(t_cub *cub)
 		j = 0;
 		while (cub->map[i][j])
 		{
-			if (!floor_celling(cub->map[i][j]))
+			if (!floor_celling(cub->map[i][j]) && !door_char(cub->map[i][j]))
 			{
 				if (player_char(cub->map[i][j]))
 					count_player++;
