@@ -1,11 +1,11 @@
 									F							 0,0,0
 
-SO ./img/s.xpm
+SO ./img/s1.xpm
 
-EA ./img/e.xpm
+EA ./img/e1.xpm
 
-WE ./img/w.xpm
-NO ./img/n.xpm
+WE ./img/w1.xpm
+NO ./img/n1.xpm
 
 
 C 215,									100,100
