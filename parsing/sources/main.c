@@ -13,12 +13,12 @@
 #include "../../cube.h"
 #include "../includes/cub3d.h"
 
-int ft_open_map(t_all *data, char *filename)
+int	ft_open_map(t_all *data, char *filename)
 {
 	if (!check_name(filename))
 		return (printf("Error\nBad File name\n"), 0);
 	if (!init_all(&data->cub))
-		 return (ft_free_all(&data->cub), 0);
+		return (ft_free_all(&data->cub), 0);
 	data->cub.file = load_file(filename, &data->cub);
 	if (!data->cub.file)
 		return (ft_free_all(&data->cub), 0);
@@ -26,6 +26,7 @@ int ft_open_map(t_all *data, char *filename)
 		return (ft_free_all(&data->cub), 0);
 	return (1);
 }
+
 /*
 int main(int argc, char **argv)
 {
@@ -55,7 +56,8 @@ int main(int argc, char **argv)
     if (!cub.map)
         return (ft_free_all(cub), free(cub), 1);
     if (!check_map(cub))
-        return (printf("File .cub non correct1\n"), ft_free_all(cub), free(cub), 1);
+        return (printf("File .cub non correct1\n"), 
+			ft_free_all(cub), free(cub), 1);
      while (cub.map[i]) // impression map verif de la fonction du dessus
     {
         printf("%s", cub.map[i]);
@@ -70,9 +72,11 @@ int main(int argc, char **argv)
         i++;
     }
     if (!check_map_spaces(cub) || !check_sides(cub) || !check_zero_leak(cub))
-        return (printf("File .cub non correct3\n"), ft_free_all(cub), free(cub), 1);
+        return (printf("File .cub non correct3\n"), 
+			ft_free_all(cub), free(cub), 1);
     if (!check_map_char(cub))
-        return (printf("Invalides char in map\n"), ft_free_all(cub), free(cub), 1);
+        return (printf("Invalides char in map\n"), 
+			ft_free_all(cub), free(cub), 1);
     while (cub.file[i])
     {
         printf("%s", cub.file[i]);

@@ -19,23 +19,11 @@ int	init_all(t_cub *cub)
 	cub->line_info = 0;
 	cub->line_total = 0;
 	cub->map = NULL;
-	cub->EA = NULL;
-	cub->NO = NULL;
-	cub->SO = NULL;
-	cub->WE = NULL;
+	cub->ea = NULL;
+	cub->no = NULL;
+	cub->so = NULL;
+	cub->we = NULL;
 	cub->celling = NULL;
 	cub->floor = NULL;
-	cub->C = malloc(sizeof(int) * 3);
-	if (!cub->C)
-	{
-		printf("Error\nMalloc Failed\n");
-		return (0);
-	}
-	cub->F = malloc(sizeof(int) * 3);
-	if (!cub->F)
-	{
-		printf("Error\nMalloc Failed\n");
-		return (0);
-	}
 	return (1);
 }

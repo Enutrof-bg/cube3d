@@ -34,8 +34,9 @@ void	check_valid_space_3(t_cub **cub, int i, int j)
 
 void	print_map(char **map)
 {
-	int i = 0;
-	
+	int	i;
+
+	i = 0;
 	while (map[i])
 	{
 		printf("%s", map[i]);
@@ -46,13 +47,12 @@ void	print_map(char **map)
 void	check_valide_space_2(t_cub **cub, int i, int j, int k)
 {
 	check_valid_space_3(cub, i, j);
-	// print_map((*cub)->map);
 	if ((*cub)->map[i][j - 1] == '1')
 	{
-		while ( j + k < (int)ft_strlen((*cub)->map[i]) && (*cub)->map[i][j + k] && (*cub)->map[i][j + k] != '1')
+		while (j + k < (int)ft_strlen((*cub)->map[i])
+			&& (*cub)->map[i][j + k] && (*cub)->map[i][j + k] != '1')
 		{
-			// printf("[%d] %s j =[%d] k = [%d]", i, (*cub)->map[i], j, k);
-			if ((*cub)->map[i][j + k]  && (*cub)->map[i][j + k] == '0')
+			if ((*cub)->map[i][j + k] && (*cub)->map[i][j + k] == '0')
 			{
 				while (j < k)
 				{
@@ -70,8 +70,8 @@ void	check_valid_space(t_cub **cub, int f)
 {
 	int	i;
 	int	j;
+
 	f++;
-	
 	i = 1;
 	while (i < (double_tab_lenght((*cub)->map) - 1))
 	{

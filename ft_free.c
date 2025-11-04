@@ -71,8 +71,6 @@ void	ft_clean_mlx(t_all *data)
 {
 	if (data->mlx)
 	{
-		// if (data->img.img)
-			// mlx_destroy_image(data->mlx, data->img.img);
 		if (data->mlx_win_2)
 			mlx_destroy_window(data->mlx, data->mlx_win_2);
 		mlx_destroy_display(data->mlx);
@@ -86,7 +84,7 @@ int	on_destroy(t_all *data)
 	mlx_do_key_autorepeaton(data->mlx);
 	ft_destroy_image(data);
 	ft_destroy_image_anim(data);
-	free_map(data);
+	ft_free_all(&data->cub);
 	ft_clean_mlx(data);
 	exit(0);
 	return (0);

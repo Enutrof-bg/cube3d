@@ -13,23 +13,21 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
-#include <stdbool.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <fcntl.h>
+# include <stdbool.h>
+# include <unistd.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <fcntl.h>
 
-#include "../../cube.h"
+# include "../../cube.h"
 
 // typedef struct s_cub
 // {
-// 	char    **file; //idee de tout recup de base puis de separer entre le double tab map et info_map pour les gerer separement
+// 	char    **file;
 // 	char    **map;
 // 	char    **info_map;
 // 	int     line_info;
 // 	int     line_total;
-	
-	
 // 	char    *NO;
 // 	char    *SO;
 // 	char    *WE;
@@ -38,8 +36,7 @@
 // 	int     *C;
 // 	char    *floor;
 // 	char    *celling;
-	
-// }t_cub;
+//}t_cub;
 
 //main.c
 // int ft_open_map(t_all *data, char *filename);
@@ -96,7 +93,6 @@
 // char	**load_info(char **file, t_cub *cub);
 // char	**load_map(char **file, t_cub *cub);
 
-
 // //free
 // void    ft_free_tab(char **tab);
 // void    ft_free_all(t_cub *cub);
@@ -113,6 +109,3 @@
 // int		extern_loop(const char *s, int i, char c, int flag);
 
 #endif
-
-
-

@@ -44,7 +44,7 @@ bool	check_general(t_cub *cub)
 		return (printf("Error\nInvalid RGB values\n"), false);
 	ft_check_colours_1(cub);
 	ft_check_colours_2(cub);
-	if (!check_numbers(cub->F) || !check_numbers(cub->C))
+	if (!check_numbers(cub->f) || !check_numbers(cub->c))
 		return (printf("Error\nInvalid RGB values\n"), false);
 	return (true);
 }

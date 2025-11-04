@@ -20,13 +20,13 @@ int		directions_texture(char **file, t_cub *cub);
 void	fill_direction_2(t_cub *cub, int index, char *line)
 {
 	if (index == 1)
-		cub->NO = line;
+		cub->no = line;
 	else if (index == 2)
-		cub->SO = line;
+		cub->so = line;
 	else if (index == 3)
-		cub->WE = line;
+		cub->we = line;
 	else if (index == 4)
-		cub->EA = line;
+		cub->ea = line;
 }
 
 int	fill_direction(int index, char *file, t_cub *cub)

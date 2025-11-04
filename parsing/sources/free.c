@@ -34,30 +34,30 @@ void	ft_free_all(t_cub *cub)
 		ft_free_tab(cub->map);
 		cub->map = NULL;
 	}
-	if (cub->EA)
+	if (cub->ea)
 	{
-		free(cub->EA);
-		cub->EA = NULL;
+		free(cub->ea);
+		cub->ea = NULL;
 	}
 	ft_free_all_2(cub);
 }
 
 void	ft_free_all_2(t_cub *cub)
 {
-	if (cub->NO)
+	if (cub->no)
 	{
-		free(cub->NO);
-		cub->NO = NULL;
+		free(cub->no);
+		cub->no = NULL;
 	}
-	if (cub->SO)
+	if (cub->so)
 	{
-		free(cub->SO);
-		cub->SO = NULL;
+		free(cub->so);
+		cub->so = NULL;
 	}
-	if (cub->WE)
+	if (cub->we)
 	{
-		free(cub->WE);
-		cub->WE = NULL;
+		free(cub->we);
+		cub->we = NULL;
 	}
 	ft_free_all_3(cub);
 }
@@ -73,14 +73,6 @@ void	ft_free_all_3(t_cub *cub)
 	{
 		free(cub->celling);
 		cub->celling = NULL;
-	}
-	if (cub->C)
-	{
-		free(cub->C);
-	}
-	if (cub->F)
-	{
-		free(cub->F);
 	}
 }
 

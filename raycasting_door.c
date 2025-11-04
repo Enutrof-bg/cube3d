@@ -27,8 +27,6 @@ void	ft_render_door_color(t_all *data, int y,
 	static int	recursive = 0;
 
 	r->texture_pos = r->texture_pos + (r->pixel_ratio * (y - r->start));
-	// r->texture_pos = 
-	// r->texture_pos = (r->start - (H / 2) + (r->dist / 2)) * r->pixel_ratio;
 	if (y < r->start)
 		*color = data->ceiling;
 	else if (y > r->end)

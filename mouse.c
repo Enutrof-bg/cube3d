@@ -14,44 +14,22 @@
 
 int	on_mouse(int x, int y, t_all *data)
 {
-	static int prev_mouse = -200000;
+	static int	prev_mouse = -200000;
+
 	if (prev_mouse == -200000)
 	{
 		prev_mouse = data->mouse_x;
-		return 0;
+		return (0);
 	}
-	// printf("mouse: x:%d y:%d\n", data->mouse_x, data->mouse_y);
-
 	data->mouse_x = x;
-    data->mouse_y = y;
-	// usleep(1000);
-	if (data->mouse_x < prev_mouse) //vers la gauche
+	data->mouse_y = y;
+	if (data->mouse_x < prev_mouse)
 	{
-		// rotate_left(data);
-		// printf("test");
-		double temp;
-
-		temp = data->dir_player_x;
-		data->dir_player_x = data->dir_player_x * cos(-ROTATE) - data->dir_player_y * sin(-ROTATE);
-		data->dir_player_y = temp * sin(-ROTATE) + data->dir_player_y * cos(-ROTATE);
-		
-		temp = data->plane_dir_x;
-		data->plane_dir_x = data->plane_dir_x * cos(-ROTATE) - data->plane_dir_y * sin(-ROTATE);
-		data->plane_dir_y = temp * sin(-ROTATE) + data->plane_dir_y * cos(-ROTATE);
+		rotate_left(data);
 	}
-	else if (data->mouse_x > prev_mouse) //vers la droite
+	else if (data->mouse_x > prev_mouse)
 	{
-		// rotate_right(data);
-		// printf("asd");
-		double temp;
-
-		temp = data->dir_player_x;
-		data->dir_player_x = data->dir_player_x * cos(ROTATE) - data->dir_player_y * sin(ROTATE);
-		data->dir_player_y = temp * sin(ROTATE) + data->dir_player_y * cos(ROTATE);
-
-		temp = data->plane_dir_x;
-		data->plane_dir_x = data->plane_dir_x * cos(ROTATE) - data->plane_dir_y * sin(ROTATE);
-		data->plane_dir_y = temp * sin(ROTATE) + data->plane_dir_y * cos(ROTATE);
+		rotate_right(data);
 	}
 	prev_mouse = x;
 	return (0);
@@ -59,71 +37,19 @@ int	on_mouse(int x, int y, t_all *data)
 
 int	ft_mouse(t_all *data)
 {
-	mlx_mouse_get_pos(data->mlx, data->mlx_win_2, &data->mouse_x, &data->mouse_y);
-	// printf("mouse: x:%d y:%d\n", data->mouse_x, data->mouse_y);
-
-	// data->mouse_x = W /2;
-	// data->mouse_y = H/2;
-	if (data->mouse_x  < 5 || data->mouse_y < -37 || data->mouse_x > W-5 || data->mouse_y > H -5)
+	mlx_mouse_get_pos(data->mlx, data->mlx_win_2,
+		&data->mouse_x, &data->mouse_y);
+	if (data->mouse_x < 5 || data->mouse_y < -37
+		|| data->mouse_x > W - 5 || data->mouse_y > H - 5)
 	{
-		if (data->mouse_x  <= 5)
-			mlx_mouse_move(data->mlx, data->mlx_win_2,W/2, H/2);
+		if (data->mouse_x <= 5)
+			mlx_mouse_move(data->mlx, data->mlx_win_2, W / 2, H / 2);
 		if (data->mouse_y < -37)
-			mlx_mouse_move(data->mlx, data->mlx_win_2, W/2, H/2);
+			mlx_mouse_move(data->mlx, data->mlx_win_2, W / 2, H / 2);
 		if (data->mouse_x > W)
-			mlx_mouse_move(data->mlx, data->mlx_win_2, W/2, H/2);
-		if (data->mouse_y > H -5)
-			mlx_mouse_move(data->mlx, data->mlx_win_2, W/2, H/2);
-	}	
-		// mlx_mouse_move(data->mlx, data->mlx_win_2, W/2, H/2);
+			mlx_mouse_move(data->mlx, data->mlx_win_2, W / 2, H / 2);
+		if (data->mouse_y > H - 5)
+			mlx_mouse_move(data->mlx, data->mlx_win_2, W / 2, H / 2);
+	}
 	return (1);
 }
-/*
-int main(int argc, char **argv)
-{
-	t_all data;
-
-	if (argc == 2)
-	{
-		data.map = ft_open_map(&data, argv[1]);
-		if (set_pos_player(&data) == -1)
-			return (1);
-		// data.start_time = get_time_ms();
-
-		data.mlx = mlx_init();
-		data.mlx_win_2 = mlx_new_window(data.mlx,
-				W, H, "3D");
-
-		// data.mlx_win = mlx_new_window(data.mlx,
-		// 		TILE_SIZE * MAP_SIZE_X,
-		// 		TILE_SIZE * MAP_SIZE_Y, "minimap");
-		
-		data.img.img = mlx_new_image(data.mlx, W, H);
-		data.img.addr = mlx_get_data_addr(data.img.img, &data.img.bits_per_pixel,
-			&data.img.line_length, &data.img.endian);
-		// mlx_pixel_put(, img.addr[11])
-
-
-		set_img(&data);
-
-
-		mlx_hook(data.mlx_win_2, 2 , 1L<<0,&on_keypress, &data);
-		mlx_hook(data.mlx_win_2, 6 , 1L << 6, &on_mouse, &data); //test souris
-		// mlx_key_hook(data.mlx_win, &on_keypress, &data);
-		mlx_hook(data.mlx_win_2, DestroyNotify,
-			StructureNotifyMask, &on_destroy, &data);
-		
-		// mlx_hook(data.mlx_win_2, 6, 1L<<0, &ft_mouse, &data);
-
-
-		raycasting(&data);
-		ft_printf_map(&data);
-
-		mlx_mouse_hide(data.mlx, data.mlx_win_2);
-		// mlx_mouse_show(data.mlx, data.mlx_win_2);
-		mlx_loop_hook(data.mlx, &ft_mouse, &data);
-
-		mlx_loop(data.mlx);
-	}
-}
-*/

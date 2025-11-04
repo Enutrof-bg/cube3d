@@ -76,7 +76,7 @@ void	ft_check_colours_1(t_cub *cub)
 	values = ft_split(cub->floor, ',');
 	while (values[i] && i < 3)
 	{
-		cub->F[i] = ft_atoi(values[i]);
+		cub->f[i] = ft_atoi(values[i]);
 		i++;
 	}
 	ft_free_tab(values);
@@ -91,7 +91,7 @@ void	ft_check_colours_2(t_cub *cub)
 	values = ft_split(cub->celling, ',');
 	while (values[i] && i < 3)
 	{
-		cub->C[i] = ft_atoi(values[i]);
+		cub->c[i] = ft_atoi(values[i]);
 		i++;
 	}
 	ft_free_tab(values);

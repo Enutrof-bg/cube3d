@@ -33,7 +33,6 @@
 # include "parsing/includes/cub3d.h"
 # include "parsing/includes/get_next_line.h"
 
-
 # ifndef M_PI
 #  define M_PI 3.14159265358979323846
 # endif
@@ -70,23 +69,20 @@
 
 typedef struct s_cub
 {
-	char    **file; //idee de tout recup de base puis de separer entre le double tab map et info_map pour les gerer separement
-	char    **map;
-	char    **info_map;
-	int     line_info;
-	int     line_total;
-	
-	char    *NO;
-	char    *SO;
-	char    *WE;
-	char    *EA;
-	int     *F;
-	int     *C;
-	char    *floor;
-	char    *celling;
-	int		rgb_floor;
-	int		rgb_celling;
-	
+	char	**file;
+	char	**map;
+	char	**info_map;
+	int		line_info;
+	int		line_total;
+
+	char	*no;
+	char	*so;
+	char	*we;
+	char	*ea;
+	int		f[3];
+	int		c[3];
+	char	*floor;
+	char	*celling;
 }t_cub;
 
 typedef struct s_sreen
@@ -131,11 +127,11 @@ typedef struct s_save
 
 typedef struct s_list
 {
-	int ceiling;
-	int floor;
+	int			ceiling;
+	int			floor;
 
-	t_cub cub;
-	
+	t_cub		cub;
+
 	t_sprite	anim[15];
 	t_ratio		r1;
 	double		pos_player_x;
@@ -331,24 +327,23 @@ void	ft_get_color(t_all *data, int y, int pos, unsigned int *color);
 // void	ft_pick_pixel_color(t_all *data, unsigned int *color,
 // 			t_sprite ref, t_ratio r1);
 void	ft_pick_pixel_color(t_all *data, unsigned int *color,
-		t_sprite ref, t_ratio *r1);
+			t_sprite ref, t_ratio *r1);
 
 //raycasting_door.c
 void	ft_render_door(t_all *data, int y, unsigned int *color);
 void	ft_dda_continue_door(t_all *data);
 
+int		on_mouse(int x, int y, t_all *data);
+int		ft_mouse(t_all *data);
 
-int	on_mouse(int x, int y, t_all *data);
-int	ft_mouse(t_all *data);
-
-int ft_open_map(t_all *data, char *filename);
+int		ft_open_map(t_all *data, char *filename);
 
 //parsing_map
 bool	load_and_check(t_cub *cub);
 bool	check_general(t_cub *cub);
 
 //parsing_map_char
-bool	floor_celling(char c); 
+bool	floor_celling(char c);
 bool	player_char(char c);
 bool	check_map_char(t_cub *cub);
 bool	valid_char(char c);
@@ -387,7 +382,7 @@ void	check_valid_space(t_cub **cub, int f);
 
 //parsing_directions
 void	fill_direction_2(t_cub *cub, int index, char *line);
-int		fill_direction(int index,char *file, t_cub *cub);
+int		fill_direction(int index, char *file, t_cub *cub);
 int		directions_texture(char **file, t_cub *cub);
 
 //parsing_loading_map
@@ -395,15 +390,14 @@ char	**load_file(char *file, t_cub *cub);
 char	**load_info(char **file, t_cub *cub);
 char	**load_map(char **file, t_cub *cub);
 
-
 //free
-void    ft_free_tab(char **tab);
-void    ft_free_all(t_cub *cub);
-void    ft_free_all_2(t_cub *cub);
-void    ft_free_all_3(t_cub *cub);
+void	ft_free_tab(char **tab);
+void	ft_free_all(t_cub *cub);
+void	ft_free_all_2(t_cub *cub);
+void	ft_free_all_3(t_cub *cub);
 
 //init
-int    init_all(t_cub *cub);
+int		init_all(t_cub *cub);
 
 int		ft_count_word(char const *s, char c);
 char	*ft_malloc(char const *s, int start, int end);

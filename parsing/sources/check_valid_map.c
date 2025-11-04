@@ -75,7 +75,6 @@ bool	check_sides(t_cub *cub)
 // void	print_map(char **map)
 // {
 // 	int i = 0;
-	
 // 	while (map[i])
 // 	{
 // 		printf("%s", map[i]);
@@ -88,7 +87,7 @@ bool	check_map_spaces(t_cub *cub)
 	int	i;
 	int	j;
 	int	flag;
-	// print_map(cub->map);
+
 	i = 1;
 	while (cub->map[i])
 	{

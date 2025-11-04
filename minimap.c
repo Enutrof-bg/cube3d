@@ -12,38 +12,6 @@
 
 #include "cube.h"
 #include <string.h>
-// int	count_column(char **tab, int x)
-// {
-// 	int y = 0;
-// 	int result = 0;
-
-// 	while (tab[y])
-// 	{
-// 		if (tab[y][x])
-// 			result++;
-// 		else
-// 			return result;
-// 		y++;
-// 	}
-// 	return (result);
-// }
-
-// void ft_count(t_all *data)
-// {
-// 	int i = 0;
-// 	int len = 0;
-// 	int temp;
-// 	while (data->map[i])
-// 	{
-// 		temp = ft_strlen(data->map[i]);
-// 		if (temp > len)
-// 			len = temp;
-
-// 		i++;
-// 	}
-// 	data->map_length = len;
-// 	data->map_heigth = i;
-// }
 
 int	ft_minimap_i(t_all *data)
 {
@@ -83,10 +51,10 @@ int	ft_minimap_j(t_all *data)
 	return (j);
 }
 
-void ft_put_four_pixel(t_all *data, int x, int y, unsigned int color)
+void	ft_put_four_pixel(t_all *data, int x, int y, unsigned int color)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;
@@ -119,56 +87,6 @@ void	ft_minimap_get_sprite(t_all *data, int i, int j)
 	if (data->map[i][j] == 'O')
 		ft_put_four_pixel(data, data->pixel_x * TILE_SIZE,
 			data->pixel_y * TILE_SIZE, 0x58D6D4);
-	if (data->map[i][j] == ' ')
-	{
-		ft_put_four_pixel(data, data->pixel_x * TILE_SIZE,
-			data->pixel_y * TILE_SIZE, 0XFF0000);
-	}
-}
-
-int	find_biggest_line(t_all *data)
-{
-	int i = 0;
-	int line = 0;
-	
-	while (data->map[i])
-	{
-		if ((int)ft_strlen(data->map[i]) > line)
-			line = (int)ft_strlen(data->map[i]) - 1;
-		i++;
-	}
-	return (line);
-}
-
-int	realloc_minimap(t_all *data)
-{
-	char	*temp;
-	int i = 0;
-	int j = 0;
-	int line = find_biggest_line(data);
-	
-	while (data->map[i])
-	{
-		j = 0;
-		if ((int)ft_strlen(data->map[i]) < line)
-		{
-			temp = data->map[i];
-			data->map[i] = malloc(sizeof(char) * (line + 1));
-			if (!data->map[i])
-				return (0);
-			strcpy(data->map[i], temp);
-			j = (int)ft_strlen(temp) - 1;
-			free(temp);
-			while (j < line)
-			{
-				data->map[i][j] = ' ';
-				j++;
-			}
-			data->map[i][j] = '\0';
-		}
-		i++;
-	}
-	return (1);
 }
 
 void	ft_printf_map(t_all *data)
@@ -176,7 +94,6 @@ void	ft_printf_map(t_all *data)
 	int	i;
 	int	j;
 
-	realloc_minimap(data);
 	i = ft_minimap_i(data);
 	data->pixel_y = 0;
 	while (data->map[i] && data->pixel_y < MAP_SIZE_Y)

@@ -12,17 +12,19 @@
 
 #include "cube.h"
 
-void ft_count(t_all *data)
+void	ft_count(t_all *data)
 {
-	int i = 0;
-	int len = 0;
-	int temp;
+	int	i;
+	int	len;
+	int	temp;
+
+	i = 0;
+	len = 0;
 	while (data->map[i])
 	{
 		temp = ft_strlen(data->map[i]);
 		if (temp > len)
 			len = temp;
-
 		i++;
 	}
 	data->map_length = len;
@@ -44,8 +46,9 @@ void	ft_init_value(t_all *data)
 	data->img.img = NULL;
 	data->r1.texture_y = 0;
 	data->map = data->cub.map;
-	data->ceiling = (data->cub.C[0] << 16) + (data->cub.C[1] << 8) + (data->cub.C[2]);
-	data->floor = (data->cub.F[0] << 16) + (data->cub.F[1] << 8) + (data->cub.F[2]);
-	printf("%d %d\n", data->ceiling, data->floor);
+	data->ceiling = (data->cub.c[0] << 16) + (data->cub.c[1] << 8)
+		+ (data->cub.c[2]);
+	data->floor = (data->cub.f[0] << 16) + (data->cub.f[1] << 8)
+		+ (data->cub.f[2]);
 	ft_count(data);
 }
