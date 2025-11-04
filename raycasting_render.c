@@ -61,33 +61,23 @@ void	ft_pick_pixel_color(t_all *data, unsigned int *color,
 		t_sprite ref, t_ratio *r1)
 {
 	(void)data;
-
-	/* compute texture y from the floating texture_pos and clamp */
-	int tex_y = (int)floor(r1->texture_pos);
-	if (tex_y < 0)
-		tex_y = 0;
-	if (tex_y >= ref.img_heigth)
-		tex_y = ref.img_heigth - 1;
-	/* ensure texture_x is inside texture width */
-	int tex_x = r1->texture_x;
-	if (tex_x < 0)
-		tex_x = 0;
-	if (tex_x >= ref.img_width)
-		tex_x = ref.img_width - 1;
-
-	r1->texture_y = tex_y;
-	r1->texture_x = tex_x;
-
-	/* guard against missing image data */
+	r1->texture_y = (int)(r1->texture_pos) % ref.img_heigth;
+	if (r1->texture_x < 0)
+		r1->texture_x = 0;
+	if (r1->texture_x > ref.img_width)
+		r1->texture_x = ref.img_width;
+	if (r1->texture_y < 0)
+		r1->texture_y = 0;
+	if (r1->texture_y > ref.img_heigth)
+		r1->texture_y = ref.img_heigth;
 	if (!ref.s_screen.addr || ref.s_screen.line_length <= 0)
 	{
-		*color = 0x000000; /* fallback black */
+		*color = 0x000000;
 		return ;
 	}
-
 	*color = *(unsigned int *)(ref.s_screen.addr
-		+ (tex_y * ref.s_screen.line_length
-			+ tex_x * (ref.s_screen.bits_per_pixel / 8)));
+		+ (r1->texture_y * ref.s_screen.line_length
+			+ r1->texture_x * (ref.s_screen.bits_per_pixel / 8)));
 }
 
 void	ft_get_color(t_all *data, int y, int pos, unsigned int *color)

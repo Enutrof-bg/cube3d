@@ -21,7 +21,6 @@ INCPRINTF = -Lft_printf -lftprintf
 # INCCUBE = -Lparsing -lCub3d
 
 FILE = main_test.c \
-test_check_map.c \
 ft_itoa.c \
 ft_split.c\
 ft_strjoin.c\
@@ -42,7 +41,6 @@ init_texture.c \
 init_texture_anim.c \
 init_texture_door.c \
 init_texture_wall.c \
-init_texture_minimap.c \
 raycasting.c \
 raycasting_calculate.c \
 raycasting_render.c \
@@ -84,7 +82,6 @@ ${NAME} : ${SRC2} ${OBJS}
 clean:
 	rm -f $(OBJS) \
 	main_test.o \
-	test_check_map.o \
 	ft_itoa.o \
 	ft_split.o \
 	ft_strjoin.o \
@@ -106,7 +103,6 @@ clean:
 	init_texture_anim.o \
 	init_texture_door.o \
 	init_texture_wall.o \
-	init_texture_minimap.o \
 	raycasting.o \
 	raycasting_calculate.o \
 	raycasting_render.o \
