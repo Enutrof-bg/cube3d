@@ -6,7 +6,7 @@
 /*   By: vafavard <vafavard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 15:13:30 by vafavard          #+#    #+#             */
-/*   Updated: 2025/11/02 17:09:44 by vafavard         ###   ########.fr       */
+/*   Updated: 2025/11/04 16:36:15 by vafavard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ bool	check_general(t_cub *cub)
 		return (printf("Error\nTexture directions invalid\n"), false);
 	if (!check_rgb_str(cub->celling) || !check_rgb_str(cub->floor))
 		return (printf("Error\nInvalid RGB values\n"), false);
-	ft_check_colours_1(cub);
-	ft_check_colours_2(cub);
+	if (!ft_check_colours_1(cub) || !ft_check_colours_2(cub))
+		return (printf("Error\nMalloc failded\n"), false);
 	if (!check_numbers(cub->f) || !check_numbers(cub->c))
 		return (printf("Error\nInvalid RGB values\n"), false);
 	return (true);

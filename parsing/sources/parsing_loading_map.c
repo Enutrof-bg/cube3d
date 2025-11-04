@@ -6,7 +6,7 @@
 /*   By: vafavard <vafavard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 15:13:25 by vafavard          #+#    #+#             */
-/*   Updated: 2025/11/02 17:07:45 by vafavard         ###   ########.fr       */
+/*   Updated: 2025/11/04 16:24:11 by vafavard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ char	**load_map(char **file, t_cub *cub)
 	while (file[cub->line_info + i])
 	{
 		map[i] = ft_strdup(file[cub->line_info + i]);
+		if (!map[i])
+			return (NULL);
 		i++;
 	}
 	map[i] = NULL;

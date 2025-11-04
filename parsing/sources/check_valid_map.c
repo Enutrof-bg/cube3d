@@ -6,7 +6,7 @@
 /*   By: vafavard <vafavard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 15:13:17 by vafavard          #+#    #+#             */
-/*   Updated: 2025/11/04 12:01:39 by vafavard         ###   ########.fr       */
+/*   Updated: 2025/11/04 16:33:52 by vafavard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,8 @@ bool	check_map_2(char *str)
 	int	i;
 
 	i = 0;
+	if (!str)
+		return (false);
 	while (str[i])
 	{
 		if (str[i] != '1')
@@ -135,6 +137,8 @@ bool	check_map(t_cub *cub)
 
 	i = 0;
 	flag = 0;
+	if (!cub->map[i])
+		return (false);
 	while (cub->map[i])
 	{
 		j = 0;

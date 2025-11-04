@@ -6,7 +6,7 @@
 /*   By: vafavard <vafavard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 15:20:18 by vafavard          #+#    #+#             */
-/*   Updated: 2025/11/02 17:05:59 by vafavard         ###   ########.fr       */
+/*   Updated: 2025/11/04 16:35:31 by vafavard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 bool	check_numbers(int *tab);
 bool	check_rgb_str(char *str);
 int		check_rgb_str_2(t_cub *cub);
-void	ft_check_colours_1(t_cub *cub);
-void	ft_check_colours_2(t_cub *cub);
+int		ft_check_colours_1(t_cub *cub);
+int		ft_check_colours_2(t_cub *cub);
 
 bool	check_numbers(int *tab)
 {
@@ -67,32 +67,38 @@ int	check_rgb_str_2(t_cub *cub)
 	return (1);
 }
 
-void	ft_check_colours_1(t_cub *cub)
+int	ft_check_colours_1(t_cub *cub)
 {
 	char	**values;
 	int		i;
 
 	i = 0;
 	values = ft_split(cub->floor, ',');
+	if (!values)
+		return (0);
 	while (values[i] && i < 3)
 	{
 		cub->f[i] = ft_atoi(values[i]);
 		i++;
 	}
 	ft_free_tab(values);
+	return (1);
 }
 
-void	ft_check_colours_2(t_cub *cub)
+int	ft_check_colours_2(t_cub *cub)
 {
 	char	**values;
 	int		i;
 
 	i = 0;
 	values = ft_split(cub->celling, ',');
+	if (!values)
+		return (0);
 	while (values[i] && i < 3)
 	{
 		cub->c[i] = ft_atoi(values[i]);
 		i++;
 	}
 	ft_free_tab(values);
+	return (1);
 }

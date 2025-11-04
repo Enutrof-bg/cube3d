@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kevwang <kevwang@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vafavard <vafavard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 11:18:27 by kevwang           #+#    #+#             */
-/*   Updated: 2025/10/27 11:18:29 by kevwang          ###   ########.fr       */
+/*   Updated: 2025/11/04 16:20:43 by vafavard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -366,8 +366,8 @@ bool	check_map_2(char *str);
 bool	check_numbers(int *tab);
 bool	check_rgb_str(char *str);
 int		check_rgb_str_2(t_cub *cub);
-void	ft_check_colours_1(t_cub *cub);
-void	ft_check_colours_2(t_cub *cub);
+int		ft_check_colours_1(t_cub *cub);
+int		ft_check_colours_2(t_cub *cub);
 
 //check_valid_map_2
 int		fill_floor_celling(int index, char *file, t_cub *cub);
