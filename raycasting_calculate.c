@@ -99,11 +99,21 @@ void	ft_algo_dda(t_all *data)
 void	ft_calculate_distance_wall(t_all *data, t_ratio *r1)
 {
 	if (data->wall == 0)
-		data->wall_distance = (data->player_pos_int_x - data->pos_player_x
-				+ (1 - data->steps_x) / 2) / data->ray_dir_x;
+	{
+		if (data->ray_dir_x == 0)
+			data->wall_distance = 1e30;
+		else
+			data->wall_distance = (data->player_pos_int_x - data->pos_player_x
+					+ (1 - data->steps_x) / 2) / data->ray_dir_x;
+	}
 	else
-		data->wall_distance = (data->player_pos_int_y - data->pos_player_y
-				+ (1 - data->steps_y) / 2) / data->ray_dir_y;
+	{
+		if (data->ray_dir_y == 0)
+			data->wall_distance = 1e30;
+		else
+			data->wall_distance = (data->player_pos_int_y - data->pos_player_y
+					+ (1 - data->steps_y) / 2) / data->ray_dir_y;
+	}
 	if (data->wall_distance < 0.01)
 		data->wall_distance = 0.01;
 	r1->dist = (int)H / data->wall_distance;

@@ -20,7 +20,8 @@ int	check_collision(t_all *data, double x, double y)
 	int_x = (int)x;
 	int_y = (int)y;
 	if (x >= 0 && x < data->map_length && y >= 0 && y < data->map_heigth
-		&& data->map[int_y][int_x] != '1' && data->map[int_y][int_x] != 'D')
+		&& data->map[int_y] && data->map[int_y][int_x] != '1'
+		&& data->map[int_y][int_x] != 'D')
 		return (0);
 	return (1);
 }

@@ -12,6 +12,20 @@
 
 #include "cube.h"
 
+char	*ft_strcpy(char *dest, const char *src)
+{
+	int	i;
+
+	i = 0;
+	while (src[i])
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
+}
+
 int	find_biggest_line(t_all *data)
 {
 	int	i;
@@ -39,8 +53,11 @@ int	ft_replace(t_all *data, int i, int line)
 		temp = data->map[i];
 		data->map[i] = malloc(sizeof(char) * (line + 1));
 		if (!data->map[i])
-			return (0);
-		strcpy(data->map[i], temp);
+			return (data->map[i] = temp, 0);
+		// data->map[i] = temp;
+		// free(temp);
+		// return (0);
+		ft_strcpy(data->map[i], temp);
 		j = (int)ft_strlen(temp) - 1;
 		free(temp);
 		while (j < line)
