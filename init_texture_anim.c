@@ -40,3 +40,28 @@ void	set_img_anim(t_all *data)
 		i++;
 	}
 }
+
+void set_img_hand_anim(t_all *data)
+{
+	int i;
+	static const char *paths[4] = {
+		"./img/hand/hand1.xpm", "./img/hand/hand2.xpm",
+		"./img/hand/hand3.xpm", "./img/hand/hand4.xpm"
+	};
+
+	i = 0;
+	while (i < 4)
+	{
+		data->hand_anim[i].dest = (char *)paths[i];
+		data->hand_anim[i].img = mlx_xpm_file_to_image(data->mlx,
+				data->hand_anim[i].dest, &data->hand_anim[i].img_width,
+				&data->hand_anim[i].img_heigth);
+		if (!data->hand_anim[i].img)
+			return (printf("Error loading hand anim %d\n", i), exit(1));
+		data->hand_anim[i].s_screen.addr = mlx_get_data_addr(data->hand_anim[i].img,
+				&data->hand_anim[i].s_screen.bits_per_pixel,
+				&data->hand_anim[i].s_screen.line_length,
+				&data->hand_anim[i].s_screen.endian);
+		i++;
+	}
+}

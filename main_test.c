@@ -50,6 +50,7 @@ int	main(int argc, char **argv)
 		return (1);
 	set_img(&data);
 	set_img_anim(&data);
+	set_img_hand_anim(&data);
 	all_hook(&data);
 	mlx_loop(data.mlx);
 }

@@ -78,6 +78,7 @@ int	ft_move(t_all *data)
 	data->now = get_time_ms();
 	elapsed = data->now - data->start_time;
 	data->elapsed_time = data->now - data->frame_time;
+	data->hand_frame = data->now - data->hand_time;
 	if (elapsed >= 22)
 	{
 		data->start_time = data->now;
@@ -85,6 +86,7 @@ int	ft_move(t_all *data)
 		ft_mouse(data);
 		raycasting(data);
 		ft_printf_map(data);
+		ft_print_hand(data);
 		ft_print_anim(data);
 		mlx_put_image_to_window(data->mlx, data->mlx_win_2,
 			data->img.img, 0, 0);

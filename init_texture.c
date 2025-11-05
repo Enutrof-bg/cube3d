@@ -28,6 +28,12 @@ void	ft_set_null(t_all *data)
 		data->anim[i].img = NULL;
 		i++;
 	}
+	i = 0;
+	while (i < 4)
+	{
+		data->hand_anim[i].img = NULL;
+		i++;
+	}
 }
 
 void	ft_set_img_path(t_all *data)

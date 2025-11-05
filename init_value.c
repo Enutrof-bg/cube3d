@@ -35,6 +35,7 @@ void	ft_init_value(t_all *data)
 {
 	data->start_time = get_time_ms();
 	data->frame_time = get_time_ms();
+	data->hand_time = get_time_ms();
 	data->check_door = 0;
 	data->temp_x = 0;
 	data->temp_y = 0;

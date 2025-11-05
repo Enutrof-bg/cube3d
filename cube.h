@@ -135,6 +135,7 @@ typedef struct s_list
 	t_cub		cub;
 
 	t_sprite	anim[15];
+	t_sprite	hand_anim[4];
 	t_ratio		r1;
 	double		pos_player_x;
 	double		pos_player_y;
@@ -165,7 +166,8 @@ typedef struct s_list
 	long 		frame_time;
 	long		elapsed_time;
 	long 		now;
-	long		fps;
+	long		hand_frame;
+	long		hand_time;
 
 	t_screen	img;
 
@@ -257,6 +259,7 @@ int		ft_set_img_player(t_all *data);
 
 //init_texture_anim.c
 void	set_img_anim(t_all *data);
+void	set_img_hand_anim(t_all *data);
 
 //init_value.c
 void	ft_init_value(t_all *data);
@@ -306,6 +309,7 @@ int		ft_put_xpm_to_img(t_all *data, t_screen img, int x, int y);
 //print_anim.c
 int		ft_put_anim(t_all *data, t_sprite img, int x, int y);
 void	ft_print_anim(t_all *data);
+void	ft_print_hand(t_all *data);
 
 //raycasting.c
 void	raycasting(t_all *data);

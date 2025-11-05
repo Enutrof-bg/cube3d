@@ -37,6 +37,31 @@ int	ft_put_anim(t_all *data, t_sprite img, int x, int y)
 	return (0);
 }
 
+void	ft_print_hand(t_all *data)
+{
+	static int	frame = 0;
+	int			hand_x;
+
+	hand_x = W / 2 - data->hand_anim[frame].img_width / 2;
+	if (frame > 3)
+	{
+		frame = 0;
+	}
+	if (data->shoot == 0 && (data->move_x != 0 || data->move_y != 0))
+	{
+		if (hand_x > W || hand_x < 0
+			|| data->hand_anim[frame].img_heigth > H)
+			return ;
+		ft_put_anim(data, data->hand_anim[frame],
+			hand_x, H - data->hand_anim[frame].img_heigth);
+		if (data->elapsed_time > 5000)
+		{
+			data->hand_frame = data->now;
+			frame++;
+		}
+	}
+}
+
 void	ft_print_anim(t_all *data)
 {
 	static int	frame = 0;
@@ -60,6 +85,5 @@ void	ft_print_anim(t_all *data)
 			data->frame_time = data->now;
 			frame++;
 		}
-			
 	}
 }
