@@ -51,7 +51,6 @@ ${DIRGNL}/get_next_line.c \
 ${DIRGNL}/get_next_line_utils.c \
 
 SRC_PATH = parsing/sources/
-RAY_PATH = raycasting/
 SRC_FILES = check_valid_map_2.c check_valid_map.c free.c get_next_line_utils.c \
 			get_next_line.c init.c main.c parsing_colours.c parsing_directions.c \
 			parsing_loading_map.c parsing_map_char.c parsing_map.c utils.c utils_2.c \
