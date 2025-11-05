@@ -73,7 +73,7 @@ int	fill_direction(int index, char *file, t_cub *cub)
 	j = 0;
 	while (file[i] && !is_white_space(file[i]))
 		line[j++] = file[i++];
-	if (line[j - 1] == '\n')
+	if (j > 0 && line[j - 1] == '\n')
 		line[j - 1] = '\0';
 	line[j] = '\0';
 	if (!fill_direction_2(cub, index, line))
