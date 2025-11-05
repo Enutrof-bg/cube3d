@@ -60,9 +60,8 @@ char	**load_info(char **file, t_cub *cub)
 	while (i < lines)
 	{
 		info[i] = ft_strdup(file[i]);
-		// info[i] = NULL;
 		if (!info[i])
-			return (free(info), NULL);
+			return (ft_free_tab(info), info = NULL, NULL);
 		i++;
 	}
 	info[i] = NULL;
@@ -82,7 +81,7 @@ char	**load_map(char **file, t_cub *cub)
 	{
 		map[i] = ft_strdup(file[cub->line_info + i]);
 		if (!map[i])
-			return (NULL);
+			return (ft_free_tab(map), map = NULL, NULL);
 		i++;
 	}
 	map[i] = NULL;
