@@ -25,5 +25,4 @@ void	print_data(t_all *data)
 	printf("plane_dir_y:%f\n", data->plane_dir_y);
 	printf("map_x length:%d\n", (int)data->map_length);
 	printf("map_y height:%d\n", (int)data->map_heigth);
-	printf("angle_player:%d\n", data->angle_player);
 }

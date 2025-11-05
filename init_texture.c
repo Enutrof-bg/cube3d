@@ -17,9 +17,6 @@ void	ft_set_null(t_all *data)
 	int	i;
 
 	i = 0;
-	// data->t_sol.img = NULL;
-	// data->t_wall.img = NULL;
-	// data->t_player.img = NULL;
 	data->north.img = NULL;
 	data->south.img = NULL;
 	data->east.img = NULL;
@@ -35,9 +32,6 @@ void	ft_set_null(t_all *data)
 
 void	ft_set_img_path(t_all *data)
 {
-	// data->t_sol.dest = "./img/sol2.xpm";
-	// data->t_wall.dest = "./img/wall2.xpm";
-	// data->t_player.dest = "./img/player2.xpm";
 	data->north.dest = data->cub.no;
 	data->south.dest = data->cub.so;
 	data->east.dest = data->cub.ea;
