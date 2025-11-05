@@ -30,12 +30,6 @@ void	free_map(t_all *data)
 
 int	ft_destroy_image(t_all *data)
 {
-	if (data->t_sol.img)
-		mlx_destroy_image(data->mlx, data->t_sol.img);
-	if (data->t_wall.img)
-		mlx_destroy_image(data->mlx, data->t_wall.img);
-	if (data->t_player.img)
-		mlx_destroy_image(data->mlx, data->t_player.img);
 	if (data->north.img)
 		mlx_destroy_image(data->mlx, data->north.img);
 	if (data->south.img)

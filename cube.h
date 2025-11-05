@@ -146,25 +146,14 @@ typedef struct s_list
 	double		plane_dir_x;
 	double		plane_dir_y;
 
-	int			angle_player;
 	int			rotate_speed;
 
 	void		*mlx;
-	void		*mlx_win;
 	void		*mlx_win_2;
 
 	int			map_length;
 	int			map_heigth;
 
-	int			img_width;
-	int			img_heigth;
-
-	int			texture_width;
-	int			texture_heigth;
-
-	t_sprite	t_sol;
-	t_sprite	t_wall;
-	t_sprite	t_player;
 	t_sprite	north;
 	t_sprite	south;
 	t_sprite	east;
@@ -173,10 +162,8 @@ typedef struct s_list
 	t_sprite	door_open;
 
 	long		start_time;
-	long		frame_time;
 
 	t_screen	img;
-	t_screen	minimap;
 
 	double		camera_x;
 
