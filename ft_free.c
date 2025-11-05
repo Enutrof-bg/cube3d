@@ -58,6 +58,13 @@ int	ft_destroy_image_anim(t_all *data)
 			mlx_destroy_image(data->mlx, data->anim[i].img);
 		i++;
 	}
+	i = 0;
+	while (i < 4)
+	{
+		if (data->hand_anim[i].img)
+			mlx_destroy_image(data->mlx, data->hand_anim[i].img);
+		i++;
+	}
 	return (0);
 }
 
