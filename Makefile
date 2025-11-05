@@ -85,7 +85,7 @@ clean:
 	movement.o \
 	movement_rotate.o \
 	ft_free.o \
-	ft_realloc_map.c \
+	ft_realloc_map.o \
 	init_dir.o \
 	raycasting.o \
 	minimap.o \
