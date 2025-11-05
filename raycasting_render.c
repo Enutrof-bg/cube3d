@@ -67,11 +67,11 @@ void	ft_pick_pixel_color(t_all *data, unsigned int *color,
 	r1->texture_y = (int)(r1->texture_pos) % ref.img_heigth;
 	if (r1->texture_x < 0)
 		r1->texture_x = 0;
-	if (r1->texture_x > ref.img_width)
+	if (r1->texture_x >= ref.img_width)
 		r1->texture_x = ref.img_width;
 	if (r1->texture_y < 0)
 		r1->texture_y = 0;
-	if (r1->texture_y > ref.img_heigth)
+	if (r1->texture_y >= ref.img_heigth)
 		r1->texture_y = ref.img_heigth;
 	*color = *(unsigned int *)(ref.s_screen.addr
 			+ (r1->texture_y * ref.s_screen.line_length

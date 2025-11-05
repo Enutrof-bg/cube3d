@@ -162,6 +162,10 @@ typedef struct s_list
 	t_sprite	door_open;
 
 	long		start_time;
+	long 		frame_time;
+	long		elapsed_time;
+	long 		now;
+	long		fps;
 
 	t_screen	img;
 

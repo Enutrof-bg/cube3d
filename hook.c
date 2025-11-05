@@ -73,14 +73,14 @@ int	ft_move_player(t_all *data)
 
 int	ft_move(t_all *data)
 {
-	long	now;
 	long	elapsed;
 
-	now = get_time_ms();
-	elapsed = now - data->start_time;
+	data->now = get_time_ms();
+	elapsed = data->now - data->start_time;
+	data->elapsed_time = data->now - data->frame_time;
 	if (elapsed >= 22)
 	{
-		data->start_time = now;
+		data->start_time = data->now;
 		ft_move_player(data);
 		ft_mouse(data);
 		raycasting(data);

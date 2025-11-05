@@ -40,7 +40,9 @@ int	ft_put_anim(t_all *data, t_sprite img, int x, int y)
 void	ft_print_anim(t_all *data)
 {
 	static int	frame = 0;
+	int			anim_x;
 
+	anim_x = W / 2 + data->anim[frame].img_width;
 	if (frame > 14)
 	{
 		frame = 0;
@@ -48,9 +50,16 @@ void	ft_print_anim(t_all *data)
 	}
 	if (data->shoot == 1)
 	{
+		if (anim_x > W || anim_x < 0
+			|| data->anim[frame].img_heigth > H)
+			return ;
 		ft_put_anim(data, data->anim[frame],
-			W - data->anim[frame].img_width -100,
-			H - data->anim[frame].img_heigth);
-		frame++;
+			anim_x, H - data->anim[frame].img_heigth);
+		if (data->elapsed_time > 60)
+		{
+			data->frame_time = data->now;
+			frame++;
+		}
+			
 	}
 }
