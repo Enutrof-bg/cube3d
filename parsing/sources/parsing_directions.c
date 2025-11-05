@@ -6,14 +6,14 @@
 /*   By: vafavard <vafavard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 15:13:23 by vafavard          #+#    #+#             */
-/*   Updated: 2025/11/05 12:15:58 by vafavard         ###   ########.fr       */
+/*   Updated: 2025/11/05 17:51:15 by vafavard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 #include "../includes/get_next_line.h"
 
-void	fill_direction_2(t_cub *cub, int index, char *line);
+bool	fill_direction_2(t_cub *cub, int index, char *line);
 int		fill_direction(int index, char *file, t_cub *cub);
 int		directions_texture(char **file, t_cub *cub);
 bool	is_white_space(char c);
@@ -26,16 +26,30 @@ bool	is_white_space(char c)
 }
 
 
-void	fill_direction_2(t_cub *cub, int index, char *line)
+bool	fill_direction_2(t_cub *cub, int index, char *line)
 {
 	if (index == 1)
+	{
 		cub->no = line;
+		return (true);
+	}
 	else if (index == 2)
+	{
 		cub->so = line;
+		return (true);
+	}
 	else if (index == 3)
+	{
 		cub->we = line;
+		return (true);
+	}
 	else if (index == 4)
+	{
 		cub->ea = line;
+		return (true);
+	}
+	else
+		return (printf("3\n"), false);
 }
 
 int	fill_direction(int index, char *file, t_cub *cub)
@@ -62,8 +76,28 @@ int	fill_direction(int index, char *file, t_cub *cub)
 	if (line[j - 1] == '\n')
 		line[j - 1] = '\0';
 	line[j] = '\0';
-	fill_direction_2(cub, index, line);
+	if (!fill_direction_2(cub, index, line))
+		return (printf("2\n"), 0);
+	// fill_direction_2(cub, index, line);
 	return (1);
+}
+
+bool	there_is_char(char *str)
+{
+	int i;
+	
+	i = 0;
+
+	while (str[i])
+	{
+		if (!((str[i] >= 9 && str[i] <= 13) || str[i] == 32))
+		{
+			if (str[i] != '\n')
+				return (false);
+		}
+		i++;
+	}
+	return (true);
 }
 
 int	directions_texture(char **file, t_cub *cub)
@@ -74,9 +108,9 @@ int	directions_texture(char **file, t_cub *cub)
 	i = 0;
 	while (cub->info_map[i])
 	{
-		if (is_valid(cub->info_map[i]))
+		if (is_valid(cub->info_map[i], cub))
 		{
-			index = is_valid(cub->info_map[i]);
+			index = is_valid(cub->info_map[i], cub);
 			if (index >= 5)
 			{
 				if (!fill_floor_celling(index, file[i], cub))
@@ -85,10 +119,13 @@ int	directions_texture(char **file, t_cub *cub)
 			else if (!fill_direction(index, file[i], cub))
 			{
 				ft_free_all(cub);
-				return (0);
+				return (printf("1\n"), 0);
 			}
 		}
+		else if (!there_is_char(cub->info_map[i]))
+			return (/*printf("%s\n",cub->info_map[i]), */0);
 		i++;
+
 	}
 	return (1);
 }

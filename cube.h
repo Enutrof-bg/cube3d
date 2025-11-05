@@ -6,7 +6,7 @@
 /*   By: vafavard <vafavard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 11:18:27 by kevwang           #+#    #+#             */
-/*   Updated: 2025/11/04 16:20:43 by vafavard         ###   ########.fr       */
+/*   Updated: 2025/11/05 17:46:50 by vafavard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -373,7 +373,7 @@ int		ft_check_colours_2(t_cub *cub);
 int		fill_floor_celling(int index, char *file, t_cub *cub);
 void	fill_floor_celling_2(t_cub *cub, int index, char *line);
 char	*skip_space(char *str);
-int		is_valid(char *file);
+int		is_valid(char *file, t_cub *cub);
 bool	check_name(char *file);
 
 //check_valid_map_3
@@ -381,7 +381,7 @@ void	check_valide_space_2(t_cub **cub, int i, int j, int k);
 void	check_valid_space(t_cub **cub, int f);
 
 //parsing_directions
-void	fill_direction_2(t_cub *cub, int index, char *line);
+bool	fill_direction_2(t_cub *cub, int index, char *line);
 int		fill_direction(int index, char *file, t_cub *cub);
 int		directions_texture(char **file, t_cub *cub);
 
@@ -404,5 +404,7 @@ char	*ft_malloc(char const *s, int start, int end);
 char	**ft_split(char const *s, char c);
 void	ft_free_all_split(char **tab, int last);
 int		extern_loop(const char *s, int i, char c, int flag);
+
+bool	is_white_space(char c);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: vafavard <vafavard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 15:13:15 by vafavard          #+#    #+#             */
-/*   Updated: 2025/11/02 16:35:33 by vafavard         ###   ########.fr       */
+/*   Updated: 2025/11/05 17:54:47 by vafavard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 int		fill_floor_celling(int index, char *file, t_cub *cub);
 void	fill_floor_celling_2(t_cub *cub, int index, char *line);
 char	*skip_space(char *str);
-int		is_valid(char *file);
+int		is_valid(char *file, t_cub *cub);
 bool	check_name(char *file);
 
 int	fill_floor_celling(int index, char *file, t_cub *cub)
@@ -68,22 +68,50 @@ char	*skip_space(char *str)
 	}
 	return (&str[i]);
 }
+int is_valid_2(char *file, t_cub *cub)
+{
+	if (ft_strncmp(skip_space(file), "F", 1) == 0)
+	{
+		if (cub->floor)
+			return (0);
+		return (5);
+	}
+	else if (ft_strncmp(skip_space(file), "C", 1) == 0)
+	{
+		if (cub->celling)
+			return (0);
+		return (6);
+	}
+	return (0);
+}
 
-int	is_valid(char *file)
+int	is_valid(char *file, t_cub *cub)
 {
 	if (ft_strncmp(skip_space(file), "NO", 2) == 0)
+	{
+		if (cub->no)
+			return (0);
 		return (1);
+	}
 	else if (ft_strncmp(skip_space(file), "SO", 2) == 0)
+	{
+		if (cub->so)
+			return (0);		
 		return (2);
+	}
 	else if (ft_strncmp(skip_space(file), "WE", 2) == 0)
+	{
+		if (cub->we)
+			return (0);
 		return (3);
+	}
 	else if (ft_strncmp(skip_space(file), "EA", 2) == 0)
+	{
+		if (cub->ea)
+			return (0);
 		return (4);
-	else if (ft_strncmp(skip_space(file), "F", 1) == 0)
-		return (5);
-	else if (ft_strncmp(skip_space(file), "C", 1) == 0)
-		return (6);
-	return (0);
+	}
+	return (is_valid_2(file, cub));
 }
 
 bool	check_name(char *file)

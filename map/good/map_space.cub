@@ -1,7 +1,7 @@
-NO ./img/n.xpm
-SO ./img/s.xpm
-WE ./img/w.xpm
-EA ./img/e.xpm
+NO ./img/n1.xpm
+SO ./img/s1.xpm
+WE ./img/w1.xpm
+EA ./img/e1.xpm
 
 									F							 0,0,0
 C 255,									25,255
