@@ -6,7 +6,7 @@
 /*   By: vafavard <vafavard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 11:18:27 by kevwang           #+#    #+#             */
-/*   Updated: 2025/11/05 17:26:05 by vafavard         ###   ########.fr       */
+/*   Updated: 2025/11/05 17:46:50 by vafavard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -373,7 +373,7 @@ int		ft_check_colours_2(t_cub *cub);
 int		fill_floor_celling(int index, char *file, t_cub *cub);
 void	fill_floor_celling_2(t_cub *cub, int index, char *line);
 char	*skip_space(char *str);
-int		is_valid(char *file);
+int		is_valid(char *file, t_cub *cub);
 bool	check_name(char *file);
 
 //check_valid_map_3

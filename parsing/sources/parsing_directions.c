@@ -6,7 +6,7 @@
 /*   By: vafavard <vafavard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 15:13:23 by vafavard          #+#    #+#             */
-/*   Updated: 2025/11/05 17:40:59 by vafavard         ###   ########.fr       */
+/*   Updated: 2025/11/05 17:51:15 by vafavard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,9 +108,9 @@ int	directions_texture(char **file, t_cub *cub)
 	i = 0;
 	while (cub->info_map[i])
 	{
-		if (is_valid(cub->info_map[i]))
+		if (is_valid(cub->info_map[i], cub))
 		{
-			index = is_valid(cub->info_map[i]);
+			index = is_valid(cub->info_map[i], cub);
 			if (index >= 5)
 			{
 				if (!fill_floor_celling(index, file[i], cub))
