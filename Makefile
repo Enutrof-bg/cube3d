@@ -6,7 +6,7 @@
 #    By: vafavard <vafavard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/27 11:20:17 by kevwang           #+#    #+#              #
-#    Updated: 2025/11/05 16:00:57 by vafavard         ###   ########.fr        #
+#    Updated: 2025/11/05 16:16:31 by vafavard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,6 @@ init_dir.c \
 raycasting.c \
 minimap.c \
 print_pixel.c \
-print_anim.c \
 movement.c \
 movement_rotate.c \
 movement_side.c \
@@ -59,11 +58,38 @@ SRC_FILES = check_valid_map_2.c check_valid_map.c free.c get_next_line_utils.c \
 			
 SRC_FILES_BONUS = check_valid_map_2.c check_valid_map.c free.c get_next_line_utils.c \
 				get_next_line.c init.c main.c parsing_colours.c parsing_directions.c \
-				parsing_loading_map.c parsing_map_char_bonus.c parsing_map.c utils.c utils_2.c \
-				check_valid_map_3.c
+				parsing_loading_map.c parsing_map_char_bonus.c parsing_map.c utils.c utils_2.c check_valid_map_3.c
+				
+BONUS_FILE = print_anim_bonus.c hook_bonus.c \
+main_test.c \
+ft_itoa.c \
+ft_time.c \
+movement.c \
+movement_rotate.c \
+ft_free.c \
+ft_realloc_map.c \
+init_dir.c \
+raycasting.c \
+minimap.c \
+print_pixel.c \
+movement.c \
+movement_rotate.c \
+movement_side.c \
+init_texture.c \
+init_texture_anim.c \
+init_texture_door.c \
+init_texture_wall.c \
+raycasting.c \
+raycasting_calculate.c \
+raycasting_render.c \
+raycasting_door.c \
+ft_print_debug.c \
+open_door.c \
+init_value.c \
+mouse.c \
 				
 SRC = $(addprefix $(SRC_PATH), $(SRC_FILES))
-SRC_BONUS = $(addprefix $(SRC_PATH), $(SRC_FILES_BONUS))
+SRC_BONUS = $(addprefix $(SRC_PATH), $(SRC_FILES_BONUS)) $(BONUS_FILE)
 
 
 OBJS = $(patsubst %.c,%.o,$(SRC))
@@ -71,6 +97,8 @@ OBJS_BONUS = $(patsubst %.c,%.o,$(SRC_BONUS))
 INCLUDES = -Iincludes
 
 SRC2 = ${FILE:.c=.o}
+
+SRC3 = ${BONUS_FILE:.c=.o}
 
 NAME = cube
 NAME_BONUS = cube_bonus
@@ -84,7 +112,7 @@ ${NAME} : ${SRC2} ${OBJS}
 	make -C ft_printf
 	${CC} ${CFLAGS} $^ ${MLX} ${INCPRINTF} -o $@
 
-${NAME_BONUS} : ${SRC2} ${OBJS_BONUS}
+${NAME_BONUS} : ${SRC3} ${OBJS_BONUS}
 	make -C minilibx-linux
 	make -C ft_printf
 	${CC} ${CFLAGS} $^ ${MLX} ${INCPRINTF} -o $@

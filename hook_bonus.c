@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hook.c                                             :+:      :+:    :+:   */
+/*   hook_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vafavard <vafavard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/02 14:41:56 by kevwang           #+#    #+#             */
-/*   Updated: 2025/11/05 16:07:28 by vafavard         ###   ########.fr       */
+/*   Created: 2025/11/05 16:06:18 by vafavard          #+#    #+#             */
+/*   Updated: 2025/11/05 16:06:18 by vafavard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,9 @@ int	ft_move(t_all *data)
 		ft_move_player(data);
 		ft_mouse(data);
 		raycasting(data);
-		// ft_printf_map(data);
-		// ft_print_hand(data);
-		// ft_print_anim(data);
+		ft_printf_map(data);
+		ft_print_hand(data);
+		ft_print_anim(data);
 		mlx_put_image_to_window(data->mlx, data->mlx_win_2,
 			data->img.img, 0, 0);
 	}
@@ -99,8 +99,8 @@ void	all_hook(t_all *data)
 	mlx_do_key_autorepeatoff(data->mlx);
 	mlx_hook(data->mlx_win_2, 2, 1L << 0, &on_keypress, data);
 	mlx_hook(data->mlx_win_2, 3, 1L << 1, &on_keyrelease, data);
-	// mlx_hook(data->mlx_win_2, 6, 1L << 6, &on_mouse, data);
-	// mlx_mouse_hide(data->mlx, data->mlx_win_2);
+	mlx_hook(data->mlx_win_2, 6, 1L << 6, &on_mouse, data);
+	mlx_mouse_hide(data->mlx, data->mlx_win_2);
 	mlx_loop_hook(data->mlx, &ft_move, data);
 	mlx_hook(data->mlx_win_2, DestroyNotify,
 		StructureNotifyMask, &on_destroy, data);
