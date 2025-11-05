@@ -44,13 +44,12 @@ int	main(int argc, char **argv)
 	if (realloc_minimap(&data) == 0)
 		return (ft_printf("Error\nMemory allocation failed\n"),
 			ft_free_all(&data.cub), 1);
-	ft_free_all(&data.cub);
-	// if (set_pos_player(&data) == -1)
-	// 	return (ft_free_all(&data.cub), 1);
-	// if (ft_init_mlx(&data) == 1)
-	// 	return (1);
-	// set_img(&data);
-	// set_img_anim(&data);
-	// all_hook(&data);
-	// mlx_loop(data.mlx);
+	if (set_pos_player(&data) == -1)
+		return (ft_free_all(&data.cub), 1);
+	if (ft_init_mlx(&data) == 1)
+		return (1);
+	set_img(&data);
+	set_img_anim(&data);
+	all_hook(&data);
+	mlx_loop(data.mlx);
 }
