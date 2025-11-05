@@ -6,7 +6,7 @@
 /*   By: vafavard <vafavard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 15:13:17 by vafavard          #+#    #+#             */
-/*   Updated: 2025/11/05 12:09:32 by vafavard         ###   ########.fr       */
+/*   Updated: 2025/11/05 17:05:14 by vafavard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,36 @@ bool	check_zero_leak(t_cub *cub)
 	return (true);
 }
 
+bool	check_top_map(t_cub *cub)
+{
+	int i;
+	
+	i = 0;
+	while (cub->map[0][i])
+	{
+		while (cub->map[0][i])
+		{
+			if (!is_white_space(cub->map[0][i]))
+			{
+				if (cub->map[0][i] != '1')
+					return (false);
+			}
+			if (cub->map[0][i] == '\n')
+					return (true);
+			i++;
+		}
+	}
+	return (true);
+}
+
 bool	check_sides(t_cub *cub)
 {
 	int	i;
 	int	j;
 
 	i = 0;
+	if (!check_top_map(cub))
+		return (false);
 	while (cub->map[i])
 	{
 		j = 0;

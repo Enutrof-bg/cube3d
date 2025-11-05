@@ -6,7 +6,7 @@
 /*   By: vafavard <vafavard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 15:13:30 by vafavard          #+#    #+#             */
-/*   Updated: 2025/11/04 16:36:15 by vafavard         ###   ########.fr       */
+/*   Updated: 2025/11/05 17:02:48 by vafavard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,9 @@ bool	check_general(t_cub *cub)
 	if (!check_map(cub))
 		return (printf("Error\nFile .cub non correct1\n"), false);
 	check_valid_space(&cub, 0);
-	if (!check_map_spaces(cub) || !check_sides(cub) || !check_zero_leak(cub))
+	if (!check_sides(cub))
+		return (printf("Error\nMap non correct\n"), false);
+	if (!check_map_spaces(cub) || !check_zero_leak(cub))
 		return (printf("Error\nMap non correct\n"), false);
 	if (!check_map_char(cub))
 		return (printf("Error\nInvalides char in map\n"), false);
