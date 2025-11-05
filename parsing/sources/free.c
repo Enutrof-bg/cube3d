@@ -14,7 +14,7 @@
 
 void	ft_free_tab(char **tab);
 void	ft_free_all(t_cub *cub);
-void	ft_free_all_2(t_cub *cub);
+void	ft_free_all_2(t_cub *cub); //fewhjfkwjehkjfweh
 void	ft_free_all_3(t_cub *cub);
 
 void	ft_free_all(t_cub *cub)
