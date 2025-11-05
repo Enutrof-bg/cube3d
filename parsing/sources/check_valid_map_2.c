@@ -6,7 +6,7 @@
 /*   By: vafavard <vafavard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 15:13:15 by vafavard          #+#    #+#             */
-/*   Updated: 2025/11/05 17:50:23 by vafavard         ###   ########.fr       */
+/*   Updated: 2025/11/05 17:54:47 by vafavard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,22 @@ char	*skip_space(char *str)
 	}
 	return (&str[i]);
 }
+int is_valid_2(char *file, t_cub *cub)
+{
+	if (ft_strncmp(skip_space(file), "F", 1) == 0)
+	{
+		if (cub->floor)
+			return (0);
+		return (5);
+	}
+	else if (ft_strncmp(skip_space(file), "C", 1) == 0)
+	{
+		if (cub->celling)
+			return (0);
+		return (6);
+	}
+	return (0);
+}
 
 int	is_valid(char *file, t_cub *cub)
 {
@@ -95,19 +111,7 @@ int	is_valid(char *file, t_cub *cub)
 			return (0);
 		return (4);
 	}
-	else if (ft_strncmp(skip_space(file), "F", 1) == 0)
-	{
-		if (cub->floor)
-			return (0);
-		return (5);
-	}
-	else if (ft_strncmp(skip_space(file), "C", 1) == 0)
-	{
-		if (cub->celling)
-			return (0);
-		return (6);
-	}
-	return (0);
+	return (is_valid_2(file, cub));
 }
 
 bool	check_name(char *file)
