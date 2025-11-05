@@ -12,7 +12,7 @@
 
 #include "cube.h"
 
-void ft_strcpy(char *dst, const char *src)
+void	ft_strcpy(char *dst, const char *src)
 {
 	int	i;
 

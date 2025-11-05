@@ -163,9 +163,9 @@ typedef struct s_list
 	t_sprite	door_open;
 
 	long		start_time;
-	long 		frame_time;
+	long		frame_time;
 	long		elapsed_time;
-	long 		now;
+	long		now;
 	long		hand_frame;
 	long		hand_time;
 
