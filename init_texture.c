@@ -39,9 +39,17 @@ void	ft_set_null(t_all *data)
 void	ft_set_img_path(t_all *data)
 {
 	data->north.dest = data->cub.no;
+	if (data->north.dest == NULL)
+		data->north.dest = "";
 	data->south.dest = data->cub.so;
+	if (data->south.dest == NULL)
+		data->south.dest = "";
 	data->east.dest = data->cub.ea;
+	if (data->east.dest == NULL)
+		data->east.dest = "";
 	data->west.dest = data->cub.we;
+	if (data->west.dest == NULL)
+		data->west.dest = "";
 	data->door_close.dest = "./img/door_close.xpm";
 	data->door_open.dest = "./img/door_open.xpm";
 }
