@@ -47,16 +47,16 @@ void	ft_print_hand(t_all *data)
 	{
 		frame = 0;
 	}
-	if (data->shoot == 0 && (data->move_x != 0 || data->move_y != 0))
+	if (data->shoot == 0 && data->move_x != 0)
 	{
 		if (hand_x > W || hand_x < 0
 			|| data->hand_anim[frame].img_heigth > H)
 			return ;
 		ft_put_anim(data, data->hand_anim[frame],
 			hand_x, H - data->hand_anim[frame].img_heigth);
-		if (data->elapsed_time > 5000)
+		if (data->hand_frame > 50)
 		{
-			data->hand_frame = data->now;
+			data->hand_time = data->now;
 			frame++;
 		}
 	}
