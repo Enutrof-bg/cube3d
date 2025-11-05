@@ -241,6 +241,9 @@ void	ft_clean_mlx(t_all *data);
 //ft_print_debug.c
 void	print_data(t_all *data);
 
+//ft_realloc_map.c
+int		realloc_minimap(t_all *data);
+
 //init_.c
 void	ft_set_null(t_all *data);
 void	ft_set_img_path(t_all *data);

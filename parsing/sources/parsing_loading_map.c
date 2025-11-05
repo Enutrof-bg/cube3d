@@ -60,6 +60,9 @@ char	**load_info(char **file, t_cub *cub)
 	while (i < lines)
 	{
 		info[i] = ft_strdup(file[i]);
+		// info[i] = NULL;
+		if (!info[i])
+			return (free(info), NULL);
 		i++;
 	}
 	info[i] = NULL;

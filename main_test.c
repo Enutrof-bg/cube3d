@@ -12,80 +12,6 @@
 
 #include "cube.h"
 
-char	*ft_strcpy(char *dest, const char *src)
-{
-	int	i;
-
-	i = 0;
-	while (src[i])
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
-}
-
-int	find_biggest_line(t_all *data)
-{
-	int	i;
-	int	line;
-
-	i = 0;
-	line = 0;
-	while (data->map[i])
-	{
-		if ((int)ft_strlen(data->map[i]) > line)
-			line = (int)ft_strlen(data->map[i]) - 1;
-		i++;
-	}
-	return (line);
-}
-
-int	ft_replace(t_all *data, int i, int line)
-{
-	int		j;
-	char	*temp;
-
-	j = 0;
-	if ((int)ft_strlen(data->map[i]) < line)
-	{
-		temp = data->map[i];
-		data->map[i] = malloc(sizeof(char) * (line + 1));
-		if (!data->map[i])
-			return (data->map[i] = temp, 0);
-		// data->map[i] = temp;
-		// free(temp);
-		// return (0);
-		ft_strcpy(data->map[i], temp);
-		j = (int)ft_strlen(temp) - 1;
-		free(temp);
-		while (j < line)
-		{
-			data->map[i][j] = ' ';
-			j++;
-		}
-		data->map[i][j] = '\0';
-	}
-	return (1);
-}
-
-int	realloc_minimap(t_all *data)
-{
-	int		i;
-	int		line;
-
-	i = 0;
-	line = find_biggest_line(data);
-	while (data->map[i])
-	{
-		if (ft_replace(data, i, line) == 0)
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
 int	ft_init_mlx(t_all *data)
 {
 	data->mlx = mlx_init();
@@ -118,12 +44,13 @@ int	main(int argc, char **argv)
 	if (realloc_minimap(&data) == 0)
 		return (ft_printf("Error\nMemory allocation failed\n"),
 			ft_free_all(&data.cub), 1);
-	if (set_pos_player(&data) == -1)
-		return (ft_free_all(&data.cub), 1);
-	if (ft_init_mlx(&data) == 1)
-		return (1);
-	set_img(&data);
-	set_img_anim(&data);
-	all_hook(&data);
-	mlx_loop(data.mlx);
+	ft_free_all(&data.cub);
+	// if (set_pos_player(&data) == -1)
+	// 	return (ft_free_all(&data.cub), 1);
+	// if (ft_init_mlx(&data) == 1)
+	// 	return (1);
+	// set_img(&data);
+	// set_img_anim(&data);
+	// all_hook(&data);
+	// mlx_loop(data.mlx);
 }

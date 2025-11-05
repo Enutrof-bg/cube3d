@@ -26,6 +26,7 @@ ft_time.c \
 movement.c \
 movement_rotate.c \
 ft_free.c \
+ft_realloc_map.c \
 init_dir.c \
 raycasting.c \
 minimap.c \
@@ -84,6 +85,7 @@ clean:
 	movement.o \
 	movement_rotate.o \
 	ft_free.o \
+	ft_realloc_map.c \
 	init_dir.o \
 	raycasting.o \
 	minimap.o \
