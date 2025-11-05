@@ -1,7 +1,7 @@
-NO ./img/br_wall.xpm
-SO ./img/br_wall.xpm
-WE ./img/br_wall.xpm
-EA ./img/br_wall.xpm
+NO img/br_wall.xpm
+SO img/br_wall.xpm
+WE img/br_wall.xpm
+EA img/br_wall.xpm
 
 F 205,215,205
 C 205 ,205  ,205

@@ -6,7 +6,7 @@
 /*   By: vafavard <vafavard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 15:13:23 by vafavard          #+#    #+#             */
-/*   Updated: 2025/11/02 17:07:13 by vafavard         ###   ########.fr       */
+/*   Updated: 2025/11/05 12:15:58 by vafavard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,15 @@
 void	fill_direction_2(t_cub *cub, int index, char *line);
 int		fill_direction(int index, char *file, t_cub *cub);
 int		directions_texture(char **file, t_cub *cub);
+bool	is_white_space(char c);
+
+bool	is_white_space(char c)
+{
+	if ((c >= 9 && c <= 13) || c == 32)
+		return (true);
+	return (false);
+}
+
 
 void	fill_direction_2(t_cub *cub, int index, char *line)
 {
@@ -37,20 +46,19 @@ int	fill_direction(int index, char *file, t_cub *cub)
 
 	i = 0;
 	j = 0;
-	while (file[i] != '.')
+	while (is_white_space(file[i]))
 		i++;
-	while (file[i + j])
+	i+=2;
+	while (is_white_space(file[i]))
+		i++;
+	while (file[i + j] && !is_white_space(file[i + j]))
 		j++;
 	line = malloc(sizeof(char) * (j + 1));
 	if (!line)
 		return (printf("Error\nMalloc failed\n"), 0);
 	j = 0;
-	while (file[i])
-	{
-		line[j] = file[i];
-		i++;
-		j++;
-	}
+	while (file[i] && !is_white_space(file[i]))
+		line[j++] = file[i++];
 	if (line[j - 1] == '\n')
 		line[j - 1] = '\0';
 	line[j] = '\0';
