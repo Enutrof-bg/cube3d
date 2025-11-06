@@ -14,12 +14,15 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -g -Iincludes
 HEADERS = includes/cube.h
 
+#LIBRARIES
 MLX = -Lminilibx-linux -lmlx -lX11 -lXext -lm 
 DIRPRINT = ft_printf
-
 INCPRINTF = -Lft_printf -lftprintf
 
+#PATH
 RAY_PATH = raycasting/
+SRC_PATH = sources/
+
 FILE = main_test.c \
 ft_itoa.c \
 ft_time.c \
@@ -46,9 +49,8 @@ ft_print_debug.c \
 hook.c \
 open_door.c \
 init_value.c \
-mouse.c \
+mouse.c
 
-SRC_PATH = sources/
 SRC_FILES = check_valid_map_2.c check_valid_map.c free.c get_next_line_utils.c \
 			get_next_line.c init.c main.c parsing_colours.c parsing_directions.c \
 			parsing_loading_map.c parsing_map_char.c parsing_map.c utils.c utils_2.c \
@@ -84,29 +86,20 @@ raycasting_door.c \
 ft_print_debug.c \
 open_door.c \
 init_value.c \
-mouse.c \
+mouse.c
 				
-SRC = $(addprefix $(SRC_PATH), $(SRC_FILES))
-RAY = $(addprefix $(RAY_PATH), $(FILE))
+SRC = $(addprefix $(SRC_PATH), $(SRC_FILES)) $(addprefix $(RAY_PATH), $(FILE))
 OBJS = $(patsubst %.c,%.o,$(SRC))
-SRC2 = $(patsubst %.c,%.o,$(RAY))
 
 SRC_BONUS = $(addprefix $(SRC_PATH), $(SRC_FILES_BONUS)) $(addprefix $(RAY_PATH), $(BONUS_FILE))
 OBJS_BONUS = $(patsubst %.c,%.o,$(SRC_BONUS))
 
-# SRC2 = ${FILE:.c=.o}
-
-
-# SRC3 = ${BONUS_FILE:.c=.o}
-
 NAME = cube
 NAME_BONUS = cube_bonus
-FILEPRINTF = ${DIRPRINT}/ft_printf.o ${DIRPRINT}/ft_putcharstr.o ${DIRPRINT}/ft_puthexa.o \
-${DIRPRINT}/ft_putnbr.o ${DIRPRINT}/ft_putptr.o ${DIRPRINT}/ft_putunsigned.o
 
 all: ${NAME}
 
-${NAME} : ${SRC2} ${OBJS}
+${NAME} : ${OBJS}
 	make -C minilibx-linux
 	make -C ft_printf
 	${CC} ${CFLAGS} $^ ${MLX} ${INCPRINTF} -o $@
@@ -122,35 +115,7 @@ ${NAME_BONUS} : ${OBJS_BONUS}
 bonus: $(NAME_BONUS)
 
 clean:
-	rm -f $(OBJS) $(OBJS_BONUS) $(SRC2)\
-	main_test.o \
-	ft_itoa.o \
-	ft_time.o \
-	movement.o \
-	movement_rotate.o \
-	ft_free.o \
-	ft_realloc_map.o \
-	init_dir.o \
-	raycasting.o \
-	minimap.o \
-	print_pixel.o \
-	print_anim.o \
-	movement.o \
-	movement_rotate.o \
-	movement_side.o \
-	init_texture.o \
-	init_texture_anim.o \
-	init_texture_door.o \
-	init_texture_wall.o \
-	raycasting.o \
-	raycasting_calculate.o \
-	raycasting_render.o \
-	raycasting_door.o \
-	ft_print_debug.o \
-	hook.o \
-	open_door.o \
-	init_value.o \
-	mouse.o
+	rm -f $(OBJS) $(OBJS_BONUS)
 	make fclean -C ft_printf
 	make clean -C minilibx-linux
 

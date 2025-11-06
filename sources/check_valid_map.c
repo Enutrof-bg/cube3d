@@ -46,8 +46,8 @@ bool	check_zero_leak(t_cub *cub)
 
 bool	check_top_map(t_cub *cub)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
 	while (cub->map[0][i])
 	{
@@ -59,7 +59,7 @@ bool	check_top_map(t_cub *cub)
 					return (false);
 			}
 			if (cub->map[0][i] == '\n')
-					return (true);
+				return (true);
 			i++;
 		}
 	}
@@ -85,10 +85,8 @@ bool	check_sides(t_cub *cub)
 					return (false);
 			}
 			if (cub->map[i][j + 1] == '\n')
-			{
 				if (cub->map[i][j] != '1' && cub->map[i][j] != ' ')
 					return (false);
-			}
 			j++;
 		}
 		i++;
@@ -160,7 +158,6 @@ bool	check_map(t_cub *cub)
 	int	flag;
 
 	i = 0;
-	flag = 0;
 	if (!cub->map[i])
 		return (false);
 	while (cub->map[i])

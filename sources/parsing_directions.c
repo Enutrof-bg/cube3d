@@ -25,7 +25,6 @@ bool	is_white_space(char c)
 	return (false);
 }
 
-
 bool	fill_direction_2(t_cub *cub, int index, char *line)
 {
 	if (index == 1)
@@ -62,7 +61,7 @@ int	fill_direction(int index, char *file, t_cub *cub)
 	j = 0;
 	while (is_white_space(file[i]))
 		i++;
-	i+=2;
+	i += 2;
 	while (is_white_space(file[i]))
 		i++;
 	while (file[i + j] && !is_white_space(file[i + j]))
@@ -78,16 +77,14 @@ int	fill_direction(int index, char *file, t_cub *cub)
 	line[j] = '\0';
 	if (!fill_direction_2(cub, index, line))
 		return (printf("2\n"), 0);
-	// fill_direction_2(cub, index, line);
 	return (1);
 }
 
 bool	there_is_char(char *str)
 {
-	int i;
-	
-	i = 0;
+	int	i;
 
+	i = 0;
 	while (str[i])
 	{
 		if (!((str[i] >= 9 && str[i] <= 13) || str[i] == 32))
@@ -123,9 +120,8 @@ int	directions_texture(char **file, t_cub *cub)
 			}
 		}
 		else if (!there_is_char(cub->info_map[i]))
-			return (/*printf("%s\n",cub->info_map[i]), */0);
+			return (0);
 		i++;
-
 	}
 	return (1);
 }

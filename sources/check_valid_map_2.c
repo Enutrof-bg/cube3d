@@ -68,7 +68,8 @@ char	*skip_space(char *str)
 	}
 	return (&str[i]);
 }
-int is_valid_2(char *file, t_cub *cub)
+
+int	is_valid_2(char *file, t_cub *cub)
 {
 	if (ft_strncmp(skip_space(file), "F", 1) == 0)
 	{
@@ -96,7 +97,7 @@ int	is_valid(char *file, t_cub *cub)
 	else if (ft_strncmp(skip_space(file), "SO", 2) == 0)
 	{
 		if (cub->so)
-			return (0);		
+			return (0);
 		return (2);
 	}
 	else if (ft_strncmp(skip_space(file), "WE", 2) == 0)
