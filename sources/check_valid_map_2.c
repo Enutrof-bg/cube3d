@@ -17,7 +17,6 @@ int		fill_floor_celling(int index, char *file, t_cub *cub);
 void	fill_floor_celling_2(t_cub *cub, int index, char *line);
 char	*skip_space(char *str);
 int		is_valid(char *file, t_cub *cub);
-bool	check_name(char *file);
 
 int	fill_floor_celling(int index, char *file, t_cub *cub)
 {
@@ -113,28 +112,4 @@ int	is_valid(char *file, t_cub *cub)
 		return (4);
 	}
 	return (is_valid_2(file, cub));
-}
-
-bool	check_name(char *file)
-{
-	int	i;
-	int	valide;
-
-	valide = 0;
-	i = 0;
-	while (file[i] && file[i] != '.')
-		i++;
-	i++;
-	if (file[i] == 'c')
-		valide += 1;
-	if (file[i + 1] == 'u')
-		valide += 1;
-	if (file[i + 2] == 'b')
-		valide += 1;
-	if (file[i + 3] != '\0')
-		return (false);
-	if (valide == 3)
-		return (true);
-	else
-		return (false);
 }

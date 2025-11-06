@@ -13,36 +13,11 @@
 #include "../includes/cube.h"
 #include "../includes/get_next_line.h"
 
-bool	check_zero_leak(t_cub *cub);
+bool	check_top_map(t_cub *cub);
 bool	check_sides(t_cub *cub);
 bool	check_map_spaces(t_cub *cub);
 bool	check_map(t_cub *cub);
 bool	check_map_2(char *str);
-
-bool	check_zero_leak(t_cub *cub)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (cub->map[i])
-	{
-		j = 0;
-		while (cub->map[i][j])
-		{
-			if (cub->map[i][j] == '0')
-			{
-				if (!cub->map[i + 1][j] || !cub->map[i - 1][j])
-					return (false);
-				else if (cub->map[i + 1][j] == ' ' || cub->map[i - 1][j] == ' ')
-					return (false);
-			}
-			j++;
-		}
-		i++;
-	}
-	return (true);
-}
 
 bool	check_top_map(t_cub *cub)
 {

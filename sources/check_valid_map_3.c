@@ -16,6 +16,8 @@
 void	check_valide_space_2(t_cub **cub, int i, int j, int k);
 void	check_valid_space(t_cub **cub, int f);
 void	check_valid_space_3(t_cub **cub, int i, int j);
+bool	check_name(char *file);
+bool	check_zero_leak(t_cub *cub);
 
 void	check_valid_space_3(t_cub **cub, int i, int j)
 {
@@ -32,17 +34,17 @@ void	check_valid_space_3(t_cub **cub, int i, int j)
 		(*cub)->map[i][j] = '0';
 }
 
-void	print_map(char **map)
-{
-	int	i;
+// void	print_map(char **map)
+// {
+// 	int	i;
 
-	i = 0;
-	while (map[i])
-	{
-		printf("%s", map[i]);
-		i++;
-	}
-}
+// 	i = 0;
+// 	while (map[i])
+// 	{
+// 		printf("%s", map[i]);
+// 		i++;
+// 	}
+// }
 
 void	check_valide_space_2(t_cub **cub, int i, int j, int k)
 {
@@ -87,4 +89,53 @@ void	check_valid_space(t_cub **cub, int f)
 	if (f == 10)
 		return ;
 	check_valid_space(cub, f);
+}
+
+bool	check_name(char *file)
+{
+	int	i;
+	int	valide;
+
+	valide = 0;
+	i = 0;
+	while (file[i] && file[i] != '.')
+		i++;
+	i++;
+	if (file[i] == 'c')
+		valide += 1;
+	if (file[i + 1] == 'u')
+		valide += 1;
+	if (file[i + 2] == 'b')
+		valide += 1;
+	if (file[i + 3] != '\0')
+		return (false);
+	if (valide == 3)
+		return (true);
+	else
+		return (false);
+}
+
+bool	check_zero_leak(t_cub *cub)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (cub->map[i])
+	{
+		j = 0;
+		while (cub->map[i][j])
+		{
+			if (cub->map[i][j] == '0')
+			{
+				if (!cub->map[i + 1][j] || !cub->map[i - 1][j])
+					return (false);
+				else if (cub->map[i + 1][j] == ' ' || cub->map[i - 1][j] == ' ')
+					return (false);
+			}
+			j++;
+		}
+		i++;
+	}
+	return (true);
 }
