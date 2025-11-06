@@ -1,12 +1,12 @@
-NO 			img/wf_wall3         
+NO 			img/wf_wall3.xpm         
 
 WE 															   img/wf_wall1.xpm
-EA ./img/wf_wall6
+EA ./img/wf_wall6.xpm
 
 F 82,67,64
 C 145,108,105
 
-SO 									   ./img/wf_wall4
+SO 									   ./img/wf_wall4.xpm
 
         1111111111111111111111111
         1000000000110000000000001

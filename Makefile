@@ -11,15 +11,15 @@
 # **************************************************************************** #
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -g -Iincludes
+HEADERS = includes/cube.h
 
 MLX = -Lminilibx-linux -lmlx -lX11 -lXext -lm 
-DIRGNL = gnl
 DIRPRINT = ft_printf
 
 INCPRINTF = -Lft_printf -lftprintf
-# INCCUBE = -Lparsing -lCub3d
 
+RAY_PATH = raycasting/
 FILE = main_test.c \
 ft_itoa.c \
 ft_time.c \
@@ -47,10 +47,8 @@ hook.c \
 open_door.c \
 init_value.c \
 mouse.c \
-${DIRGNL}/get_next_line.c \
-${DIRGNL}/get_next_line_utils.c \
 
-SRC_PATH = parsing/sources/
+SRC_PATH = sources/
 SRC_FILES = check_valid_map_2.c check_valid_map.c free.c get_next_line_utils.c \
 			get_next_line.c init.c main.c parsing_colours.c parsing_directions.c \
 			parsing_loading_map.c parsing_map_char.c parsing_map.c utils.c utils_2.c \
@@ -89,16 +87,17 @@ init_value.c \
 mouse.c \
 				
 SRC = $(addprefix $(SRC_PATH), $(SRC_FILES))
-SRC_BONUS = $(addprefix $(SRC_PATH), $(SRC_FILES_BONUS)) $(BONUS_FILE)
-
-
+RAY = $(addprefix $(RAY_PATH), $(FILE))
 OBJS = $(patsubst %.c,%.o,$(SRC))
+SRC2 = $(patsubst %.c,%.o,$(RAY))
+
+SRC_BONUS = $(addprefix $(SRC_PATH), $(SRC_FILES_BONUS)) $(addprefix $(RAY_PATH), $(BONUS_FILE))
 OBJS_BONUS = $(patsubst %.c,%.o,$(SRC_BONUS))
-INCLUDES = -Iincludes
 
-SRC2 = ${FILE:.c=.o}
+# SRC2 = ${FILE:.c=.o}
 
-SRC3 = ${BONUS_FILE:.c=.o}
+
+# SRC3 = ${BONUS_FILE:.c=.o}
 
 NAME = cube
 NAME_BONUS = cube_bonus
@@ -112,18 +111,18 @@ ${NAME} : ${SRC2} ${OBJS}
 	make -C ft_printf
 	${CC} ${CFLAGS} $^ ${MLX} ${INCPRINTF} -o $@
 
-${NAME_BONUS} : ${SRC3} ${OBJS_BONUS}
+${NAME_BONUS} : ${OBJS_BONUS}
 	make -C minilibx-linux
 	make -C ft_printf
 	${CC} ${CFLAGS} $^ ${MLX} ${INCPRINTF} -o $@
 
-%.o:%.c
+%.o:%.c $(HEADERS)
 	${CC} ${CFLAGS} -c $< -o $@
 
 bonus: $(NAME_BONUS)
 
 clean:
-	rm -f $(OBJS) $(OBJS_BONUS)\
+	rm -f $(OBJS) $(OBJS_BONUS) $(SRC2)\
 	main_test.o \
 	ft_itoa.o \
 	ft_time.o \
@@ -151,11 +150,9 @@ clean:
 	hook.o \
 	open_door.o \
 	init_value.o \
-	mouse.o \
-	${DIRGNL}/get_next_line.o \
-	${DIRGNL}/get_next_line_utils.o
+	mouse.o
 	make fclean -C ft_printf
-# 	make fclean -C minilibx-linux
+	make clean -C minilibx-linux
 
 fclean: clean
 	rm -f cube
