@@ -83,7 +83,6 @@ int	ft_move(t_all *data)
 	{
 		data->start_time = data->now;
 		ft_move_player(data);
-		ft_mouse(data);
 		raycasting(data);
 		mlx_put_image_to_window(data->mlx, data->mlx_win_2,
 			data->img.img, 0, 0);

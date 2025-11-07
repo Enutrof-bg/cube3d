@@ -94,8 +94,8 @@ OBJS = $(patsubst %.c,%.o,$(SRC))
 SRC_BONUS = $(addprefix $(SRC_PATH), $(SRC_FILES_BONUS)) $(addprefix $(RAY_PATH), $(BONUS_FILE))
 OBJS_BONUS = $(patsubst %.c,%.o,$(SRC_BONUS))
 
-NAME = cube
-NAME_BONUS = cube_bonus
+NAME = cub3d
+NAME_BONUS = cub3d_bonus
 
 all: ${NAME}
 
