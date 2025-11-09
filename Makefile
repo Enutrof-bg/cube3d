@@ -120,7 +120,7 @@ clean:
 	make clean -C minilibx-linux
 
 fclean: clean
-	rm -f cube
-	rm -f cube_bonus 
+	rm -f ${NAME}
+	rm -f ${NAME_BONUS} 
 
 re: fclean all
